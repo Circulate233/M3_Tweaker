@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "m3t",
+    "name": "M3 Tweaker",
+    "description": "",
+    "version": "${modVersion}",
+    "mcversion": "1.7.10",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Circulation_"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": []
+  }
+]
