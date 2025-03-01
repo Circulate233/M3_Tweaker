@@ -2,7 +2,6 @@ package com.circulation.m3t;
 
 import com.circulation.m3t.Util.RegisterRecipe;
 import com.circulation.m3t.command.CommandM3T;
-import com.circulation.m3t.item.M3EBaublesBasic;
 import com.circulation.m3t.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -12,6 +11,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 @Mod(
         modid = "m3t",
@@ -33,7 +34,7 @@ public class M3Tweaker {
 
         @Override
         public Item getTabIconItem() {
-            return M3EBaublesBasic.getBauble("Core");
+            return new project.studio.manametalmod.items.ItemBagBingo3();
         }
 
     };
@@ -45,8 +46,8 @@ public class M3Tweaker {
 
     public static SimpleNetworkWrapper network;
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    @Mod.EventHandler()
+    public void preInit(FMLPreInitializationEvent event) throws IOException {
         proxy.preInit(event);
     }
 
@@ -64,6 +65,10 @@ public class M3Tweaker {
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event){
         event.registerServerCommand(CommandM3T.INSTANCE);
+    }
+
+    @Mod.EventHandler
+    public void LoadComplete(FMLLoadCompleteEvent event){
         RegisterRecipe.M3Recipe();
     }
 

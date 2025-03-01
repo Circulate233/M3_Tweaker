@@ -143,6 +143,9 @@ dependencies {
   implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
   implementation(rfg.deobf("curse.maven:manametal-531708:6159869"))
   implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
+  implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
+  implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))
+  implementation(rfg.deobf("curse.maven:codechickencore-unofficial-746279:6070102"))
   implementation(rfg.deobf("curse.maven:smooth-285742:2614474"))
   implementation(rfg.deobf("curse.maven:CraftTweaker-239197:2838720"))
 
@@ -234,7 +237,7 @@ idea {
           afterEvaluate {
             self.javac.moduleJavacAdditionalOptions = mapOf(
               (project.name + ".main") to
-                tasks.compileJava.get().options.compilerArgs.map { '"' + it + '"' }.joinToString(" ")
+                tasks.compileJava.get().options.compilerArgs.joinToString(" ") { '"' + it + '"' }
             )
           }
         }

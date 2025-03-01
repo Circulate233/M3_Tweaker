@@ -1,7 +1,6 @@
 package com.circulation.m3t.hander;
 
 import com.circulation.m3t.item.M3EBaublesBasic;
-import com.circulation.m3t.item.M3EBaublesSuit;
 
 public class BaublesRegisterHandler {
 
@@ -36,7 +35,6 @@ public class BaublesRegisterHandler {
     public static final short Antiquities = 28;
 
     public static void register() {
-        M3EBaublesSuit.registerAllSuit();
         M3EBaublesBasic.registerAllBaubles();
     }
 
