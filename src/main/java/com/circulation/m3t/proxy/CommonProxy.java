@@ -2,16 +2,16 @@ package com.circulation.m3t.proxy;
 
 import com.circulation.m3t.Util.RegisterItem;
 import com.circulation.m3t.Util.RegisterRecipe;
-import com.circulation.m3t.crt.CustomBaubles;
+import com.circulation.m3t.hander.BaublesRegisterHandler;
+import com.circulation.m3t.item.CustomBaubles;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import project.studio.manametalmod.magic.magicItem.IMagicEffect;
-import project.studio.manametalmod.magic.magicItem.MagicItemType;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +23,10 @@ public class CommonProxy {
     static List<CustomBaubles.Baubles> baubles = new ArrayList<>();
 
     public void preInit(FMLPreInitializationEvent event) throws IOException {
+        FMLCommonHandler.instance().bus().register(BaublesRegisterHandler.INSTANCE);
         readConfig();
         CustomBaubles.register(baubles);
+
     }
 
     public void init(FMLInitializationEvent event) {
@@ -42,7 +44,12 @@ public class CommonProxy {
             baubles.addAll(gson.fromJson(new String(Files.readAllBytes(configFile.toPath())), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
         } else {
             configFile.createNewFile();
-            baubles.add(new CustomBaubles.Baubles((short) 1, 1, Collections.singletonList(new IMagicEffect(MagicItemType.attackSpeed, 100.0f))));
+            Map<Integer,Float> map = new HashMap<>();
+            map.put(10,50.0f);
+            map.put(7,50.0f);
+            map.put(3,50.0f);
+            baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond", (short) 10,10,map));
+            baubles.add(new CustomBaubles.Baubles("item.ddd","item.aaa","def", (short) 27,10,map));
             Files.write(configFile.toPath(), gson.toJson(baubles).getBytes());
         }
     }

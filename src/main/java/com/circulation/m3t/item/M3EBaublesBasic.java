@@ -16,7 +16,6 @@ import net.minecraft.util.IIcon;
 import project.studio.manametalmod.api.weapon.IMagicItem;
 import project.studio.manametalmod.core.ManaItemType;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
-import project.studio.manametalmod.magic.magicItem.MagicItemType;
 
 import java.util.*;
 
@@ -37,29 +36,9 @@ public class M3EBaublesBasic extends IMagicItem {
         return com.circulation.m3t.M3Tweaker.MOD_ID;
     }
 
-    public static void registerEffect(Short type,int level, List<Integer> effectNames,List<Float> effectValues) {
+    public static void registerEffect(String name,String icon,String tooltip, Short type, int level,List<IMagicEffect> effects) {
         final String Names = ManaItemType.getTypeFromID(type).name();
-        map.put(Names + getMeta(Names),new M3EBaublesAttribute(type,level,effectNames,effectValues));
-    }
-
-    public static void registerEffect(Short type,int level, Integer[] effectNames,Float[] effectValues) {
-        final String Names = ManaItemType.getTypeFromID(type).name();
-        map.put(Names + getMeta(Names),new M3EBaublesAttribute(type,level,effectNames,effectValues));
-    }
-
-    public static void registerEffect(Short type,int level,List<IMagicEffect> effects) {
-        final String Names = ManaItemType.getTypeFromID(type).name();
-        map.put(Names + getMeta(Names),new M3EBaublesAttribute(type,level,effects));
-    }
-
-    public static void registerEffect(ManaItemType type,int level, List<Integer> effectNames,List<Float> effectValues) {
-        final String Names = type.name();
-        map.put(Names + getMeta(Names),new M3EBaublesAttribute(type,level,effectNames,effectValues));
-    }
-
-    public static void registerEffect(ManaItemType type,int level,List<IMagicEffect> effects) {
-        final String Names = type.name();
-        map.put(Names + getMeta(Names),new M3EBaublesAttribute(type,level,effects));
+        map.put(Names + getMeta(Names),new M3EBaublesAttribute(name, icon,tooltip, type, level, effects));
     }
 
     @SideOnly(Side.CLIENT)
@@ -72,7 +51,6 @@ public class M3EBaublesBasic extends IMagicItem {
         public void register(){
             addAdvancedTooltips(NAME,this);
         }
-
     }
 
     protected static Map<String,List<String>> ExTooltips = new HashMap<>();
@@ -91,10 +69,16 @@ public class M3EBaublesBasic extends IMagicItem {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
         super.addInformation(itemStack, player, list, flag);
-        list.add(Function.getText(this.Names + "_introduce" + itemStack.getItemDamage()));
+
+        if (itemStack.getItem() instanceof M3EBaublesBasic) {
+            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+            list.add(Function.getText(map.get(b.Names + itemStack.getItemDamage()).tooltip));
+        }
+
         if (ExTooltips.containsKey(this.Names)){
             list.add(ExTooltips.get(this.Names));
         }
+
         if (ExAdvancedTooltips.containsKey(this.Names)){
             for (AdvancedTooltips AT : ExAdvancedTooltips.get(this.Names)){
                 list.add(AT.getTooltip(itemStack));
@@ -103,8 +87,12 @@ public class M3EBaublesBasic extends IMagicItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack item) {
-        return "item." + this.Names + "." + item.getItemDamage();
+    public String getItemStackDisplayName(ItemStack itemStack) {
+        if (itemStack.getItem() instanceof M3EBaublesBasic){
+            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+            return Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
+        }
+        return this.Names;
     }
 
     @Override
@@ -116,16 +104,30 @@ public class M3EBaublesBasic extends IMagicItem {
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register) {
-        this.icons = new IIcon[metaMap.get(this.Names) + 1];
-        for(int i = 0; i < icons.length; ++i) {
-            this.icons[i] = register.registerIcon(com.circulation.m3t.M3Tweaker.MOD_ID + ":" + Names + "_" + i);
+    @Override
+    public IIcon getIconFromDamage(int meta) {
+        return getIcon(map.get(this.Names + meta).icon,meta);
+    }
+
+    @SideOnly(Side.CLIENT)
+    private IIcon getIcon(String item,int meta){
+        ItemStack itemStack = Function.getItemStack(item);
+        if (itemStack != null && itemStack.getItem() != null) {
+            return itemStack.getItem().getIcon(itemStack,0);
+        }
+        if (Objects.equals(item, "def")){
+            return icons[meta];
+        } else {
+            return null;
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int meta) {
-        return meta < this.icons.length ? this.icons[meta] : this.icons[0];
+    public void registerIcons(IIconRegister register) {
+        this.icons = new IIcon[size];
+        for(int i = 0; i < icons.length; ++i) {
+            this.icons[i] = register.registerIcon(M3Tweaker.MOD_ID + ":" + Names + "_" + i);
+        }
     }
 
     protected static Short getMeta(String Name) {
@@ -199,68 +201,20 @@ public class M3EBaublesBasic extends IMagicItem {
     }
 
     protected static class M3EBaublesAttribute {
+        protected final String Name;
+        protected final String icon;
+        private final String tooltip;
         protected final ManaItemType type;
         protected final int level;
         protected final List<IMagicEffect> effects;
 
-        protected M3EBaublesAttribute(Short type, int level, List<Integer> effectNames,List<Float> effectValues) {
-            this.type = ManaItemType.getTypeFromID(type);
-            this.level = level;
-            List<IMagicEffect> effectss = new ArrayList<>();
-            int i = 0;
-            for (int ii : effectNames){
-                effectss.add(new IMagicEffect(MagicItemType.getTypeFromID(ii),effectValues.get(i)));
-                i++;
-            }
-            this.effects = effectss;
-        }
-
-        protected M3EBaublesAttribute(Short type, int level, Integer[] effectNames,Float[] effectValues) {
-            this.type = ManaItemType.getTypeFromID(type);
-            this.level = level;
-            List<IMagicEffect> effectss = new ArrayList<>();
-            int i = 0;
-            for (int ii : effectNames){
-                effectss.add(new IMagicEffect(MagicItemType.getTypeFromID(ii),effectValues[i]));
-                i++;
-            }
-            this.effects = effectss;
-        }
-
-        protected M3EBaublesAttribute(Short type, int level,List<IMagicEffect> effects) {
+        protected M3EBaublesAttribute(String name,String icon,String tooltip, Short type, int level,List<IMagicEffect> effects) {
+            this.Name = name;
+            this.icon = icon;
+            this.tooltip = tooltip;
             this.type = ManaItemType.getTypeFromID(type);
             this.level = level;
             this.effects = effects;
-        }
-
-        protected M3EBaublesAttribute(ManaItemType type, int level,List<IMagicEffect> effects) {
-            this.type = type;
-            this.level = level;
-            this.effects = effects;
-        }
-
-        protected M3EBaublesAttribute(ManaItemType type, int level, List<Integer> effectNames,List<Float> effectValues) {
-            this.type = type;
-            this.level = level;
-            List<IMagicEffect> effectss = new ArrayList<>();
-            int i = 0;
-            for (int ii : effectNames){
-                effectss.add(new IMagicEffect(MagicItemType.getTypeFromID(ii),effectValues.get(i)));
-                i++;
-            }
-            this.effects = effectss;
-        }
-
-        protected M3EBaublesAttribute(ManaItemType type, int level, Integer[] effectNames,Float[] effectValues) {
-            this.type = type;
-            this.level = level;
-            List<IMagicEffect> effectss = new ArrayList<>();
-            int i = 0;
-            for (int ii : effectNames){
-                effectss.add(new IMagicEffect(MagicItemType.getTypeFromID(ii),effectValues[i]));
-                i++;
-            }
-            this.effects = effectss;
         }
 
     }

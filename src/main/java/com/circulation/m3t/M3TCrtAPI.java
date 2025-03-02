@@ -2,6 +2,7 @@ package com.circulation.m3t;
 
 import com.circulation.m3t.crt.*;
 import com.circulation.m3t.crt.recipes.CastingHandler;
+import com.circulation.m3t.item.CustomBaubles;
 import minetweaker.MineTweakerAPI;
 
 import java.util.ArrayList;

@@ -2,11 +2,14 @@ package com.circulation.m3t;
 
 import com.circulation.m3t.Util.RegisterRecipe;
 import com.circulation.m3t.command.CommandM3T;
+import com.circulation.m3t.network.CrtLoading;
 import com.circulation.m3t.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
@@ -42,12 +45,15 @@ public class M3Tweaker {
     @SidedProxy(clientSide = CLIENT_PROXY, serverSide = COMMON_PROXY)
     public static CommonProxy proxy;
 
-    public static Logger logger = LogManager.getLogger("m3t");
+    public static Logger logger = LogManager.getLogger(MOD_ID);
 
-    public static SimpleNetworkWrapper network;
+    public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
 
-    @Mod.EventHandler()
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) throws IOException {
+        int start = 0;
+        network.registerMessage(CrtLoading.Handler.class,CrtLoading.class, start++, Side.CLIENT);
+
         proxy.preInit(event);
     }
 
@@ -65,10 +71,6 @@ public class M3Tweaker {
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event){
         event.registerServerCommand(CommandM3T.INSTANCE);
-    }
-
-    @Mod.EventHandler
-    public void LoadComplete(FMLLoadCompleteEvent event){
         RegisterRecipe.M3Recipe();
     }
 
