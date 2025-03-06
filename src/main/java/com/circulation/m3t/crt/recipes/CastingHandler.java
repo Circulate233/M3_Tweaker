@@ -37,7 +37,12 @@ public class CastingHandler {
         M3TremoveRecipes.add(MineTweakerMC.getItemStack(out));
     }
 
-    public static void register(){
+    public static void reload(){
+        M3TaddRecipes.clear();
+        M3TremoveRecipes.clear();
+    }
+
+    public static void postReload(){
         if (CastingRecipes.isEmpty()){CastingRecipes.addAll(CastingData.getRecipes);}
 
         List<Object[]> list = new ArrayList<>();
@@ -50,9 +55,6 @@ public class CastingHandler {
         list.addAll(M3TaddRecipes);
         CastingData.getRecipes.clear();
         CastingData.getRecipes.addAll(list);
-
-        M3TaddRecipes.clear();
-        M3TremoveRecipes.clear();
     }
 
     private static void addCastingRecipes(ItemStack out, int money, ItemStack... imp1) {

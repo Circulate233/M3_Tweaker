@@ -35,9 +35,6 @@ public class CommandM3T extends CommandBase {
                 case "dungeonBox":
                     CommandDungeonBox.processCommand(sender,args);
                     return;
-                case "reload":
-                    CommandReload.processCommand(sender,args);
-                    return;
             }
         }
         sender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("info.m3t.command.help")));

@@ -24,10 +24,10 @@ public class MixinNpcStoreType {
     private static void getItemsMixin(NpcStoreType type, Random rand, CallbackInfoReturnable<List<Icommodity>> cir) {
         List<Icommodity> list = new ArrayList<>();
 
-        if (mapRemove.containsKey(type)) {
+        if (removeMap.containsKey(type)) {
             cir.getReturnValue().forEach(icommodity -> {
                 final ItemStack item = icommodity.getItem();
-                if (noHasItem(Arrays.asList(mapRemove.get(type).toArray(new ItemStack[0])), item)){
+                if (noHasItem(Arrays.asList(removeMap.get(type).toArray(new ItemStack[0])), item)){
                     list.add(icommodity);
                 }
             });
@@ -35,8 +35,8 @@ public class MixinNpcStoreType {
             list.addAll(cir.getReturnValue());
         }
 
-        if (mapAdd.containsKey(type)){
-            list.addAll(mapAdd.get(type));
+        if (addMap.containsKey(type)){
+            list.addAll(addMap.get(type));
         }
 
         cir.setReturnValue(list);

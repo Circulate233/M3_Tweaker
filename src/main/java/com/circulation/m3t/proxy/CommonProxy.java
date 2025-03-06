@@ -2,12 +2,11 @@ package com.circulation.m3t.proxy;
 
 import com.circulation.m3t.Util.RegisterItem;
 import com.circulation.m3t.Util.RegisterRecipe;
-import com.circulation.m3t.hander.BaublesRegisterHandler;
+import com.circulation.m3t.hander.ReloadHandler;
 import com.circulation.m3t.item.CustomBaubles;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -23,14 +22,13 @@ public class CommonProxy {
     static List<CustomBaubles.Baubles> baubles = new ArrayList<>();
 
     public void preInit(FMLPreInitializationEvent event) throws IOException {
-        FMLCommonHandler.instance().bus().register(BaublesRegisterHandler.INSTANCE);
         readConfig();
         CustomBaubles.register(baubles);
-
     }
 
     public void init(FMLInitializationEvent event) {
         RegisterItem.register();
+        ReloadHandler.register();
     }
 
     public void postInit(FMLPostInitializationEvent event) {

@@ -7,17 +7,18 @@ import com.circulation.m3t.hander.NPCHandler;
 
 public class RegisterRecipe {
 
-    public static boolean complete = false;
-
     public static void register() {
         MoneyHandler.registerAllMoney();
     }
 
-    public static void M3Recipe(){
-        if (complete)return;
-        CastingHandler.register();
-        ProduceStoreHandler.register();
-        NPCHandler.register();
-        complete = true;
+    public static void M3TRecipe(){
+        CastingHandler.reload();
+        ProduceStoreHandler.reload();
+        NPCHandler.reload();
+    }
+
+    public static void M3TPostRecipe(){
+        CastingHandler.postReload();
+        ProduceStoreHandler.postReload();
     }
 }

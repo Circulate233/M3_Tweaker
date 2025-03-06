@@ -1,12 +1,6 @@
 package com.circulation.m3t.hander;
 
 import com.circulation.m3t.item.M3EBaublesBasic;
-import com.circulation.m3t.network.CrtLoading;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.entity.player.EntityPlayerMP;
-
-import static com.circulation.m3t.M3Tweaker.network;
 
 public class BaublesRegisterHandler {
 
@@ -48,11 +42,6 @@ public class BaublesRegisterHandler {
 
     public static void register() {
         M3EBaublesBasic.registerAllBaubles();
-    }
-
-    @SubscribeEvent
-    public void PlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event){
-        network.sendTo(new CrtLoading(), (EntityPlayerMP) event.player);
     }
 
 }

@@ -12,20 +12,8 @@ import static com.circulation.m3t.Util.Function.*;
 
 public class NPCHandler {
 
-    public static final Map<NpcStoreType, Set<ItemStack>> mapRemove = new HashMap<>();
-    public static final Map<NpcStoreType, Set<Icommodity>> mapAdd = new HashMap<>();
-
     public static Map<NpcStoreType, Set<ItemStack>> removeMap = new HashMap<>();
     public static Map<NpcStoreType, Set<Icommodity>> addMap = new HashMap<>();
-
-    public static void register() {
-        mapRemove.clear();
-        mapAdd.clear();
-        mapRemove.putAll(removeMap);
-        mapAdd.putAll(addMap);
-        addMap.clear();
-        removeMap.clear();
-    }
 
     public static void removeItem(NpcStoreType type, ItemStack... items){
         final Set<ItemStack> items1 = new HashSet<>(Arrays.asList(items));
@@ -36,6 +24,11 @@ public class NPCHandler {
         } else {
             removeMap.put(type,items1);
         }
+    }
+
+    public static void reload() {
+        addMap.clear();
+        removeMap.clear();
     }
 
     public static void removeItem(NpcStoreType type,Item... items){

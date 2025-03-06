@@ -65,7 +65,12 @@ public class ProduceStoreHandler {
         }
     }
 
-    public static void register(){
+    public static void reload(){
+        addMap.clear();
+        removeMap.clear();
+    }
+
+    public static void postReload(){
         for (ProduceStore value : ProduceStore.values()) {
             if (defMap.get(value) == null){
                 final List<Icommodity> list = new ArrayList<>(value.getStore());
@@ -88,8 +93,6 @@ public class ProduceStoreHandler {
             store.clear();
             store.addAll(list);
         }
-        addMap.clear();
-        removeMap.clear();
     }
 
     public enum ProduceStore {
