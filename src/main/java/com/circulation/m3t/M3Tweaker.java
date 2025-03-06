@@ -11,11 +11,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rfg.examplemod.Tags;
 
 import java.io.IOException;
 
 @Mod(
-        modid = "m3t", name = "M3 Tweaker", version = "1.7.10-0.1", acceptedMinecraftVersions = "[1.7.10]",
+        modid = "m3t", name = "M3 Tweaker", version = Tags.VERSION, acceptedMinecraftVersions = "[1.7.10]",
         dependencies = "required-after:manametalmod@[7.3.0,);" +
                        "required-after:MineTweaker3@[3.1.0,);"
 )
