@@ -2,7 +2,6 @@ package com.circulation.m3t;
 
 import com.circulation.m3t.crt.*;
 import com.circulation.m3t.crt.recipes.CastingHandler;
-import com.circulation.m3t.item.CustomBaubles;
 import minetweaker.MineTweakerAPI;
 
 import java.util.ArrayList;
@@ -18,8 +17,8 @@ public class M3TCrtAPI {
         list.add(MMMRecipesHandler.class);
         list.add(ProduceStoreHandler.class);
         list.add(CrtItem.class);
-        list.add(CustomBaubles.class);
         list.add(AttributeItemHandler.class);
+        list.add(MoneyHandler.class);
 
         list.add(CastingHandler.class);
 

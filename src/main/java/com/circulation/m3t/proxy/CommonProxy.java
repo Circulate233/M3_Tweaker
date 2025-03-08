@@ -1,7 +1,6 @@
 package com.circulation.m3t.proxy;
 
 import com.circulation.m3t.Util.RegisterItem;
-import com.circulation.m3t.Util.RegisterRecipe;
 import com.circulation.m3t.hander.ReloadHandler;
 import com.circulation.m3t.item.CustomBaubles;
 import com.google.gson.Gson;
@@ -33,7 +32,6 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-        RegisterRecipe.register();
     }
 
     private static void readConfig() throws IOException {
@@ -51,8 +49,8 @@ public class CommonProxy {
             map.put(10,50.0f);
             map.put(7,50.0f);
             map.put(3,50.0f);
-            CommonProxy.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond", (short) 10,10,map));
-            CommonProxy.baubles.add(new CustomBaubles.Baubles("item.ddd","item.aaa","def", (short) 27,10,map));
+            CommonProxy.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond", (short) 10,14,10,999,map));
+            CommonProxy.baubles.add(new CustomBaubles.Baubles("item.ddd","item.aaa","def", (short) 27,7,10,784,map));
             Files.write(baubles, baublesGson.toJson(CommonProxy.baubles).getBytes());
         }
     }
