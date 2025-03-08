@@ -1,5 +1,6 @@
 package com.circulation.m3t.crt;
 
+import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.hander.NPCHandler;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -10,7 +11,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-@ZenClass("mods.m3t.NPCStore")
+@ZenClass(M3TCrtAPI.CrtClass + "NPCStore")
 public class NPCStoreHandler {
 
     @ZenMethod

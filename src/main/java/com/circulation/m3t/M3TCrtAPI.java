@@ -1,13 +1,15 @@
 package com.circulation.m3t;
 
 import com.circulation.m3t.crt.*;
-import com.circulation.m3t.crt.recipes.CastingHandler;
+import com.circulation.m3t.crt.recipes.*;
 import minetweaker.MineTweakerAPI;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class M3TCrtAPI {
+
+    public static final String CrtClass = "mods.m3t.";
 
     static void register(){
         List<Class> list = new ArrayList<>();
@@ -19,6 +21,8 @@ public class M3TCrtAPI {
         list.add(CrtItem.class);
         list.add(AttributeItemHandler.class);
         list.add(MoneyHandler.class);
+        list.add(ManaGravityWellHandler.class);
+        list.add(ManaMetalInjectionHandler.class);
 
         list.add(CastingHandler.class);
 

@@ -1,5 +1,6 @@
 package com.circulation.m3t.crt;
 
+import com.circulation.m3t.M3TCrtAPI;
 import cpw.mods.fml.common.registry.GameData;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -10,7 +11,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.*;
 
-@ZenClass("mods.m3t.Util")
+@ZenClass(M3TCrtAPI.CrtClass + "Util")
 public class CrtItem {
 
     public static Map<String,Item> itemMap = new HashMap<>();

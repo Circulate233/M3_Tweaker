@@ -1,5 +1,6 @@
 package com.circulation.m3t.crt;
 
+import com.circulation.m3t.M3TCrtAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,7 @@ import java.util.*;
 
 import static com.circulation.m3t.Util.Function.*;
 
-@ZenClass("mods.m3t.DungeonBox")
+@ZenClass(M3TCrtAPI.CrtClass + "DungeonBox")
 public class DungeonBoxHandler {
 
     private static List<ItemStack> addDungeonBoxs = new ArrayList<>();

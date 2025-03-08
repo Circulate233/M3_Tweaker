@@ -7,7 +7,6 @@
   "client": [
   ],
   "mixins": [
-    "MMM.MixinAttributesItem",
     "MMM.MixinMagicItemOP",
     "MMM.MixinNpcStoreType",
     "MMM.MixinTeleporterInstanceDungeonPortal"

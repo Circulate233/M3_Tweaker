@@ -4,6 +4,8 @@ import com.circulation.m3t.crt.AttributeItemHandler;
 import com.circulation.m3t.crt.ProduceStoreHandler;
 import com.circulation.m3t.crt.recipes.CastingHandler;
 import com.circulation.m3t.crt.MoneyHandler;
+import com.circulation.m3t.crt.recipes.ManaGravityWellHandler;
+import com.circulation.m3t.crt.recipes.ManaMetalInjectionHandler;
 import com.circulation.m3t.hander.NPCHandler;
 
 public class RegisterRecipe {
@@ -14,6 +16,8 @@ public class RegisterRecipe {
         NPCHandler.reload();
         AttributeItemHandler.reload();
         MoneyHandler.reload();
+        ManaMetalInjectionHandler.reload();
+        ManaGravityWellHandler.reload();
     }
 
     public static void M3TPostRecipe(){
@@ -21,5 +25,7 @@ public class RegisterRecipe {
         ProduceStoreHandler.postReload();
         AttributeItemHandler.postReload();
         MoneyHandler.postReload();
+        ManaMetalInjectionHandler.postReload();
+        ManaGravityWellHandler.postReload();
     }
 }

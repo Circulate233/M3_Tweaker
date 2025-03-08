@@ -1,5 +1,6 @@
 package com.circulation.m3t.crt;
 
+import com.circulation.m3t.M3TCrtAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
@@ -18,7 +19,7 @@ import java.util.Map;
 import static project.studio.manametalmod.ManaMetalAPI.FoodCollectionItemList;
 import static project.studio.manametalmod.ManaMetalAPI.HotPotFoodList;
 
-@ZenClass("mods.m3t.AttributeItem")
+@ZenClass(M3TCrtAPI.CrtClass + "AttributeItem")
 public class AttributeItemHandler {
 
     private static final List<FoodCollectionItem> addFoodList = new ArrayList<>();

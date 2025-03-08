@@ -1,5 +1,6 @@
 package com.circulation.m3t.crt;
 
+import com.circulation.m3t.M3TCrtAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
@@ -10,7 +11,7 @@ import java.util.*;
 
 import static project.studio.manametalmod.ManaMetalAPI.ItemValue;
 
-@ZenClass("mods.m3t.Money")
+@ZenClass(M3TCrtAPI.CrtClass + "Money")
 public class MoneyHandler {
 
     private static final Map<Item,Integer> map = new HashMap<>();

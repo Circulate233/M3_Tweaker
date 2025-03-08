@@ -1,5 +1,6 @@
 package com.circulation.m3t.crt;
 
+import com.circulation.m3t.M3TCrtAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import java.util.*;
 
 import static com.circulation.m3t.Util.Function.noHasItem;
 
-@ZenClass("mods.m3t.ProduceStore")
+@ZenClass(M3TCrtAPI.CrtClass + "ProduceStore")
 public class ProduceStoreHandler {
 
     private static final Map<ProduceStore, Set<ItemStack>> removeMap = new HashMap<>();
