@@ -15,6 +15,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class CommonProxy {
@@ -36,19 +37,23 @@ public class CommonProxy {
     }
 
     private static void readConfig() throws IOException {
-        File configFile = new File(Loader.instance().getConfigDir(), "M3TBaubles.json");
-        Gson gson = (new GsonBuilder()).disableHtmlEscaping().setPrettyPrinting().create();
-        if (configFile.isFile()) {
-            baubles.addAll(gson.fromJson(new String(Files.readAllBytes(configFile.toPath())), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
+        Path config = new File(Loader.instance().getConfigDir(), "M3T").toPath();
+        Path baubles = config.resolve("M3TBaubles.json");
+
+        Files.createDirectories(config);
+
+        Gson baublesGson = (new GsonBuilder()).disableHtmlEscaping().setPrettyPrinting().create();
+
+        if (Files.exists(baubles)) {
+            CommonProxy.baubles.addAll(baublesGson.fromJson(new String(Files.readAllBytes(baubles)), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
         } else {
-            configFile.createNewFile();
             Map<Integer,Float> map = new HashMap<>();
             map.put(10,50.0f);
             map.put(7,50.0f);
             map.put(3,50.0f);
-            baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond", (short) 10,10,map));
-            baubles.add(new CustomBaubles.Baubles("item.ddd","item.aaa","def", (short) 27,10,map));
-            Files.write(configFile.toPath(), gson.toJson(baubles).getBytes());
+            CommonProxy.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond", (short) 10,10,map));
+            CommonProxy.baubles.add(new CustomBaubles.Baubles("item.ddd","item.aaa","def", (short) 27,10,map));
+            Files.write(baubles, baublesGson.toJson(CommonProxy.baubles).getBytes());
         }
     }
 }

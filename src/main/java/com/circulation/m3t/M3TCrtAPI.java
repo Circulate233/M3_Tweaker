@@ -19,6 +19,7 @@ public class M3TCrtAPI {
         list.add(ProduceStoreHandler.class);
         list.add(CrtItem.class);
         list.add(CustomBaubles.class);
+        list.add(AttributeItemHandler.class);
 
         list.add(CastingHandler.class);
 

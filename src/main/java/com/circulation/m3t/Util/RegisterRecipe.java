@@ -1,5 +1,6 @@
 package com.circulation.m3t.Util;
 
+import com.circulation.m3t.crt.AttributeItemHandler;
 import com.circulation.m3t.crt.ProduceStoreHandler;
 import com.circulation.m3t.crt.recipes.CastingHandler;
 import com.circulation.m3t.hander.MoneyHandler;
@@ -15,10 +16,12 @@ public class RegisterRecipe {
         CastingHandler.reload();
         ProduceStoreHandler.reload();
         NPCHandler.reload();
+        AttributeItemHandler.reload();
     }
 
     public static void M3TPostRecipe(){
         CastingHandler.postReload();
         ProduceStoreHandler.postReload();
+        AttributeItemHandler.postReload();
     }
 }
