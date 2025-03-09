@@ -1,31 +1,53 @@
 package com.circulation.m3t;
 
-import com.circulation.m3t.crt.*;
-import com.circulation.m3t.crt.recipes.*;
 import minetweaker.MineTweakerAPI;
+import stanhebben.zenscript.annotations.ZenClass;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.jar.*;
 
 public class M3TCrtAPI {
 
     public static final String CrtClass = "mods.m3t.";
 
-    static void register(){
-        List<Class> list = new ArrayList<>();
+    static void register() throws IOException {
+        String packageName = "com.circulation.m3t.crt";
+        String packagePath = packageName.replace('.', '/');
+        String pathPrefix = packagePath + "/";
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Enumeration<URL> resources = classLoader.getResources(packagePath);
 
-        list.add(DungeonBoxHandler.class);
-        list.add(NPCStoreHandler.class);
-        list.add(ProduceStoreHandler.class);
-        list.add(CrtItem.class);
-        list.add(AttributeItemHandler.class);
-        list.add(MoneyHandler.class);
-        list.add(ManaGravityWellHandler.class);
-        list.add(ManaMetalInjectionHandler.class);
+        while (resources.hasMoreElements()) {
+            URL jarUrl = resources.nextElement();
+            if (!"jar".equals(jarUrl.getProtocol())) continue;
 
-        list.add(CastingHandler.class);
+            String jarPath = jarUrl.getPath().split("!")[0];
+            jarPath = new File(URI.create(jarPath)).getAbsolutePath();
+            jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8.name());
 
-        list.forEach(MineTweakerAPI::registerClass);
+            try (JarFile jar = new JarFile(jarPath)) {
+                jar.stream()
+                    .filter(entry -> entry.getName().startsWith(pathPrefix) && entry.getName().endsWith(".class"))
+                    .forEach(entry -> {
+                        String className = entry.getName()
+                            .substring(0, entry.getName().length() - 6) // 移除 ".class"
+                            .replace('/', '.'); // 转换为类名格式
+                        try {
+                            Class<?> clazz = Class.forName(className, false, classLoader);
+                            if (clazz.isAnnotationPresent(ZenClass.class)) {
+                                MineTweakerAPI.registerClass(clazz);
+                                M3Tweaker.logger.info("loading {}", clazz.getName());
+                            }
+                        } catch (ClassNotFoundException | NoClassDefFoundError ignored) {
+                        }
+                    });
+            } catch (IllegalArgumentException e) {
+                throw new IOException("Invalid JAR path: " + jarPath, e);
+            }
+        }
     }
 
 }

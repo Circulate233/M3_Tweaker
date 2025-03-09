@@ -53,7 +53,7 @@ public class M3Tweaker {
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) throws IOException {
         proxy.init(event);
         M3TCrtAPI.register();
     }

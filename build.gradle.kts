@@ -139,7 +139,6 @@ dependencies {
   api (mixin) {
     isTransitive = false
   }
-
   implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
   implementation(rfg.deobf("curse.maven:manametal-531708:6159869"))
   implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
