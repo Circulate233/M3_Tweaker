@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
@@ -20,7 +21,7 @@ import static project.studio.manametalmod.ManaMetalAPI.FoodCollectionItemList;
 import static project.studio.manametalmod.ManaMetalAPI.HotPotFoodList;
 
 @ZenClass(M3TCrtAPI.CrtClass + "AttributeItem")
-public class AttributeItemHandler {
+public class AttributeItemHandler implements M3TCrtReload {
 
     private static final List<FoodCollectionItem> addFoodList = new ArrayList<>();
     private static final List<FoodCollectionItem> defFoodList = new ArrayList<>();
@@ -29,13 +30,13 @@ public class AttributeItemHandler {
     private static final Map<Item, IMagicEffect> addHotPotFoodList = new HashMap<>();
     private static final Map<Item, IMagicEffect> defHotPotFoodList = new HashMap<>();
 
-    public static void reload(){
+    public void reload(){
         addFoodList.clear();
         addHotPotFoodList.clear();
 //        addAttributesItemList.clear();
     }
 
-    public static void postReload(){
+    public void postReload(){
         if (defFoodList.isEmpty()){defFoodList.addAll(FoodCollectionItemList);}
 //        if (defAttributesItemList.isEmpty()){defAttributesItemList.addAll(AttributesItemList);}
         if (defHotPotFoodList.isEmpty()){defHotPotFoodList.putAll(HotPotFoodList);}

@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt.recipes;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -14,18 +15,18 @@ import static com.circulation.m3t.Util.Function.noHasItem;
 import static project.studio.manametalmod.ManaMetalAPI.ManaMetalInjectionRecipeList;
 
 @ZenClass(M3TCrtAPI.CrtClass + "ManaMetalInjection")
-public class ManaMetalInjectionHandler {
+public class ManaMetalInjectionHandler implements M3TCrtReload {
 
     private static final List<ItemStack[]> addManaMetalInjectionRecipeList = new ArrayList<>();
     private static final List<ItemStack> removeManaMetalInjectionRecipeList = new ArrayList<>();
     private static final List<ItemStack[]> defManaMetalInjectionRecipeList = new ArrayList<>();
 
-    public static void reload(){
+    public void reload(){
         addManaMetalInjectionRecipeList.clear();
         removeManaMetalInjectionRecipeList.clear();
     }
 
-    public static void postReload(){
+    public void postReload(){
         if (defManaMetalInjectionRecipeList.isEmpty()){defManaMetalInjectionRecipeList.addAll(ManaMetalInjectionRecipeList);}
 
         List<ItemStack[]> list = new ArrayList<>();

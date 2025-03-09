@@ -27,3 +27,4 @@ whitelist.json
 *.ipr
 *.iws
 *.DS_Store
+*.copy

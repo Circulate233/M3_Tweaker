@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt.recipes;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ import java.util.List;
 import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Casting")
-public class CastingHandler {
+public class CastingHandler implements M3TCrtReload {
 
     public static final List<Object[]> M3TaddRecipes = new ArrayList<>();
     private static final List<ItemStack> M3TremoveRecipes = new ArrayList<>();
@@ -38,12 +39,12 @@ public class CastingHandler {
         M3TremoveRecipes.add(MineTweakerMC.getItemStack(out));
     }
 
-    public static void reload(){
+    public void reload(){
         M3TaddRecipes.clear();
         M3TremoveRecipes.clear();
     }
 
-    public static void postReload(){
+    public void postReload(){
         if (CastingRecipes.isEmpty()){CastingRecipes.addAll(CastingData.getRecipes);}
 
         List<Object[]> list = new ArrayList<>();

@@ -1,9 +1,12 @@
 package com.circulation.m3t;
 
+import com.circulation.m3t.Util.M3TCrtReload;
+import com.circulation.m3t.hander.ReloadHandler;
 import minetweaker.MineTweakerAPI;
 import stanhebben.zenscript.annotations.ZenClass;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -39,9 +42,13 @@ public class M3TCrtAPI {
                             Class<?> clazz = Class.forName(className, false, classLoader);
                             if (clazz.isAnnotationPresent(ZenClass.class)) {
                                 MineTweakerAPI.registerClass(clazz);
+                                Object obj = clazz.getDeclaredConstructor().newInstance();
+                                if (obj instanceof M3TCrtReload){
+                                    ReloadHandler.reloads.add((M3TCrtReload) obj);
+                                }
                                 M3Tweaker.logger.info("loading {}", clazz.getName());
                             }
-                        } catch (ClassNotFoundException | NoClassDefFoundError ignored) {
+                        } catch (ClassNotFoundException | NoClassDefFoundError | InvocationTargetException | IllegalAccessException | NoSuchMethodException | InstantiationException ignored) {
                         }
                     });
             } catch (IllegalArgumentException e) {

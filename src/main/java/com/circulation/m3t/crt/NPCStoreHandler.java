@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import com.circulation.m3t.hander.NPCHandler;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ZenClass(M3TCrtAPI.CrtClass + "NPCStore")
-public class NPCStoreHandler {
+public class NPCStoreHandler implements M3TCrtReload {
 
     @ZenMethod
     public static void addItem(int typeID,IItemStack item,int Money){

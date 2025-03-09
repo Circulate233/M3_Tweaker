@@ -42,6 +42,7 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     public static void registerEffect(String id,String name,String icon,String tooltip, Short type,int quality, int level,long money,List<IMagicEffect> effects) {
         Quality quality1 = quality < 20 ? Quality.values()[quality] : Quality.Unknown;
         map.put(id + getMeta(id),new M3EBaublesAttribute(name, icon,tooltip, type,quality1, level,money, effects));
+
     }
 
     @SideOnly(Side.CLIENT)

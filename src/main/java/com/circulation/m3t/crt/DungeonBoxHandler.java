@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -13,7 +14,7 @@ import java.util.*;
 import static com.circulation.m3t.Util.Function.*;
 
 @ZenClass(M3TCrtAPI.CrtClass + "DungeonBox")
-public class DungeonBoxHandler {
+public class DungeonBoxHandler implements M3TCrtReload {
 
     private static List<ItemStack> addDungeonBoxs = new ArrayList<>();
     private static Set<ItemStack> removeDungeonBoxs = new HashSet<>();

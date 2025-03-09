@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ import java.util.*;
 import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "ProduceStore")
-public class ProduceStoreHandler {
+public class ProduceStoreHandler implements M3TCrtReload {
 
     private static final Map<ProduceStore, Set<ItemStack>> removeMap = new HashMap<>();
     private static final Map<ProduceStore, List<Icommodity>> addMap = new HashMap<>();
@@ -66,12 +67,12 @@ public class ProduceStoreHandler {
         }
     }
 
-    public static void reload(){
+    public void reload(){
         addMap.clear();
         removeMap.clear();
     }
 
-    public static void postReload(){
+    public void postReload(){
         for (ProduceStore value : ProduceStore.values()) {
             if (defMap.get(value) == null){
                 final List<Icommodity> list = new ArrayList<>(value.getStore());
