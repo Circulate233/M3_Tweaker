@@ -49,8 +49,8 @@ public class CommonProxy {
             map.put(10,50.0f);
             map.put(7,50.0f);
             map.put(3,50.0f);
-            CommonProxy.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond", (short) 10,14,10,999,map));
-            CommonProxy.baubles.add(new CustomBaubles.Baubles("item.ddd","item.aaa","def", (short) 27,7,10,784,map));
+            CommonProxy.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond:0", (short) 10,14,10,999,map));
+            CommonProxy.baubles.add(new CustomBaubles.Baubles("amuck","item.ddd","item.aaa", "def:m3t:amuck", (short) 27,7,10,784,map));
             Files.write(baubles, baublesGson.toJson(CommonProxy.baubles).getBytes());
         }
     }

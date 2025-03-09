@@ -16,7 +16,6 @@ public class M3TCrtAPI {
 
         list.add(DungeonBoxHandler.class);
         list.add(NPCStoreHandler.class);
-        list.add(MMMRecipesHandler.class);
         list.add(ProduceStoreHandler.class);
         list.add(CrtItem.class);
         list.add(AttributeItemHandler.class);

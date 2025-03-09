@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -38,10 +39,9 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
         return com.circulation.m3t.M3Tweaker.MOD_ID;
     }
 
-    public static void registerEffect(String name,String icon,String tooltip, Short type,int quality, int level,long money,List<IMagicEffect> effects) {
-        final String Names = ManaItemType.getTypeFromID(type).name();
+    public static void registerEffect(String id,String name,String icon,String tooltip, Short type,int quality, int level,long money,List<IMagicEffect> effects) {
         Quality quality1 = quality < 20 ? Quality.values()[quality] : Quality.Unknown;
-        map.put(Names + getMeta(Names),new M3EBaublesAttribute(name, icon,tooltip, type,quality1, level,money, effects));
+        map.put(id + getMeta(id),new M3EBaublesAttribute(name, icon,tooltip, type,quality1, level,money, effects));
     }
 
     @SideOnly(Side.CLIENT)
@@ -102,7 +102,10 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
-        if (!metaMap.containsKey(this.Names)) return;
+//        if (!metaMap.containsKey(this.Names)) {
+//            list.add(Items.apple.getIcon(new ItemStack(Items.apple),0));
+//            return;
+//        }
         final int lecher = metaMap.get(this.Names) + 1;
         for(int i = 0; i < lecher; ++i) {
             list.add(new ItemStack(item, 1, i));
@@ -110,30 +113,18 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     }
 
     @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIconFromDamage(int meta) {
-        if (!map.containsKey(this.Names + meta)) return null;
-        return getIcon(map.get(this.Names + meta).icon,meta);
-    }
-
-    @SideOnly(Side.CLIENT)
-    private IIcon getIcon(String item,int meta){
-        ItemStack itemStack = Function.getItemStack(item);
-        if (itemStack != null && itemStack.getItem() != null) {
-            return itemStack.getItem().getIcon(itemStack,0);
-        }
-        if (Objects.equals(item, "def")){
-            return icons[meta];
-        } else {
-            return null;
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
         this.icons = new IIcon[size];
         for(int i = 0; i < icons.length; ++i) {
-            this.icons[i] = register.registerIcon(M3Tweaker.MOD_ID + ":" + Names + "_" + i);
+            ItemStack itemStack = Function.getItemStack(map.get(this.Names + i).icon);
+            M3Tweaker.logger.info(map.get(this.Names + i).icon);
+            if (itemStack != null && itemStack.getItem() != null) {
+                this.icons[i] = itemStack.getItem().getIcon(itemStack,0);
+            } else if (map.get(this.Names + i).icon.startsWith("def:")) {
+                this.icons[i] = register.registerIcon(map.get(this.Names + i).icon.substring("def:".length()));
+            } else {
+                this.icons[i] = Items.apple.getIcon(new ItemStack(Items.apple),0);
+            }
         }
     }
 
@@ -234,7 +225,7 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
             this.icon = icon;
             this.tooltip = tooltip;
             this.type = ManaItemType.getTypeFromID(type);
-            this.level = level;
+            this.level = Math.max(level,1);
             this.money = money;
             this.effects = effects;
             this.quality = quality;
@@ -245,13 +236,21 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     private static Map<String,M3EBaublesBasic> ItemMap = new HashMap<>();
 
     public static void registerAllBaubles(){
-        for (ManaItemType value : ManaItemType.values()) {
-            String Name = value.name();
-                M3EBaublesBasic Basic = new M3EBaublesBasic(Name);
-                Basic.size = metaMap.containsKey(Name) ? metaMap.get(Name) + 1 : 0;
-                ItemMap.put(Name,Basic);
-                GameRegistry.registerItem(Basic, Name);
-        }
+        Set<String> set = new HashSet<>(metaMap.keySet());
+//        for (ManaItemType value : ManaItemType.values()) {
+//            String Name = value.name();
+//            set.remove(Name);
+//            M3EBaublesBasic Basic = new M3EBaublesBasic(Name);
+//            Basic.size = metaMap.containsKey(Name) ? metaMap.get(Name) + 1 : 0;
+//            ItemMap.put(Name, Basic);
+//            GameRegistry.registerItem(Basic, Name);
+//        }
+        set.forEach(Name -> {
+            M3EBaublesBasic Basic = new M3EBaublesBasic(Name);
+            Basic.size = metaMap.containsKey(Name) ? metaMap.get(Name) + 1 : 0;
+            ItemMap.put(Name, Basic);
+            GameRegistry.registerItem(Basic, Name);
+        });
     }
 
     public static M3EBaublesBasic getBauble(String Name){
