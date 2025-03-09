@@ -7,6 +7,9 @@
   "client": [
   ],
   "mixins": [
+    "MMM.AccessorDarkSteelRecipes",
+    "MMM.AccessorIronWroughtFurnaceRecipes",
+    "MMM.AccessorManaFurnaceRecipes",
     "MMM.MixinMagicItemOP",
     "MMM.MixinNpcStoreType",
     "MMM.MixinTeleporterInstanceDungeonPortal"
