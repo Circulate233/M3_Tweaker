@@ -103,10 +103,6 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
-//        if (!metaMap.containsKey(this.Names)) {
-//            list.add(Items.apple.getIcon(new ItemStack(Items.apple),0));
-//            return;
-//        }
         final int lecher = metaMap.get(this.Names) + 1;
         for(int i = 0; i < lecher; ++i) {
             list.add(new ItemStack(item, 1, i));
@@ -237,16 +233,7 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     private static Map<String,M3EBaublesBasic> ItemMap = new HashMap<>();
 
     public static void registerAllBaubles(){
-        Set<String> set = new HashSet<>(metaMap.keySet());
-//        for (ManaItemType value : ManaItemType.values()) {
-//            String Name = value.name();
-//            set.remove(Name);
-//            M3EBaublesBasic Basic = new M3EBaublesBasic(Name);
-//            Basic.size = metaMap.containsKey(Name) ? metaMap.get(Name) + 1 : 0;
-//            ItemMap.put(Name, Basic);
-//            GameRegistry.registerItem(Basic, Name);
-//        }
-        set.forEach(Name -> {
+        metaMap.keySet().forEach(Name -> {
             M3EBaublesBasic Basic = new M3EBaublesBasic(Name);
             Basic.size = metaMap.containsKey(Name) ? metaMap.get(Name) + 1 : 0;
             ItemMap.put(Name, Basic);

@@ -10,8 +10,12 @@
     "MMM.AccessorDarkSteelRecipes",
     "MMM.AccessorIronWroughtFurnaceRecipes",
     "MMM.AccessorManaFurnaceRecipes",
+    "MMM.MixinIMagicItem",
+    "MMM.MixinItemToolBackpackManaItem",
     "MMM.MixinMagicItemOP",
+    "MMM.MixinNbtBaubles",
     "MMM.MixinNpcStoreType",
+    "MMM.MixinSlotMana",
     "MMM.MixinTeleporterInstanceDungeonPortal"
   ]
 }

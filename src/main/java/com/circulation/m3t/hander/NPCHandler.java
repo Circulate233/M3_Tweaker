@@ -26,11 +26,6 @@ public class NPCHandler {
         }
     }
 
-    public static void reload() {
-        addMap.clear();
-        removeMap.clear();
-    }
-
     public static void removeItem(NpcStoreType type,Item... items){
         final Set<ItemStack> items1 = new HashSet<>();
         Arrays.asList(items).forEach(item -> items1.add(new ItemStack(item)));

@@ -1,0 +1,12 @@
+{
+  "package": "com.circulation.m3t.mixins.mc",
+  "refmap": "mixins.m3t.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+  ],
+  "mixins": [
+    "MixinSlot"
+  ]
+}

@@ -39,4 +39,17 @@ public class NPCStoreHandler implements M3TCrtReload {
         NPCHandler.removeItem(typeID,MineTweakerMC.getItemStack(stack));
     }
 
+    @Override
+    public void postReload() {
+
+    }
+
+    @Override
+    public void reload() {
+        NPCHandler.addMap.clear();
+        NPCHandler.removeMap.clear();
+    }
+
+
+
 }

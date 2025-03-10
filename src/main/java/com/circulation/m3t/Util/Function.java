@@ -5,19 +5,40 @@
 
 package com.circulation.m3t.Util;
 
+import com.circulation.m3t.crt.events.BaubleEvent;
+import com.circulation.m3t.crt.events.BaublePostEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import minetweaker.util.IEventHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import project.studio.manametalmod.inventory.ContainerManaItem;
 
 import java.util.List;
 
-public class Function {
-    public Function() {
-    }
+import static com.circulation.m3t.crt.events.M3TEventAPI.*;
 
+public class Function {
+
+    public static final String slotMana = ContainerManaItem.SlotMana.class.getName();
     public static String getText(String str) {
         return StatCollector.translateToLocal(str);
+    }
+
+    public static void onBaubleEquipEvent(IEventHandler<BaubleEvent> handler) {
+        defWear.add(handler);
+    }
+
+    public static void onBaubleRemoveEvent(IEventHandler<BaubleEvent> handler) {
+        defDisrobe.add(handler);
+    }
+
+    public static void onBaubleEquipPostEvent(IEventHandler<BaublePostEvent> handler) {
+        defWearPost.add(handler);
+    }
+
+    public static void onBaubleRemovePostEvent(IEventHandler<BaublePostEvent> handler) {
+        defDisrobePost.add(handler);
     }
 
     public static ItemStack getItemStack(String itemID) {

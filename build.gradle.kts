@@ -12,7 +12,7 @@ plugins {
 
 // Project properties
 group = "rfg.examplemod"
-version = "0.3.0"
+version = "0.4.0"
 
 // Set the toolchain version to decouple the Java we run Gradle with from the Java used to compile and run the mod
 java {
@@ -65,6 +65,14 @@ tasks.processResources.configure {
 
   filesMatching("mcmod.info") {
     expand(mapOf("modVersion" to projVersion))
+  }
+}
+
+tasks.jar.configure {
+  manifest {
+    val attributes = manifest.attributes
+    attributes["FMLCorePlugin"] = "com.circulation.m3t.mixins.M3TEarlyMixinLoader"
+    attributes["FMLCorePluginContainsFMLMod"] = true
   }
 }
 

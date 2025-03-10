@@ -3,23 +3,21 @@ package com.circulation.m3t.crt.recipes;
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
 import com.circulation.m3t.mixins.MMM.AccessorManaFurnaceRecipes;
+import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "ManaFurnace")
 public class ManaFurnaceHandler implements M3TCrtReload {
 
-    private static final List<ManaFurnace> addManaFurnaceRecipeList = new ArrayList<>();
+    private static final Map<ManaFurnace,List<ItemStack>> addManaFurnaceRecipeList = new HashMap<>();
     private static final List<ItemStack> removeManaFurnaceRecipeList = new ArrayList<>();
     private static final List<ManaFurnace> defManaFurnaceRecipeList = new ArrayList<>();
 
@@ -47,9 +45,9 @@ public class ManaFurnaceHandler implements M3TCrtReload {
             }
         });
 
-        addManaFurnaceRecipeList.forEach(recipe -> {
-            SmeltingList.put(recipe.input,recipe.output);
-            ExperienceList.put(recipe.output,recipe.exp);
+        addManaFurnaceRecipeList.forEach((output,recipes) -> {
+            recipes.forEach(recipe -> SmeltingList.put(recipe,output.output));
+            ExperienceList.put(output.output,output.exp);
         });
 
         manaFurnace.setExperienceList(ExperienceList);
@@ -57,17 +55,13 @@ public class ManaFurnaceHandler implements M3TCrtReload {
     }
 
     @ZenMethod
-    public static void addRecipe(IItemStack input,IItemStack output) {
-        addRecipe(MineTweakerMC.getItemStack(input),MineTweakerMC.getItemStack(output), 0.0f);
+    public static void addRecipe(IIngredient input,IItemStack output) {
+        addManaFurnaceRecipeList.put(new ManaFurnace(MineTweakerMC.getItemStack(output),0.0f),Arrays.asList(MineTweakerMC.getItemStacks(input.getItems())));
     }
 
     @ZenMethod
-    public static void addRecipe(IItemStack input,IItemStack output,Float exp) {
-        addRecipe(MineTweakerMC.getItemStack(input),MineTweakerMC.getItemStack(output), exp);
-    }
-
-    public static void addRecipe(ItemStack input,ItemStack output,Float exp) {
-        addManaFurnaceRecipeList.add(new ManaFurnace(input, output, exp));
+    public static void addRecipe(IIngredient input, IItemStack output, Float exp) {
+        addManaFurnaceRecipeList.put(new ManaFurnace(MineTweakerMC.getItemStack(output),exp),Arrays.asList(MineTweakerMC.getItemStacks(input.getItems())));
     }
 
     @ZenMethod
@@ -82,6 +76,11 @@ public class ManaFurnaceHandler implements M3TCrtReload {
 
         private ManaFurnace(ItemStack input,ItemStack output,Float exp){
             this.input = input;
+            this.output = output;
+            this.exp = exp;
+        }
+
+        private ManaFurnace(ItemStack output,Float exp){
             this.output = output;
             this.exp = exp;
         }
