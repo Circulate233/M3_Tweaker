@@ -28,7 +28,7 @@ public class MixinIMagicItem {
     @Inject(method = "tryPushItem",at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/entity/nbt/NbtBaubles;setInventorySlotContents(ILnet/minecraft/item/ItemStack;)V",shift = At.Shift.BEFORE), cancellable = true)
     public void tryPushItem(int slot, ManaMetalModRoot root, ItemStack item, World world, CallbackInfoReturnable<Boolean> cir) {
         if (this.m3Tweaker$player == null)return;
-        BaubleEvent event = new BaubleEvent(this.m3Tweaker$player, item,new Position3f((float) this.m3Tweaker$player.posX, (float) this.m3Tweaker$player.posY, (float) this.m3Tweaker$player.posZ),this.m3Tweaker$player.worldObj);
+        BaubleEvent event = new BaubleEvent(this.m3Tweaker$player, item);
         M3TEventAPI.publishAllWear(event);
         if (event.isCancel()){
             cir.setReturnValue(false);

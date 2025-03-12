@@ -4,6 +4,7 @@ import com.circulation.m3t.Util.M3TCrtReload;
 import com.circulation.m3t.hander.ReloadHandler;
 import minetweaker.MineTweakerAPI;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenExpansion;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +41,7 @@ public class M3TCrtAPI {
                             .replace('/', '.'); // 转换为类名格式
                         try {
                             Class<?> clazz = Class.forName(className, false, classLoader);
-                            if (clazz.isAnnotationPresent(ZenClass.class)) {
+                            if (clazz.isAnnotationPresent(ZenClass.class) || clazz.isAnnotationPresent(ZenExpansion.class)) {
                                 MineTweakerAPI.registerClass(clazz);
                                 Object obj = clazz.getDeclaredConstructor().newInstance();
                                 if (obj instanceof M3TCrtReload){

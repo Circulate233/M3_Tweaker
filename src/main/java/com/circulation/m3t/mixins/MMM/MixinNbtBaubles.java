@@ -22,7 +22,7 @@ public abstract class MixinNbtBaubles extends EntityNBTBaseM3 implements IInvent
     public void wearItemMixin(ItemStack item, boolean sound, CallbackInfo ci) {
         if (MMM.isServer() && this.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) this.entity;
-            BaublePostEvent event = new BaublePostEvent(player,item,new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+            BaublePostEvent event = new BaublePostEvent(player,item);
             M3TEventAPI.publishAllWearPost(event);
         }
     }
@@ -31,7 +31,7 @@ public abstract class MixinNbtBaubles extends EntityNBTBaseM3 implements IInvent
     public void disrobeItemMixin(ItemStack item, CallbackInfo ci) {
         if (MMM.isServer() && this.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) this.entity;
-            BaublePostEvent event = new BaublePostEvent(player,item,new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+            BaublePostEvent event = new BaublePostEvent(player,item);
             M3TEventAPI.publishAllDisrobePost(event);
         }
     }

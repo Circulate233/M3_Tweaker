@@ -12,6 +12,7 @@ import minetweaker.util.IEventHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class Function {
     public static String getText(String str) {
         return StatCollector.translateToLocal(str);
     }
+    public static final boolean isServer = MMM.isServer();
+    public static final boolean isClient = !isServer;
 
     public static void onBaubleEquipEvent(IEventHandler<BaubleEvent> handler) {
         defWear.add(handler);

@@ -23,7 +23,7 @@ public abstract class MixinSlot {
     @Inject(method = "canTakeStack",at = @At("RETURN"), cancellable = true)
     public void canTakeStackMixin(EntityPlayer player, CallbackInfoReturnable<Boolean> cir) {
         if (this.getClass().getName().equals(slotMana)) {
-            BaubleEvent event = new BaubleEvent(player, this.getStack(),new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+            BaubleEvent event = new BaubleEvent(player, this.getStack());
             M3TEventAPI.publishAllDisrobe(event);
             cir.setReturnValue(!event.isCancel());
         }

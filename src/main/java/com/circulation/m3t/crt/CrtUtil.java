@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.Function;
 import cpw.mods.fml.common.registry.GameData;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -12,7 +13,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.*;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Util")
-public class CrtItem {
+public class CrtUtil {
 
     public static Map<String,Item> itemMap = new HashMap<>();
 
@@ -26,6 +27,20 @@ public class CrtItem {
             .filter(itemName -> itemName.startsWith(modId))
             .map(name -> MineTweakerMC.getIItemStack(new ItemStack(itemMap.get(name))))
             .toArray(IItemStack[]::new);
+    }
+
+    @ZenMethod
+    public static String createString(Object... objects){
+        StringBuilder s = new StringBuilder();
+        for (Object object : objects) {
+            s.append(object);
+        }
+        return s.toString();
+    }
+
+    @ZenMethod
+    public static boolean isServer(){
+        return Function.isServer;
     }
 
 }

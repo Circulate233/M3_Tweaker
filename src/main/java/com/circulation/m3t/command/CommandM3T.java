@@ -35,6 +35,9 @@ public class CommandM3T extends CommandBase {
                 case "dungeonBox":
                     CommandDungeonBox.processCommand(sender,args);
                     return;
+                case "Bauble":
+                    CommandBauble.processCommand(sender,args);
+                    return;
             }
         }
         sender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("info.m3t.command.help")));
@@ -47,7 +50,7 @@ public class CommandM3T extends CommandBase {
             return getListOfStringsMatchingLastWord(args,
                 "help",
                 "dungeonBox",
-                "reload"
+                "Bauble"
             );
         }
 
@@ -55,6 +58,8 @@ public class CommandM3T extends CommandBase {
             switch (args[0]){
                 case "dungeonBox":
                     return CommandDungeonBox.DungeonBoxTab(args);
+                case "Bauble":
+                    return CommandBauble.BaubleTab(args);
             }
         }
 
@@ -64,7 +69,8 @@ public class CommandM3T extends CommandBase {
     public void sendHelp(ICommandSender sender){
         if (sender instanceof EntityPlayer) {
             String[] help = new String[]{
-                "/m3t DungeonBox {}"
+                "/m3t DungeonBox {}",
+                "/m3t Bauble {}"
             };
             for (String s : help) {
                 sender.addChatMessage(new ChatComponentText(s));

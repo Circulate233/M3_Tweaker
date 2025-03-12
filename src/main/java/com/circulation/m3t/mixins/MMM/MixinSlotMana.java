@@ -27,7 +27,7 @@ public abstract class MixinSlotMana extends Slot {
     @Inject(method = "isItemValid",at = @At("RETURN"), cancellable = true)
     public void isItemValidMixin(ItemStack item, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) {
-            BaubleEvent event = new BaubleEvent(player, this.getStack(),new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+            BaubleEvent event = new BaubleEvent(player, this.getStack());
             M3TEventAPI.publishAllWear(event);
             cir.setReturnValue(!event.isCancel());
         }

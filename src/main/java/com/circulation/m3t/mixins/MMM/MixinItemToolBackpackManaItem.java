@@ -35,7 +35,7 @@ public abstract class MixinItemToolBackpackManaItem {
     @Inject(method = "canWear",at = @At("RETURN"),cancellable = true)
     public void canWearMixin(ItemStack item, EntityPlayer player, World world, ManaMetalModRoot root, CallbackInfoReturnable<Boolean> cir) {
         if (item.getItem() instanceof IMagicItem && cir.getReturnValue()) {
-            BaubleEvent event = new BaubleEvent(player,item,new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+            BaubleEvent event = new BaubleEvent(player,item);
             M3TEventAPI.publishAllWear(event);
             cir.setReturnValue(!event.isCancel());
         }
@@ -49,7 +49,7 @@ public abstract class MixinItemToolBackpackManaItem {
 
     @Redirect(method = "wear",at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/items/ItemToolBackpackManaItem;disrobeItems(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/EntityPlayer;Lproject/studio/manametalmod/entity/nbt/ManaMetalModRoot;I)V",ordinal = 0))
     public void wearMixin0(ItemToolBackpackManaItem instance, ItemStack item, World world, EntityPlayer player, ManaMetalModRoot root, int s) {
-        BaubleEvent event = new BaubleEvent(player,item,new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+        BaubleEvent event = new BaubleEvent(player,item);
         M3TEventAPI.publishAllDisrobe(event);
         if (event.isCancel()) {
             m3Tweaker$sss.add(s);
@@ -89,7 +89,7 @@ public abstract class MixinItemToolBackpackManaItem {
         final boolean canWear = instance.canWear(item, player, world, root);
         if (canWear){
             if (root.item.getStackInSlot(this.m3Tweaker$slotindex) != null){
-                BaubleEvent event = new BaubleEvent(player,root.item.getStackInSlot(this.m3Tweaker$slotindex),new Position3f((float) player.posX, (float) player.posY, (float) player.posZ), player.worldObj);
+                BaubleEvent event = new BaubleEvent(player,root.item.getStackInSlot(this.m3Tweaker$slotindex));
                 M3TEventAPI.publishAllDisrobe(event);
                 return !event.isCancel();
             }

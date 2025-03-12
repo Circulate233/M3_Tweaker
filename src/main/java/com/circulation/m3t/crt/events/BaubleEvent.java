@@ -14,40 +14,13 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 
 @ZenClass(M3TCrtAPI.CrtClass + "event.BaubleEvent")
-public class BaubleEvent implements CancelEvent {
+public class BaubleEvent extends BaublePostEvent implements CancelEvent {
 
-    public EntityPlayer player;
-    public ItemStack item;
-    public Position3f pos;
-    public MCDimension world;
     private boolean Cancel;
 
-    public BaubleEvent(EntityPlayer player, ItemStack item, Position3f pos, World world) {
-        this.player = player;
-        this.item = item;
-        this.pos = pos;
+    public BaubleEvent(EntityPlayer player, ItemStack item) {
+        super(player, item);
         this.Cancel = false;
-        this.world = new MCDimension(world);
-    }
-
-    @ZenGetter("player")
-    public IPlayer getPlayer(){
-        return MineTweakerMC.getIPlayer(player);
-    }
-
-    @ZenGetter("world")
-    public IDimension getWorld(){
-        return this.world;
-    }
-
-    @ZenGetter("pos")
-    public Position3f getPos(){
-        return this.pos;
-    }
-
-    @ZenGetter("item")
-    public IItemStack getItem(){
-        return MineTweakerMC.getIItemStack(item);
     }
 
     @Override
