@@ -29,8 +29,8 @@ public class DungeonBoxHandler {
     public static boolean clearYes = false;
     public static boolean clearYesLV2 = false;
 
-    public static void addDungeonBox(boolean LV2,ItemStack... item) {
-        if (LV2){
+    public static void addDungeonBox(ItemStack... item) {
+        if (false){
             addDungeonBoxsLV2.addAll(Arrays.asList(item));
         } else {
             addDungeonBoxs.addAll(Arrays.asList(item));
@@ -38,8 +38,8 @@ public class DungeonBoxHandler {
         if (!BoxYes) {BoxYes = true;}
     }
 
-    public static void removeDungeonBox(boolean LV2,ItemStack... item) {
-        if (LV2){
+    public static void removeDungeonBox(ItemStack... item) {
+        if (false){
             removeDungeonBoxsLV2.addAll(Arrays.asList(item));
         } else {
             removeDungeonBoxs.addAll(Arrays.asList(item));
@@ -47,8 +47,8 @@ public class DungeonBoxHandler {
         if (!BoxYes) {BoxYes = true;}
     }
 
-    private static boolean isClearYes(boolean LV2){
-        if (LV2){
+    private static boolean isClearYes(){
+        if (false){
             if (clearYesLV2){
                 clearYesLV2 = false;
                 return false;
@@ -63,8 +63,8 @@ public class DungeonBoxHandler {
     }
 
     @ZenMethod
-    public static void clear(boolean LV2) {
-        if (LV2){
+    public static void clear() {
+        if (false){
             clearYesLV2 = true;
         } else {
             clearYes = true;
@@ -73,31 +73,31 @@ public class DungeonBoxHandler {
     }
 
     @ZenMethod
-    public static void addDungeonBoxs(IItemStack[] item, boolean LV2) {
-        addDungeonBox(LV2,MineTweakerMC.getItemStacks(item));
+    public static void addDungeonBoxs(IItemStack[] item) {
+        addDungeonBox(MineTweakerMC.getItemStacks(item));
     }
 
     @ZenMethod
-    public static void removeDungeonBoxs(IItemStack[] item,boolean LV2) {
-        removeDungeonBox(LV2,MineTweakerMC.getItemStacks(item));
+    public static void removeDungeonBoxs(IItemStack[] item) {
+        removeDungeonBox(MineTweakerMC.getItemStacks(item));
     }
 
     @ZenMethod
-    public static void addDungeonBox(IItemStack item, boolean LV2) {
-        addDungeonBox(LV2,MineTweakerMC.getItemStack(item));
+    public static void addDungeonBox(IItemStack item) {
+        addDungeonBox(MineTweakerMC.getItemStack(item));
     }
 
     @ZenMethod
-    public static void removeDungeonBox(IItemStack item,boolean LV2) {
-        removeDungeonBox(LV2,MineTweakerMC.getItemStack(item));
+    public static void removeDungeonBox(IItemStack item) {
+        removeDungeonBox(MineTweakerMC.getItemStack(item));
     }
 
-    public static void addDungeonBox(String item,boolean LV2) {
-        addDungeonBox(LV2,getItemStack(item));
+    public static void addDungeonBox(String item) {
+        addDungeonBox(getItemStack(item));
     }
 
-    public static void removeDungeonBox(String item,boolean LV2) {
-        removeDungeonBox(LV2,getItemStack(item));
+    public static void removeDungeonBox(String item) {
+        removeDungeonBox(getItemStack(item));
     }
 
     public static void registerDungeonBox() {
@@ -108,7 +108,7 @@ public class DungeonBoxHandler {
         }
 
         List<ItemStack> list = new ArrayList<>();
-        if (isClearYes(false)) {
+        if (isClearYes()) {
             def.forEach(item -> {
                 if (noHasItem(Arrays.asList(removeDungeonBoxs.toArray(new ItemStack[0])), item)) {
                     list.add(item);
@@ -119,22 +119,22 @@ public class DungeonBoxHandler {
         ManaMetalAPI.DungeonItems.clear();
         ManaMetalAPI.DungeonItems.addAll(list);
 
-        List<ItemStack> listLV2 = new ArrayList<>();
-        if (isClearYes(true)) {
-            defLV2.forEach(item -> {
-                if (noHasItem(Arrays.asList(removeDungeonBoxsLV2.toArray(new ItemStack[0])), item)) {
-                    listLV2.add(item);
-                }
-            });
-        }
-        listLV2.addAll(addDungeonBoxsLV2);
-        ManaMetalAPI.DungeonItemsLV2.clear();
-        ManaMetalAPI.DungeonItemsLV2.addAll(listLV2);
+//        List<ItemStack> listLV2 = new ArrayList<>();
+//        if (isClearYes(true)) {
+//            defLV2.forEach(item -> {
+//                if (noHasItem(Arrays.asList(removeDungeonBoxsLV2.toArray(new ItemStack[0])), item)) {
+//                    listLV2.add(item);
+//                }
+//            });
+//        }
+//        listLV2.addAll(addDungeonBoxsLV2);
+//        ManaMetalAPI.DungeonItemsLV2.clear();
+//        ManaMetalAPI.DungeonItemsLV2.addAll(listLV2);
 
         addDungeonBoxs = new ArrayList<>();
         removeDungeonBoxs = new HashSet<>();
 
-        addDungeonBoxsLV2 = new ArrayList<>();
-        removeDungeonBoxsLV2 = new HashSet<>();
+//        addDungeonBoxsLV2 = new ArrayList<>();
+//        removeDungeonBoxsLV2 = new HashSet<>();
     }
 }

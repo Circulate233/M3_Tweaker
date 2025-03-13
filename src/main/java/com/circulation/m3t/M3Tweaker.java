@@ -18,7 +18,7 @@ import java.io.IOException;
 @Mod(
         modid = "m3t", name = "M3 Tweaker", version = Tags.VERSION, acceptedMinecraftVersions = "[1.7.10]",
         dependencies = "required-after:manametalmod@[7.3.0,);" +
-                       "required-after:MineTweaker3@[3.1.0,);"
+                       "required-after:MineTweaker3;"
 )
 public class M3Tweaker {
 

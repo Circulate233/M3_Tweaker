@@ -7,6 +7,7 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import project.studio.manametalmod.MMM;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -39,7 +40,7 @@ public class CrtUtil {
     }
 
     @ZenMethod
-    public static boolean isServer(){
+    public static Boolean isServer(){
         return Function.isServer;
     }
 

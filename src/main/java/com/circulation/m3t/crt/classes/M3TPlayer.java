@@ -22,11 +22,7 @@ public class M3TPlayer {
     public static IItemStack getBauble(IPlayer player, int slot){
         NbtBaubles baubles = MMM.getEntityNBT(MineTweakerMC.getPlayer(player)).item;
         ItemStack item = baubles.getStackInSlot(slot);
-        if (item == null){
-            return null;
-        } else {
-            return MineTweakerMC.getIItemStack(baubles.getStackInSlot(slot).copy());
-        }
+        return MineTweakerMC.getIItemStack(baubles.getStackInSlot(slot));
     }
 
     @ZenGetter("world")
