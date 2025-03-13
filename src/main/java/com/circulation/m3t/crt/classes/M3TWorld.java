@@ -16,4 +16,8 @@ public class M3TWorld {
         return ((AccessorMCDimension)dimension).getWorld().provider.dimensionId;
     }
 
+    @ZenGetter("remote")
+    public static boolean isRemote(IDimension dimension){
+        return ((AccessorMCDimension)dimension).getWorld().isRemote;
+    }
 }

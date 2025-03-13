@@ -12,8 +12,8 @@ import stanhebben.zenscript.annotations.ZenGetter;
 @ZenClass(M3TCrtAPI.CrtClass + "event.BaublePostEvent")
 public class BaublePostEvent {
 
-    protected EntityPlayer player;
-    protected ItemStack item;
+    public EntityPlayer player;
+    public ItemStack item;
 
     public BaublePostEvent(EntityPlayer player, ItemStack item) {
         this.player = player;

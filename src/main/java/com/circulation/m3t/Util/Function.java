@@ -7,6 +7,7 @@ package com.circulation.m3t.Util;
 
 import com.circulation.m3t.crt.events.BaubleEvent;
 import com.circulation.m3t.crt.events.BaublePostEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import minetweaker.util.IEventHandler;
 import net.minecraft.item.Item;
@@ -25,22 +26,22 @@ public class Function {
     public static String getText(String str) {
         return StatCollector.translateToLocal(str);
     }
-    public static final boolean isServer = MMM.isServer();
-    public static final boolean isClient = !isServer;
+    public static boolean isClient = FMLCommonHandler.instance().getEffectiveSide().isClient();
+    public static boolean isServer = !isClient;
 
-    public static void onBaubleEquipEvent(IEventHandler<BaubleEvent> handler) {
+    public static void onBaubleWearEvent(IEventHandler<BaubleEvent> handler) {
         defWear.add(handler);
     }
 
-    public static void onBaubleRemoveEvent(IEventHandler<BaubleEvent> handler) {
+    public static void onBaubleDisrobeEvent(IEventHandler<BaubleEvent> handler) {
         defDisrobe.add(handler);
     }
 
-    public static void onBaubleEquipPostEvent(IEventHandler<BaublePostEvent> handler) {
+    public static void onBaubleWearPostEvent(IEventHandler<BaublePostEvent> handler) {
         defWearPost.add(handler);
     }
 
-    public static void onBaubleRemovePostEvent(IEventHandler<BaublePostEvent> handler) {
+    public static void onBaubleDisrobePostEvent(IEventHandler<BaublePostEvent> handler) {
         defDisrobePost.add(handler);
     }
 

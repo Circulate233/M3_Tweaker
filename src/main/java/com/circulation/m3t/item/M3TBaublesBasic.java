@@ -22,12 +22,12 @@ import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
 import java.util.*;
 
-public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
+public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
     private static Map<String,M3EBaublesAttribute> map = new HashMap<>();
     private static Map<String,Short> metaMap = new HashMap<>();
 
-    public M3EBaublesBasic(String Name) {
+    public M3TBaublesBasic(String Name) {
         super(Name);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
@@ -74,8 +74,8 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
         super.addInformation(itemStack, player, list, flag);
 
-        if (itemStack.getItem() instanceof M3EBaublesBasic) {
-            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic) {
+            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return;
             list.add(Function.getText(map.get(b.Names + itemStack.getItemDamage()).tooltip));
         }
@@ -93,8 +93,8 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public String getItemStackDisplayName(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof M3EBaublesBasic){
-            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic){
+            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return this.Names;
             return Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
         }
@@ -136,8 +136,8 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     }
 
     public ManaItemType getType(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof M3EBaublesBasic){
-            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic){
+            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return ManaItemType.valueOf(this.Names);
             return map.get(b.Names + itemStack.getItemDamage()).type;
         }
@@ -145,8 +145,8 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
     }
 
     public int getNeedLV(ItemStack itemStack, EntityPlayer entityPlayer) {
-        if (itemStack.getItem() instanceof M3EBaublesBasic){
-            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic){
+            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return 1;
             return map.get(b.Names + itemStack.getItemDamage()).level;
         }
@@ -160,8 +160,8 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public List<IMagicEffect> getItemEffect(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof M3EBaublesBasic){
-            M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic){
+            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return Collections.emptyList();
             return map.get(b.Names + itemStack.getItemDamage()).effects;
         }
@@ -195,14 +195,14 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public Quality getQuality(ItemStack itemStack){
-        M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
         if (!map.containsKey(b.Names + itemStack.getItemDamage())) return super.getQuality(itemStack);
         return map.get(b.Names + itemStack.getItemDamage()).quality;
     }
 
     @Override
     public long getValue(ItemStack itemStack) {
-        M3EBaublesBasic b = (M3EBaublesBasic) itemStack.getItem();
+        M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
         if (!map.containsKey(b.Names + itemStack.getItemDamage())) return 0;
         return map.get(b.Names + itemStack.getItemDamage()).money;
     }
@@ -230,18 +230,18 @@ public class M3EBaublesBasic extends IMagicItem implements IQualityItem {
 
     }
 
-    private static Map<String,M3EBaublesBasic> ItemMap = new HashMap<>();
+    private static Map<String, M3TBaublesBasic> ItemMap = new HashMap<>();
 
     public static void registerAllBaubles(){
         metaMap.keySet().forEach(Name -> {
-            M3EBaublesBasic Basic = new M3EBaublesBasic(Name);
+            M3TBaublesBasic Basic = new M3TBaublesBasic(Name);
             Basic.size = metaMap.containsKey(Name) ? metaMap.get(Name) + 1 : 0;
             ItemMap.put(Name, Basic);
             GameRegistry.registerItem(Basic, Name);
         });
     }
 
-    public static M3EBaublesBasic getBauble(String Name){
+    public static M3TBaublesBasic getBauble(String Name){
         return ItemMap.get(Name);
     }
 

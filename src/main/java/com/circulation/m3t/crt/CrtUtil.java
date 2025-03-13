@@ -31,6 +31,11 @@ public class CrtUtil {
     }
 
     @ZenMethod
+    public static String I18n(String key){
+        return Function.getText(key);
+    }
+
+    @ZenMethod
     public static String createString(Object... objects){
         StringBuilder s = new StringBuilder();
         for (Object object : objects) {

@@ -151,8 +151,6 @@ public class TrophyItemsHandler implements M3TCrtReload {
         map.put(new TrophyItem(new ItemStack(ItemCraft10.ItemCraeerFeature, 1, 0)), 1);
         map.put(new TrophyItem(new ItemStack(ItemCraft3.candy1, 1)), 1);
 
-        map.clear();
-
         totalWeight = map.values().stream().mapToInt(Integer::intValue).sum();
         defTrophyItems = Collections.unmodifiableMap(map);
     }
@@ -258,8 +256,6 @@ public class TrophyItemsHandler implements M3TCrtReload {
                 return book;
             }
         }, 1);
-
-        map.clear();
 
         totalWeightLv2 = map.values().stream().mapToInt(Integer::intValue).sum();
         defTrophyItemsLv2 = Collections.unmodifiableMap(map);

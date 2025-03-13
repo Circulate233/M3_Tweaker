@@ -1,12 +1,14 @@
 package com.circulation.m3t;
 
 import com.circulation.m3t.command.CommandM3T;
+import com.circulation.m3t.network.UpdateBauble;
 import com.circulation.m3t.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
@@ -49,6 +51,8 @@ public class M3Tweaker {
     public void preInit(FMLPreInitializationEvent event) throws IOException {
         int start = 0;
 
+        network.registerMessage(UpdateBauble.Handler.class, UpdateBauble.class, start++, Side.CLIENT);
+        network.registerMessage(UpdateBauble.Handler.class, UpdateBauble.class, start++, Side.SERVER);
         proxy.preInit(event);
     }
 

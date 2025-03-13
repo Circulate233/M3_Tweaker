@@ -51,13 +51,11 @@ public class M3TEventAPI implements M3TCrtReload {
     }
 
     public static void publishAllDisrobe(BaubleEvent event){
-        if (Function.isClient)return;
         Disrobe.publish(event);
         defDisrobe.publish(event);
     }
 
     public static void publishAllWear(BaubleEvent event){
-        if (Function.isClient)return;
         Wear.publish(event);
         defWear.publish(event);
     }

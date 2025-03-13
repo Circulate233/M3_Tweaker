@@ -18,7 +18,7 @@ public class CustomBaubles {
             String Icon = bauble.icon == null ? "minecraft:apple" : bauble.icon;
 
             bauble.effects.forEach((key, value) -> listM.add(new IMagicEffect(MagicItemType.getTypeFromID(key),value)));
-            M3EBaublesBasic.registerEffect(ID, Name, Icon,Tooltip, bauble.type,Math.max(bauble.quality - 1,0), bauble.level,bauble.money, listM);
+            M3TBaublesBasic.registerEffect(ID, Name, Icon,Tooltip, bauble.type,Math.max(bauble.quality - 1,0), bauble.level,bauble.money, listM);
         });
     }
 
