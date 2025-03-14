@@ -10,7 +10,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.*;
 
-import static com.circulation.m3t.Util.Function.*;
+import static com.circulation.m3t.Util.Function.getItemStack;
+import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "DungeonBox")
 public class DungeonBoxHandler {

@@ -1,16 +1,14 @@
 package com.circulation.m3t.mixins.MMM;
 
-import com.circulation.m3t.crt.TrophyItemsHandler;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Unique;
 import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.itemAndBlockCraft.ItemCraft3;
 
-import java.util.*;
+import java.util.Map;
 
 import static com.circulation.m3t.crt.TrophyItemsHandler.*;
 

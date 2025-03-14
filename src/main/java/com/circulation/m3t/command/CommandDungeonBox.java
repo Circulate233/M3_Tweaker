@@ -10,7 +10,7 @@ import project.studio.manametalmod.ManaMetalAPI;
 
 import java.util.List;
 
-import static com.circulation.m3t.Util.Function.*;
+import static com.circulation.m3t.Util.Function.getText;
 
 public class CommandDungeonBox extends DungeonBoxHandler {
 

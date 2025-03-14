@@ -2,6 +2,7 @@ package com.circulation.m3t.proxy;
 
 import com.circulation.m3t.Util.RegisterItem;
 import com.circulation.m3t.hander.BaublesRegisterHandler;
+import com.circulation.m3t.hander.M3TBaubleTagSuitHandler;
 import com.circulation.m3t.hander.M3TBaublesSuitHandler;
 import com.circulation.m3t.hander.ReloadHandler;
 import com.circulation.m3t.item.CustomBaubles;
@@ -18,7 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CommonProxy {
 
@@ -34,6 +38,7 @@ public class CommonProxy {
         RegisterItem.register();
         ReloadHandler.register();
         M3TBaublesSuitHandler.registerEvents();
+        M3TBaubleTagSuitHandler.registerEvents();
     }
 
     public void postInit(FMLPostInitializationEvent event) {

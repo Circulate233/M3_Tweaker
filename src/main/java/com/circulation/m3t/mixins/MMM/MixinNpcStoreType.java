@@ -9,10 +9,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import project.studio.manametalmod.core.Icommodity;
 import project.studio.manametalmod.npc.NpcStoreType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
-import static com.circulation.m3t.Util.Function.*;
-import static com.circulation.m3t.hander.NPCHandler.*;
+import static com.circulation.m3t.Util.Function.noHasItem;
+import static com.circulation.m3t.hander.NPCHandler.addMap;
+import static com.circulation.m3t.hander.NPCHandler.removeMap;
 
 @Mixin(value = NpcStoreType.class,remap = false)
 public class MixinNpcStoreType {

@@ -2,7 +2,6 @@ package com.circulation.m3t.mixins.MMM;
 
 import com.circulation.m3t.crt.events.BaubleEvent;
 import com.circulation.m3t.crt.events.M3TEventAPI;
-import minetweaker.api.util.Position3f;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -20,7 +19,8 @@ import project.studio.manametalmod.api.weapon.IMagicItem;
 import project.studio.manametalmod.entity.nbt.ManaMetalModRoot;
 import project.studio.manametalmod.items.ItemToolBackpackManaItem;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Mixin(value = ItemToolBackpackManaItem.class,remap = false)
 public abstract class MixinItemToolBackpackManaItem {

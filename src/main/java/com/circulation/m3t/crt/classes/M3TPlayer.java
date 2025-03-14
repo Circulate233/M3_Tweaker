@@ -5,7 +5,6 @@ import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.util.Position3f;
 import minetweaker.api.world.IDimension;
-import minetweaker.mc1710.player.MCPlayer;
 import minetweaker.mc1710.world.MCDimension;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

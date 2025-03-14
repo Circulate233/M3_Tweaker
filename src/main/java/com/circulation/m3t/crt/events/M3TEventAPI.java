@@ -1,7 +1,6 @@
 package com.circulation.m3t.crt.events;
 
 import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.Util.Function;
 import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.util.EventList;
 import minetweaker.util.IEventHandler;

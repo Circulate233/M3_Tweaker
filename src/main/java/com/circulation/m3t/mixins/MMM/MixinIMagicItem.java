@@ -20,9 +20,9 @@ import project.studio.manametalmod.api.weapon.IMagicItem;
 import project.studio.manametalmod.entity.nbt.ManaMetalModRoot;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
+
+import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
 
 @Mixin(IMagicItem.class)
 public abstract class MixinIMagicItem extends Item implements ISpecialItem, IQualityItem {
@@ -50,11 +50,21 @@ public abstract class MixinIMagicItem extends Item implements ISpecialItem, IQua
     public void addInformation(ItemStack item, EntityPlayer player, List list, boolean booleans, CallbackInfo ci) {
         String suitName = Item.itemRegistry.getNameForObject(this);
         if (M3TBaublesSuitHandler.hasSuit(suitName)) {
-            M3TBaublesSuitHandler.getSuit(suitName).forEach((lv,suit) -> {
+            M3TBaublesSuitHandler.getSuit(suitName).forEach((lv, suit) -> {
                 int HasQuantity = M3TBaublesSuitHandler.getSuitQuantity(suitName,player);
                 list.add((HasQuantity >= lv ? EnumChatFormatting.GOLD : EnumChatFormatting.GRAY) + suit.tooltip + "(" + Math.min(HasQuantity,lv) + "/" + lv + ")");
                 m3Tweaker$addInformation(item, player, list, suit.effects,HasQuantity < lv);
             });
+        }
+        if (item.hasTagCompound() && item.getTagCompound().hasKey(nbtName)) {
+            String finalSuitName = item.getTagCompound().getString(nbtName);
+            if (M3TBaublesSuitHandler.hasSuit(finalSuitName)) {
+                M3TBaublesSuitHandler.getSuit(finalSuitName).forEach((lv, suit) -> {
+                    int HasQuantity = M3TBaublesSuitHandler.getSuitQuantity(finalSuitName, player);
+                    list.add((HasQuantity >= lv ? EnumChatFormatting.GOLD : EnumChatFormatting.GRAY) + suit.tooltip + "(" + Math.min(HasQuantity, lv) + "/" + lv + ")");
+                    m3Tweaker$addInformation(item, player, list, suit.effects, HasQuantity < lv);
+                });
+            }
         }
     }
 

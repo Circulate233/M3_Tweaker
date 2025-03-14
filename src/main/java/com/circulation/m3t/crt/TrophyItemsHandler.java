@@ -18,7 +18,6 @@ import project.studio.manametalmod.itemAndBlockCraft.ItemCraft3;
 import project.studio.manametalmod.itemAndBlockCraft.ItemCraft8;
 import project.studio.manametalmod.produce.ProduceCore;
 import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.*;

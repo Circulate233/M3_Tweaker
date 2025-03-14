@@ -5,16 +5,9 @@ import com.circulation.m3t.hander.M3TBaublesSuitHandler;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagCompound;
-import project.studio.manametalmod.inventory.ContainerManaItem;
-import project.studio.manametalmod.magic.magicItem.IMagicEffect;
-import project.studio.manametalmod.magic.magicItem.MagicItemType;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import java.util.*;
 
 @ZenClass(M3TCrtAPI.CrtClass + "BaublesSuit")
 public class CrtBaublesSuitHandler extends M3TBaublesSuitHandler {
@@ -30,11 +23,17 @@ public class CrtBaublesSuitHandler extends M3TBaublesSuitHandler {
     }
 
     @ZenMethod
-    public static void registerBaublesSuit(IItemStack item, int quantity, String tooltip, int[] typeID, float[] data) {
-        List<IMagicEffect> effects = new ArrayList<>();
-        for (int i = 0; i < typeID.length; i++) {
-            effects.add(new IMagicEffect(MagicItemType.getTypeFromID(typeID[i]),data[i]));
-        }
-        registerBaublesSuit(MineTweakerMC.getItemStack(item).getItem(),quantity,tooltip,effects);
+    public static CrtSuitHandler createSuit(IItemStack item){
+        return new CrtSuitHandler(Item.itemRegistry.getNameForObject(MineTweakerMC.getItemStack(item).getItem()));
+    }
+
+    @ZenMethod
+    public static CrtSuitHandler createSuit(String name){
+        return new CrtSuitHandler(name);
+    }
+
+    @ZenMethod
+    public static CrtTagSuitHandler createTagSuit(String name){
+        return new CrtTagSuitHandler(name);
     }
 }

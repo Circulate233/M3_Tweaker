@@ -4,7 +4,9 @@ import project.studio.manametalmod.core.ManaItemType;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 import project.studio.manametalmod.magic.magicItem.MagicItemType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CustomBaubles {
 

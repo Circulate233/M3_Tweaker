@@ -13,7 +13,6 @@ import minetweaker.util.IEventHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 
 import java.util.List;

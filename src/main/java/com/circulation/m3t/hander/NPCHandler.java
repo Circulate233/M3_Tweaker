@@ -8,7 +8,7 @@ import project.studio.manametalmod.npc.NpcStoreType;
 
 import java.util.*;
 
-import static com.circulation.m3t.Util.Function.*;
+import static com.circulation.m3t.Util.Function.getItemStack;
 
 public class NPCHandler {
 

@@ -2,6 +2,8 @@ package com.circulation.m3t.item;
 
 import com.circulation.m3t.M3Tweaker;
 import com.circulation.m3t.Util.Function;
+import com.circulation.m3t.hander.M3TBaubleTagSuitHandler;
+import com.circulation.m3t.hander.M3TBaublesSuitHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,6 +23,8 @@ import project.studio.manametalmod.core.ManaItemType;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
 import java.util.*;
+
+import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
 
 public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
@@ -96,6 +100,12 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
         if (itemStack.getItem() instanceof M3TBaublesBasic){
             M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return this.Names;
+            if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(nbtName)) {
+                String SuitName = itemStack.getTagCompound().getString(nbtName);
+                if (M3TBaublesSuitHandler.hasSuit(SuitName)) {
+                     return M3TBaubleTagSuitHandler.Tags.get(SuitName) + Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
+                }
+            }
             return Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
         }
         return this.Names;

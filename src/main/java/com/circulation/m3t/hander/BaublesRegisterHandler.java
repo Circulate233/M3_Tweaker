@@ -6,12 +6,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-
-import java.util.List;
-import java.util.Map;
 
 import static com.circulation.m3t.M3Tweaker.network;
 import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;

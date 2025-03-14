@@ -6,12 +6,15 @@ import minetweaker.MineTweakerAPI;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenExpansion;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.*;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.jar.*;
+import java.util.Enumeration;
+import java.util.jar.JarFile;
 
 public class M3TCrtAPI {
 

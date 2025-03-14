@@ -7,11 +7,11 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import project.studio.manametalmod.MMM;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Util")
 public class CrtUtil {

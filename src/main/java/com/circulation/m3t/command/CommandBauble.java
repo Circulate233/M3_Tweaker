@@ -1,15 +1,11 @@
 package com.circulation.m3t.command;
 
 import com.circulation.m3t.Util.Function;
-import minetweaker.MineTweakerAPI;
-import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.inventory.ContainerManaItem;

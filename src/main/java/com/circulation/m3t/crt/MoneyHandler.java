@@ -8,7 +8,8 @@ import net.minecraft.item.Item;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static project.studio.manametalmod.ManaMetalAPI.ItemValue;
 
