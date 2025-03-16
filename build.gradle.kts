@@ -12,7 +12,7 @@ plugins {
 
 // Project properties
 group = "rfg.examplemod"
-version = "0.5.0"
+version = "0.5.1"
 
 // Set the toolchain version to decouple the Java we run Gradle with from the Java used to compile and run the mod
 java {
@@ -155,6 +155,7 @@ dependencies {
   implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))
   implementation(rfg.deobf("curse.maven:codechickencore-unofficial-746279:6070102"))
   implementation(rfg.deobf("curse.maven:smooth-285742:2614474"))
+  implementation(rfg.deobf("curse.maven:forge-nbtedit-for-1-7-10-381388:2949679"))
   implementation(rfg.deobf("curse.maven:CraftTweaker-239197:2838720"))
 }
 

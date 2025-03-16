@@ -13,7 +13,6 @@ import minetweaker.util.IEventHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import project.studio.manametalmod.inventory.ContainerManaItem;
 
 import java.util.List;
 
@@ -21,12 +20,14 @@ import static com.circulation.m3t.crt.events.M3TEventAPI.*;
 
 public class Function {
 
-    public static final String slotMana = ContainerManaItem.SlotMana.class.getName();
+    public static final String slotMana = "project.studio.manametalmod.inventory.ContainerManaItem$SlotMana";
+    public static final String baubleName = "project.studio.manametalmod.api.weapon.IMagicItem";
+    public static boolean isClient = FMLCommonHandler.instance().getEffectiveSide().isClient();
+    public static boolean isServer = !isClient;
+
     public static String getText(String str) {
         return StatCollector.translateToLocal(str);
     }
-    public static boolean isClient = FMLCommonHandler.instance().getEffectiveSide().isClient();
-    public static boolean isServer = !isClient;
 
     public static void onBaubleWearEvent(IEventHandler<BaubleEvent> handler) {
         defWear.add(handler);

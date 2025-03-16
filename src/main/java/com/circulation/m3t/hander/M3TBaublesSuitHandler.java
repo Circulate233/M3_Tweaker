@@ -13,10 +13,7 @@ import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.circulation.m3t.M3Tweaker.network;
 
@@ -110,8 +107,8 @@ public class M3TBaublesSuitHandler {
 
     public static class SuitHandler {
         protected String suitName;
-        protected Map<Integer, BaublesSuit> map = new HashMap<>();
-        protected Map<Integer, BaublesSuit> effmap = new HashMap<>();
+        protected Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
+        protected Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
 
         public SuitHandler(String suitName) {
             this.suitName = suitName;

@@ -25,7 +25,7 @@ public abstract class MixinNbtBaubles extends EntityNBTBaseM3 implements IInvent
         }
     }
 
-    @Inject(method = "disrobeItem",at = @At("HEAD"))
+    @Inject(method = "disrobeItem",at = @At("TAIL"))
     public void disrobeItemMixin(ItemStack item, CallbackInfo ci) {
         if (this.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) this.entity;

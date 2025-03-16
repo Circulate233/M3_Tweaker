@@ -3,7 +3,6 @@ package com.circulation.m3t.crt;
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.Function;
 import com.circulation.m3t.Util.M3TCrtReload;
-import cpw.mods.fml.common.registry.GameRegistry;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -80,10 +79,14 @@ public class TrophyItemsHandler implements M3TCrtReload {
         map.put(new TrophyItem(new ItemStack(ItemCraft8.ExpCrystal2, 2)), 1);
         map.put(new TrophyItem(new ItemStack(ItemCraft8.ExpCrystal3, 1)), 1);
         map.put(new TrophyItem(new ItemStack(ItemCraft10.StarReels, 1, 0)), 2);
-        map.put(new TrophyItem(GameRegistry.findItemStack("manametalmod", "MagicItemSpecial",0)) {
+        map.put(new TrophyItem(MMM.findItemStackM3("MagicItemSpecial", 1, 0)){
             @Override
             public ItemStack getOutput() {
-                return new ItemStack(output.getItem(), 1, MMM.rand.nextInt(13));
+                if (output != null){
+                    return new ItemStack(output.getItem(), 1, MMM.rand.nextInt(13));
+                } else {
+                    return new ItemStack(Items.apple);
+                }
             }
         }, 2);
         map.put(new TrophyItem(new ItemStack(ItemCraft2.ItemMobStatueMakes, 1)), 1);
