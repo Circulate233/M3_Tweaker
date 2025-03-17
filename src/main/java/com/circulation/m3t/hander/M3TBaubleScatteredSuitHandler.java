@@ -8,7 +8,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import project.studio.manametalmod.inventory.ContainerManaItem;

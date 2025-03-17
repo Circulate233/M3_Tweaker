@@ -28,7 +28,6 @@ import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.circulation.m3t.hander.M3TBaubleScatteredSuitHandler.Scattereds;
 import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
@@ -88,8 +87,9 @@ public abstract class MixinIMagicItem extends Item implements ISpecialItem, IQua
         }
 
         if (hasSuit){
-            finallist.add(EnumChatFormatting.GREEN + "——————————————————————");
+            finallist.add(Function.getText("bauble.tooltip"));
             finallist.addAll(list);
+            finallist.add(Function.getText("bauble.endtip"));
         }
     }
 

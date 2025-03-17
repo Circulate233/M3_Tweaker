@@ -2,8 +2,6 @@ package com.circulation.m3t.item;
 
 import com.circulation.m3t.M3Tweaker;
 import com.circulation.m3t.Util.Function;
-import com.circulation.m3t.hander.M3TBaubleTagSuitHandler;
-import com.circulation.m3t.hander.M3TBaublesSuitHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,8 +21,6 @@ import project.studio.manametalmod.core.ManaItemType;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
 import java.util.*;
-
-import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
 
 public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 

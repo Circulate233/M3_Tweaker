@@ -2,7 +2,6 @@ package com.circulation.m3t.mixins.mc;
 
 import com.circulation.m3t.hander.M3TBaubleTagSuitHandler;
 import com.circulation.m3t.hander.M3TBaublesSuitHandler;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.spongepowered.asm.mixin.Mixin;
