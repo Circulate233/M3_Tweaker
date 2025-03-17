@@ -20,7 +20,6 @@ import static com.circulation.m3t.crt.events.M3TEventAPI.*;
 
 public class Function {
 
-    public static final String slotMana = "project.studio.manametalmod.inventory.ContainerManaItem$SlotMana";
     public static boolean isClient = FMLCommonHandler.instance().getEffectiveSide().isClient();
     public static boolean isServer = !isClient;
 

@@ -12,7 +12,7 @@ plugins {
 
 // Project properties
 group = "rfg.examplemod"
-version = "0.5.5"
+version = "0.6.0"
 
 // Set the toolchain version to decouple the Java we run Gradle with from the Java used to compile and run the mod
 java {
@@ -149,7 +149,7 @@ dependencies {
   }
 
   implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
-  implementation(rfg.deobf("curse.maven:manametal-531708:6159869"))
+  implementation(rfg.deobf("curse.maven:manametal-531708:6303745"))
   implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
   implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
   implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))

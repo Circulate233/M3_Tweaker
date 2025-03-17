@@ -32,4 +32,11 @@ public abstract class MixinSlotMana extends Slot {
         }
     }
 
+    @Inject(method = "canTakeStack",at = @At("RETURN"), cancellable = true)
+    public void canTakeStackMixin(EntityPlayer player, CallbackInfoReturnable<Boolean> cir) {
+        BaubleEvent event = new BaubleEvent(player, this.getStack());
+        M3TEventAPI.publishAllDisrobe(event);
+        cir.setReturnValue(!event.isCancel());
+    }
+
 }
