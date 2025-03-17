@@ -20,6 +20,7 @@ public class M3TConfig {
 
     public static List<CustomBaubles.Baubles> baubles = new ArrayList<>();
     public static boolean randomTag;
+    public static boolean showAllSuitEffects;
 
     static final File configFile = new File(Loader.instance().getConfigDir(), "M3T");
     static final Configuration config;
@@ -61,6 +62,7 @@ public class M3TConfig {
         config.load();
 
         randomTag = config.getBoolean("randomTag",Configuration.CATEGORY_GENERAL,false,"是否为每个饰品添加一个随机tag？");
+        showAllSuitEffects = config.getBoolean("showAllSuitEffects",Configuration.CATEGORY_GENERAL,false,"是否默认直接显示全部的套装效果");
 
         if (config.hasChanged()) {
             config.save();

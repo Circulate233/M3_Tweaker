@@ -5,23 +5,26 @@ import com.circulation.m3t.network.UpdateBauble;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.circulation.m3t.M3Tweaker.network;
 
-public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
+public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
 
-    public static Map<String,String> Tags = new HashMap<>();
+    public static Map<Scattered,List<String>> Scattereds = new HashMap<>();
 
     public static void reload() {
-        Tags.clear();
+        Scattereds.clear();
     }
 
     public static void registerEvents() {
@@ -29,10 +32,8 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
             EntityPlayer player = event.player;
             if (player.worldObj.isRemote)return;
             NBTTagCompound playerNbt = player.getEntityData();
-            if (event.item.hasTagCompound() && event.item.getTagCompound().hasKey(nbtName)) {
-                String suitName = event.item.getTagCompound().getString(nbtName);
-                if (!Tags.containsKey(suitName))return;
-                if (map.containsKey(suitName)) {
+            if (Scattereds.containsKey(Scattered.getScattered(event.item))){
+                for (String suitName : Scattereds.get(Scattered.getScattered(event.item))) {
                     int newE = 0;
                     if (!player.getEntityData().hasKey(nbtName)) {
                         playerNbt.setTag(nbtName, new NBTTagCompound());
@@ -48,9 +49,9 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
                             suits.setInteger(suitName, 1);
                         }
                     }
-                    network.sendTo(new UpdateBauble(playerNbt.getCompoundTag(nbtName)), (EntityPlayerMP) player);//同步客户端防止显示问题
                     NbtBaubles.setEffect(effmap.get(suitName).get(newE).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), false, player);//应用新属性
                 }
+                network.sendTo(new UpdateBauble(playerNbt.getCompoundTag(nbtName)), (EntityPlayerMP) player);//同步客户端防止显示问题
             }
         });
 
@@ -59,11 +60,9 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
             EntityPlayer player = event.player;
             if (player.worldObj.isRemote)return;
             NBTTagCompound playerNbt = player.getEntityData();
-            if (event.item.hasTagCompound() && event.item.getTagCompound().hasKey(nbtName)) {
-                String suitName = event.item.getTagCompound().getString(nbtName);
-                if (!Tags.containsKey(suitName))return;
-                int newE = 0;
-                if (map.containsKey(suitName)) {
+            if (Scattereds.containsKey(Scattered.getScattered(event.item))){
+                for (String suitName : Scattereds.get(Scattered.getScattered(event.item))) {
+                    int newE = 0;
                     if (!player.getEntityData().hasKey(nbtName)) {
                         playerNbt.setTag(nbtName, new NBTTagCompound());
                         playerNbt.getCompoundTag(nbtName).setInteger(suitName, 0);
@@ -78,49 +77,45 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
                             suits.setInteger(suitName, 0);
                         }
                     }
-                    network.sendTo(new UpdateBauble(playerNbt.getCompoundTag(nbtName)), (EntityPlayerMP) player);
-                    NbtBaubles.setEffect(effmap.get(suitName).get(newE).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), false, player);//应用新属性
+                    NbtBaubles.setEffect(effmap.get(suitName).get(newE).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), false, player);
                 }
+                network.sendTo(new UpdateBauble(playerNbt.getCompoundTag(nbtName)), (EntityPlayerMP) player);//同步客户端防止显示问题
             }
         });
     }
 
-    public static class TagBaublesSuit extends BaublesSuit{
-        public String TagName;
-
-        public TagBaublesSuit(String TagName, String tooltip, List<IMagicEffect> effects) {
-            super(tooltip,effects);
-            this.TagName = TagName;
-        }
-
-    }
-
-    public static class TagSuitHandler {
+    public static class ScatteredSuitHandler {
         private String suitName;
-        private String tagName;
+        private List<Scattered> items = new ArrayList();
         private Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
         private Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
 
-        protected TagSuitHandler(String suitName) {
+        protected ScatteredSuitHandler(String suitName) {
             this.suitName = suitName;
             for (int i = 0; i < ContainerManaItem.slots.length + 1; i++) {
-                effmap.put(i,new TagBaublesSuit(tagName,tagName, Collections.emptyList()));
+                effmap.put(i,new BaublesSuit(suitName, Collections.emptyList()));
             }
-            this.tagName = " ";
         }
 
-        public static TagSuitHandler create(String name) {
-            return new TagSuitHandler(name);
+        public static ScatteredSuitHandler create(String name) {
+            return new ScatteredSuitHandler(name);
         }
 
-        public TagSuitHandler setTagName(String name){
-            this.tagName = name;
+        public ScatteredSuitHandler addItem(ItemStack item){
+            this.items.add(Scattered.getScattered(item));
             return this;
         }
 
-        public TagSuitHandler addSuit(int quantity, String tooltip, List<IMagicEffect> effects) {
+        public ScatteredSuitHandler addItems(ItemStack[] item){
+            for (ItemStack itemStack : item) {
+                this.items.add(Scattered.getScattered(itemStack));
+            }
+            return this;
+        }
+
+        public ScatteredSuitHandler addSuit(int quantity, String tooltip, List<IMagicEffect> effects) {
             Map<Integer, BaublesSuit> mapp = new HashMap<>();
-            TagBaublesSuit suit = new TagBaublesSuit(tagName,tooltip,effects);
+            BaublesSuit suit = new BaublesSuit(tooltip,effects);
             this.map.put(quantity,suit);
             for (int i = quantity; i < ContainerManaItem.slots.length + 1; i++) {
                 this.effmap.put(i,suit);
@@ -129,9 +124,34 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
         }
 
         public void register(){
-            M3TBaubleTagSuitHandler.Tags.put(this.suitName,this.tagName);
+            items.forEach(item -> {
+                if (Scattereds.containsKey(item)){
+                    List<String> list = Scattereds.get(item);
+                    list.add(this.suitName);
+                    Scattereds.put(item,list);
+                } else {
+                    Scattereds.put(item,new ArrayList<>(Collections.singletonList(this.suitName)));
+                }
+            });
             M3TBaublesSuitHandler.map.put(this.suitName,map);
             M3TBaublesSuitHandler.effmap.put(this.suitName,effmap);
+        }
+    }
+
+    public static class Scattered{
+        public Item item;
+        public int meta;
+
+        private static final Map<Item, Map<Integer, Scattered>> keyPool = new HashMap<>();
+
+        private Scattered(ItemStack itemStack){
+            this.item = itemStack.getItem();
+            this.meta = itemStack.getItemDamage();
+        }
+
+        public static Scattered getScattered(ItemStack item){
+            return keyPool.computeIfAbsent(item.getItem(), k -> new ConcurrentHashMap<>())
+                .computeIfAbsent(item.getItemDamage(), m -> new Scattered(item));
         }
     }
 }

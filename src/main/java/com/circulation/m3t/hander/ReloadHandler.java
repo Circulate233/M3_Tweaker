@@ -13,6 +13,8 @@ public class ReloadHandler {
     public static void M3TRecipe(){
         reloads.forEach(M3TCrtReload::reload);
         M3TBaubleTagSuitHandler.reload();
+        M3TBaubleScatteredSuitHandler.reload();
+        M3TBaublesSuitHandler.reload();
     }
 
     public static void M3TPostRecipe(){

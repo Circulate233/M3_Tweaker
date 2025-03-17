@@ -36,4 +36,9 @@ public class CrtBaublesSuitHandler extends M3TBaublesSuitHandler {
     public static CrtTagSuitHandler createTagSuit(String name){
         return new CrtTagSuitHandler(name);
     }
+
+    @ZenMethod
+    public static CrtScatteredSuitHandler createScatteredSuit(String name){
+        return new CrtScatteredSuitHandler(name);
+    }
 }

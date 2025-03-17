@@ -100,12 +100,6 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
         if (itemStack.getItem() instanceof M3TBaublesBasic){
             M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return this.Names;
-            if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(nbtName)) {
-                String SuitName = itemStack.getTagCompound().getString(nbtName);
-                if (M3TBaublesSuitHandler.hasSuit(SuitName)) {
-                     return M3TBaubleTagSuitHandler.Tags.get(SuitName) + Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
-                }
-            }
             return Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
         }
         return this.Names;

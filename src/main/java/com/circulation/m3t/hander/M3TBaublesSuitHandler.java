@@ -23,6 +23,11 @@ public class M3TBaublesSuitHandler {
     public static Map<String,Map<Integer,BaublesSuit>> effmap = new HashMap<>();
     public static final String nbtName = "Suit";
 
+    public static void reload(){
+        map.clear();
+        effmap.clear();
+    }
+
     public static void registerEvents() {
         Function.onBaubleWearPostEvent(event -> {
             EntityPlayer player = event.player;
@@ -106,11 +111,11 @@ public class M3TBaublesSuitHandler {
     }
 
     public static class SuitHandler {
-        protected String suitName;
-        protected Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
-        protected Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
+        private String suitName;
+        private Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
+        private Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
 
-        public SuitHandler(String suitName) {
+        protected SuitHandler(String suitName) {
             this.suitName = suitName;
             for (int i = 0; i < ContainerManaItem.slots.length + 1; i++) {
                 effmap.put(i,new BaublesSuit(suitName, Collections.emptyList()));
