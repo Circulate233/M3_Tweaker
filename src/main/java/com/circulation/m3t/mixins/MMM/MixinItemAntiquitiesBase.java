@@ -21,10 +21,10 @@ import java.util.List;
 import static com.circulation.m3t.hander.M3TBaubleScatteredSuitHandler.Scattereds;
 import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
 
-@Mixin(value = ItemAntiquitiesBase.class,remap = false)
+@Mixin(value = ItemAntiquitiesBase.class)
 public class MixinItemAntiquitiesBase {
 
-    @Inject(method = "addInformation",at = @At("TAIL"))
+    @Inject(method = "addInformation",at = @At(value = "TAIL"))
     public void addInformation(ItemStack item, EntityPlayer player, List finallist, boolean booleans, CallbackInfo ci) {
         String registrySuitName = Item.itemRegistry.getNameForObject(this);
         boolean hasSuit = false;
