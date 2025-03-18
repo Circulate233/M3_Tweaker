@@ -16,6 +16,7 @@
     "MMM.MixinIMagicItem",
     "MMM.MixinItemToolBackpackManaItem",
     "MMM.MixinMagicItemOP",
+    "MMM.MixinMessageCastingTable",
     "MMM.MixinMMM",
     "MMM.MixinNbtBaubles",
     "MMM.MixinNpcStoreType",

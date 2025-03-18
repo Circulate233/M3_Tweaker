@@ -105,7 +105,7 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
             return this;
         }
 
-        public ScatteredSuitHandler addItems(ItemStack[] item){
+        public ScatteredSuitHandler addItems(ItemStack... item){
             for (ItemStack itemStack : item) {
                 this.items.add(Scattered.getScattered(itemStack));
             }

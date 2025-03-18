@@ -60,9 +60,9 @@ public class Function {
     }
 
     public static boolean noHasItem(List<ItemStack> set, ItemStack item){
+        if (item == null) return false;
         for (ItemStack item1 : set) {
-            if (item1 == null || item == null) return true;
-            if (item1.getItem() == item.getItem() && item1.getItemDamage() == item.getItemDamage()){
+            if (item1 != null && item1.getItem() == item.getItem() && item1.getItemDamage() == item.getItemDamage()){
                 return false;
             }
         }

@@ -35,6 +35,8 @@ public class UpdateBauble implements IMessage {
         public IMessage onMessage(UpdateBauble message, MessageContext ctx) {
             if (Minecraft.getMinecraft() != null) {
                 Minecraft.getMinecraft().thePlayer.getEntityData().setTag(nbtName, message.nbt);
+                NBTTagCompound nbt = Minecraft.getMinecraft().thePlayer.getEntityData();
+                nbt.getInteger("");
             } else {
                 ctx.getServerHandler().playerEntity.getEntityData().setTag(nbtName, message.nbt);
             }

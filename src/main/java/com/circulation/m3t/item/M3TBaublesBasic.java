@@ -114,7 +114,6 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
         this.icons = new IIcon[size];
         for(int i = 0; i < icons.length; ++i) {
             ItemStack itemStack = Function.getItemStack(map.get(this.Names + i).icon);
-            M3Tweaker.logger.info(map.get(this.Names + i).icon);
             if (itemStack != null && itemStack.getItem() != null) {
                 this.icons[i] = itemStack.getItem().getIcon(itemStack,0);
             } else if (map.get(this.Names + i).icon.startsWith("def:")) {

@@ -1,72 +1,103 @@
 package com.circulation.m3t.mixins.MMM;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import project.studio.manametalmod.MMM;
-import project.studio.manametalmod.itemAndBlockCraft.ItemCraft3;
 
-import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import static com.circulation.m3t.crt.TrophyItemsHandler.*;
 
 @Mixin(value = MMM.class,remap = false)
-public class MixinMMM {
+public abstract class MixinMMM {
 
-    /**
-     * @author circulation
-     * @reason 修改方法以支持自定义修改
-     */
-    @Overwrite
-    public static ItemStack getTrophyItems() {
-        int random = MMM.rand.nextInt(totalWeight + 1);
+    @Final
+    @Shadow
+    public static Random rand;
 
-        if (TrophyItems.isEmpty()){
-            for (Map.Entry<TrophyItem, Integer> out : defTrophyItems.entrySet()) {
-                random -= out.getValue();
-                if (random < 0) {
-                    return out.getKey().getOutput();
+    @Inject(method = "getTrophyItems()Lnet/minecraft/item/ItemStack;",at = @At("HEAD"), cancellable = true)
+    private static void getTrophyItemsMixin(CallbackInfoReturnable<ItemStack> cir) {
+        if (!addTrophyItems.isEmpty()) {
+            int random = rand.nextInt(82 + addTrophyItems.size());
+            if (random - 82 >= 0) {
+                TrophyItem item = addTrophyItems.get(random - 82);
+                ItemStack out = item.output.copy();
+                if (item.chance) {
+                    out.stackSize = (rand.nextInt(item.max - item.min) + item.max);
+                } else {
+                    out.stackSize = item.max;
                 }
-            }
-        } else {
-            for (Map.Entry<TrophyItem, Integer> out : TrophyItems.entrySet()) {
-                random -= out.getValue();
-                if (random < 0) {
-                    return out.getKey().getOutput();
-                }
+                cir.setReturnValue(out);
             }
         }
+    }
 
-        return new ItemStack(ItemCraft3.candy1, 1);
+    @Inject(method = "getTrophyItemsLV2",at = @At("HEAD"), cancellable = true)
+    private static void getTrophyItemsLV2(CallbackInfoReturnable<ItemStack> cir) {
+        if (!addTrophyItems.isEmpty()) {
+            int random = rand.nextInt(47 + addTrophyItemsLv2.size());
+            if (random - 47 >= 0) {
+                TrophyItem item = addTrophyItemsLv2.get(random - 47);
+                ItemStack out = item.output.copy();
+                if (item.chance) {
+                    out.stackSize = (rand.nextInt(item.max - item.min) + item.max);
+                } else {
+                    out.stackSize = item.max;
+                }
+                cir.setReturnValue(out);
+            }
+        }
     }
 
     /**
      * @author circulation
-     * @reason 修改方法以支持自定义修改
+     * @reason 测试性的更改...希望没事
      */
     @Overwrite
-    public static ItemStack getTrophyItemsLV2() {
-        int random = MMM.rand.nextInt(totalWeightLv2 + 1);
+    public static final boolean isNBTTagCompoundEqual(NBTTagCompound nbt1, NBTTagCompound nbt2) {
+        if (nbt2 == null) return true;
+        else if (nbt1 != null){
+            return m3Tweaker$containsAll(nbt1,nbt2);
+        }
+        return false;
+    }
 
-        if (TrophyItemsLv2.isEmpty()){
-            for (Map.Entry<TrophyItem, Integer> out : defTrophyItemsLv2.entrySet()) {
-                random -= out.getValue();
-                if (random < 0) {
-                    return out.getKey().getOutput();
-                }
+    @Unique
+    private static boolean m3Tweaker$containsAll(NBTTagCompound ownedNbt, NBTTagCompound needNbt) {
+        Set<Object> keys = needNbt.func_150296_c();
+        for (Object keyO : keys) {
+            String key = (String) keyO;
+            if (!ownedNbt.hasKey(key)) {
+                return false;
             }
-        } else {
-            for (Map.Entry<TrophyItem, Integer> out : TrophyItemsLv2.entrySet()) {
-                random -= out.getValue();
-                if (random < 0) {
-                    return out.getKey().getOutput();
-                }
+
+            NBTBase needValue = needNbt.getTag(key);
+            NBTBase otherValue = ownedNbt.getTag(key);
+
+            if (!m3Tweaker$deepContains(needValue, otherValue)) {
+                return false;
             }
         }
+        return true;
+    }
 
-        return EnchantmentHelper.addRandomEnchantment(MMM.rand, new ItemStack(Items.book, 1, 0), 50);
+    @Unique
+    private static boolean m3Tweaker$deepContains(NBTBase need, NBTBase other) {
+        if (need.getId() != other.getId()) {
+            return false;
+        }
+
+        if (need.getId() == 10) {
+            return m3Tweaker$containsAll((NBTTagCompound) other ,(NBTTagCompound) need);
+        } else {
+            return need.equals(other);
+        }
     }
 
 }

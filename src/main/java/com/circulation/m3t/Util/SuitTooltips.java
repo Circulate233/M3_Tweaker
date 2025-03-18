@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
-import org.spongepowered.asm.mixin.Unique;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
 import java.util.List;

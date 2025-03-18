@@ -4,13 +4,18 @@ import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import project.studio.manametalmod.items.craftingRecipes.CastingData;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.circulation.m3t.Util.Function.noHasItem;
 
@@ -20,6 +25,7 @@ public class CastingHandler implements M3TCrtReload {
     public static final List<Object[]> M3TaddRecipes = new ArrayList<>();
     private static final List<ItemStack> M3TremoveRecipes = new ArrayList<>();
     private static final List<Object[]> CastingRecipes = new ArrayList<>();
+    public static final Map<ItemKey,Integer> mapCastingRecipes = new HashMap<>();
 
     @ZenMethod
     public static void addRecipe(IItemStack out, int money, IItemStack[] imp1) {
@@ -57,6 +63,12 @@ public class CastingHandler implements M3TCrtReload {
         list.addAll(M3TaddRecipes);
         CastingData.getRecipes.clear();
         CastingData.getRecipes.addAll(list);
+
+        mapCastingRecipes.clear();
+        for (int i = 0; i < CastingData.getRecipes.size(); i++) {
+            Object[] item = CastingData.getItems(i);
+            mapCastingRecipes.put(ItemKey.getItemKey((ItemStack)item[1]),i);
+        }
     }
 
     private static void addCastingRecipes(ItemStack out, int money, ItemStack... imp1) {
@@ -69,6 +81,27 @@ public class CastingHandler implements M3TCrtReload {
             i++;
         }
         M3TaddRecipes.add(obj);
+    }
+
+    public static class ItemKey{
+        public Item item;
+        public int meta;
+        public NBTTagCompound nbt;
+        public static final NBTTagCompound emNbt = new NBTTagCompound();
+
+        private static final Map<Item, Map<Integer,Map<NBTTagCompound,ItemKey>>> keyPool = new ConcurrentHashMap<>();
+
+        private ItemKey(ItemStack itemStack){
+            this.item = itemStack.getItem();
+            this.meta = itemStack.getItemDamage();
+            this.nbt = itemStack.getTagCompound();
+        }
+
+        public static ItemKey getItemKey(ItemStack item){
+            return keyPool.computeIfAbsent(item.getItem(), k -> new ConcurrentHashMap<>())
+                .computeIfAbsent(item.getItemDamage(), m -> new ConcurrentHashMap<>())
+                .computeIfAbsent(item.getTagCompound() == null ? emNbt:item.getTagCompound(), m -> new ItemKey(item));
+        }
     }
 
 }

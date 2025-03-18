@@ -9,21 +9,16 @@ import com.circulation.m3t.hander.M3TBaublesSuitHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import project.studio.manametalmod.api.IQualityItem;
 import project.studio.manametalmod.api.ISpecialItem;
 import project.studio.manametalmod.api.weapon.IMagicItem;
-import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.circulation.m3t.hander.M3TBaubleScatteredSuitHandler.Scattereds;
 import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;

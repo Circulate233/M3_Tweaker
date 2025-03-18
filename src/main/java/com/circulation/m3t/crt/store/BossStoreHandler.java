@@ -28,10 +28,12 @@ public class BossStoreHandler implements M3TCrtReload {
 
     @ZenMethod
     public static void addItem(IItemStack item, int Money, boolean isLv2){
-        if (isLv2)
-            addBossStoreLV2.add(new Icommodity(MineTweakerMC.getItemStack(item),Money));
-        else
-            addBossStore.add(new Icommodity(MineTweakerMC.getItemStack(item),Money));
+        if (isLv2) {
+            addBossStoreLV2.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
+        } else {
+            addBossStore.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
+            addBossStoreLV2.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
+        }
     }
 
     @ZenMethod
@@ -40,32 +42,38 @@ public class BossStoreHandler implements M3TCrtReload {
         for (int i = 0; i < items.length; i++) {
             list.add(new Icommodity(MineTweakerMC.getItemStack(items[i]),Money[i]));
         }
-        if (isLv2)
+        if (isLv2) {
             addBossStoreLV2.addAll(list);
-        else
+        } else {
             addBossStore.addAll(list);
+            addBossStoreLV2.addAll(list);
+        }
     }
 
     @ZenMethod
     public static void removeItems(IItemStack[] items, boolean isLv2){
-        if (isLv2)
+        if (isLv2) {
             removeBossStoreLV2.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
-        else
+        } else {
             removeBossStore.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
+            removeBossStoreLV2.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
+        }
     }
 
     @ZenMethod
     public static void removeItem(IItemStack item, boolean isLv2){
-        if (isLv2)
+        if (isLv2) {
             removeBossStoreLV2.add(MineTweakerMC.getItemStack(item));
-        else
+        } else {
             removeBossStore.add(MineTweakerMC.getItemStack(item));
+            removeBossStoreLV2.add(MineTweakerMC.getItemStack(item));
+        }
     }
 
     @Override
     public void postReload() {
-        if (def.isEmpty()) def = BossStore.Items1;
-        if (defLV2.isEmpty()) defLV2 = BossStore.Items2;
+        if (def.isEmpty()) def.addAll(BossStore.Items1);
+        if (defLV2.isEmpty()) defLV2.addAll(BossStore.Items2);
 
         List<Icommodity> list = new ArrayList<>();
         def.forEach(item -> {
