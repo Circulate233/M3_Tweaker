@@ -1,6 +1,7 @@
 package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ import static com.circulation.m3t.Util.Function.getItemStack;
 import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "DungeonBox")
-public class DungeonBoxHandler {
+public class DungeonBoxHandler implements M3TCrtReload {
 
     private static List<ItemStack> addDungeonBoxs = new ArrayList<>();
     private static Set<ItemStack> removeDungeonBoxs = new HashSet<>();
@@ -131,11 +132,19 @@ public class DungeonBoxHandler {
 //        listLV2.addAll(addDungeonBoxsLV2);
 //        ManaMetalAPI.DungeonItemsLV2.clear();
 //        ManaMetalAPI.DungeonItemsLV2.addAll(listLV2);
-
-        addDungeonBoxs = new ArrayList<>();
-        removeDungeonBoxs = new HashSet<>();
-
 //        addDungeonBoxsLV2 = new ArrayList<>();
 //        removeDungeonBoxsLV2 = new HashSet<>();
+    }
+
+    @Override
+    public void postReload() {
+
+    }
+
+    @Override
+    public void reload() {
+        addDungeonBoxs.clear();
+        removeDungeonBoxs.clear();
+        BoxYes = true;
     }
 }
