@@ -20,8 +20,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 @Mod(
-        modid = "m3t", name = "M3 Tweaker", version = M3Tweaker.VERSION, acceptedMinecraftVersions = "[1.7.10]",
-        dependencies = "required-after:manametalmod@[7.3.5,);" +
+        modid = M3Tweaker.MOD_ID, name = "M3 Tweaker", version = M3Tweaker.VERSION, acceptedMinecraftVersions = "[1.7.10]",
+        dependencies = "required-after:manametalmod@[7.3.7,);" +
                        "required-after:MineTweaker3;"
 )
 public class M3Tweaker {

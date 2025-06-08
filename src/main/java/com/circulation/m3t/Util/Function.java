@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.circulation.m3t.crt.events.M3TEventAPI.*;
 
@@ -57,6 +58,16 @@ public class Function {
             }
         }
         return null;
+    }
+
+    public static boolean noHasItem(Set<ItemStack> set, ItemStack item){
+        if (item == null) return false;
+        for (ItemStack item1 : set) {
+            if (item1 != null && item1.getItem() == item.getItem() && item1.getItemDamage() == item.getItemDamage()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean noHasItem(List<ItemStack> set, ItemStack item){

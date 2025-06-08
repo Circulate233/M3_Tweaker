@@ -20,7 +20,6 @@
     "MMM.MixinMMM",
     "MMM.MixinNbtBaubles",
     "MMM.MixinNpcStoreType",
-    "MMM.MixinSlotMana",
-    "MMM.MixinTeleporterInstanceDungeonPortal"
+    "MMM.MixinSlotMana"
   ]
 }
