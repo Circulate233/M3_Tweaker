@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
+import org.jetbrains.annotations.NotNull;
 import project.studio.manametalmod.api.IQualityItem;
 import project.studio.manametalmod.api.Quality;
 import project.studio.manametalmod.api.weapon.IMagicItem;
@@ -24,10 +25,10 @@ import java.util.*;
 
 public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
-    private static Map<String,M3EBaublesAttribute> map = new HashMap<>();
-    private static Map<String,Short> metaMap = new HashMap<>();
+    private static final Map<String,M3EBaublesAttribute> map = new HashMap<>();
+    private static final Map<String,Short> metaMap = new HashMap<>();
 
-    public M3TBaublesBasic(String Name) {
+    public M3TBaublesBasic(@NotNull String Name) {
         super(Name);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
@@ -57,8 +58,8 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
         }
     }
 
-    private static Map<String,List<String>> ExTooltips = new HashMap<>();
-    private static Map<String,List<AdvancedTooltips>> ExAdvancedTooltips = new HashMap<>();
+    private static final Map<String,List<String>> ExTooltips = new HashMap<>();
+    private static final Map<String,List<AdvancedTooltips>> ExAdvancedTooltips = new HashMap<>();
 
     public static void addAdvancedTooltips(String name,AdvancedTooltips AT) {
         if (ExAdvancedTooltips.containsKey(name)){
@@ -74,8 +75,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
         super.addInformation(itemStack, player, list, flag);
 
-        if (itemStack.getItem() instanceof M3TBaublesBasic) {
-            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic b) {
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return;
             list.add(Function.getText(map.get(b.Names + itemStack.getItemDamage()).tooltip));
         }
@@ -93,8 +93,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public String getItemStackDisplayName(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof M3TBaublesBasic){
-            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic b){
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return this.Names;
             return Function.getText(map.get(b.Names + itemStack.getItemDamage()).Name);
         }
@@ -135,8 +134,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
     }
 
     public ManaItemType getType(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof M3TBaublesBasic){
-            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic b){
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return ManaItemType.valueOf(this.Names);
             return map.get(b.Names + itemStack.getItemDamage()).type;
         }
@@ -144,8 +142,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
     }
 
     public int getNeedLV(ItemStack itemStack, EntityPlayer entityPlayer) {
-        if (itemStack.getItem() instanceof M3TBaublesBasic){
-            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic b){
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return 1;
             return map.get(b.Names + itemStack.getItemDamage()).level;
         }
@@ -159,8 +156,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public List<IMagicEffect> getItemEffect(ItemStack itemStack) {
-        if (itemStack.getItem() instanceof M3TBaublesBasic){
-            M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
+        if (itemStack.getItem() instanceof M3TBaublesBasic b){
             if (!map.containsKey(b.Names + itemStack.getItemDamage())) return Collections.emptyList();
             return map.get(b.Names + itemStack.getItemDamage()).effects;
         }
@@ -194,16 +190,22 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
     @Override
     public Quality getQuality(ItemStack itemStack){
-        M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
-        if (!map.containsKey(b.Names + itemStack.getItemDamage())) return super.getQuality(itemStack);
-        return map.get(b.Names + itemStack.getItemDamage()).quality;
+        if (itemStack.getItem() instanceof M3TBaublesBasic b) {
+            if (map.containsKey(b.Names + itemStack.getItemDamage())) {
+                return map.get(b.Names + itemStack.getItemDamage()).quality;
+            }
+        }
+        return super.getQuality(itemStack);
     }
 
     @Override
     public long getValue(ItemStack itemStack) {
-        M3TBaublesBasic b = (M3TBaublesBasic) itemStack.getItem();
-        if (!map.containsKey(b.Names + itemStack.getItemDamage())) return 0;
-        return map.get(b.Names + itemStack.getItemDamage()).money;
+        if (itemStack.getItem() instanceof M3TBaublesBasic b) {
+            if (map.containsKey(b.Names + itemStack.getItemDamage())) {
+                return map.get(b.Names + itemStack.getItemDamage()).money;
+            }
+        }
+        return 0;
     }
 
     private static class M3EBaublesAttribute {
@@ -229,7 +231,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
 
     }
 
-    private static Map<String, M3TBaublesBasic> ItemMap = new HashMap<>();
+    private static final Map<String, M3TBaublesBasic> ItemMap = new HashMap<>();
 
     public static void registerAllBaubles(){
         metaMap.keySet().forEach(Name -> {

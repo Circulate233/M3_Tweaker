@@ -70,7 +70,7 @@ public abstract class MixinMMM {
 
     @Unique
     private static boolean m3Tweaker$containsAll(NBTTagCompound ownedNbt, NBTTagCompound needNbt) {
-        Set<Object> keys = needNbt.func_150296_c();
+        Set<?> keys = needNbt.func_150296_c();
         for (Object keyO : keys) {
             String key = (String) keyO;
             if (!ownedNbt.hasKey(key)) {

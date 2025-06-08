@@ -3,7 +3,8 @@
 /.idea/
 /.vscode/
 /run/
-/build/
+run/
+build/
 /eclipse/
 .classpath
 .project
@@ -26,5 +27,8 @@ whitelist.json
 *.iml
 *.ipr
 *.iws
+*.bat
 *.DS_Store
+!gradlew.bat
+/.vs/
 *.copy

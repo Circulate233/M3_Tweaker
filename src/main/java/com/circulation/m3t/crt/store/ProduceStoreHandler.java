@@ -110,29 +110,18 @@ public class ProduceStoreHandler implements M3TCrtReload {
         Brewing;
 
         public List<Icommodity> getStore() {
-            switch (this) {
-                case Mining:
-                    return ManaMetalAPI.Mine_Store;
-                case Farmer:
-                    return ManaMetalAPI.Farm_Store;
-                case Fishing:
-                    return ManaMetalAPI.Fish_Store;
-                case Beekeeping:
-                    return ManaMetalAPI.Beekeeping_Store;
-                case Dragon:
-                    return ManaMetalAPI.Dragon_Store;
-                case GemCraft:
-                    return ManaMetalAPI.Gem_Store;
-                case Casting:
-                    return ManaMetalAPI.Forge_Store;
-                case Cooking:
-                    return ManaMetalAPI.Cooking_Store;
-                case Tailor:
-                    return ManaMetalAPI.Textile_Store;
-                case Brewing:
-                    return ManaMetalAPI.brewing_Store;
-            }
-            return java.util.Collections.emptyList();
+            return switch (this) {
+                case Mining -> ManaMetalAPI.Mine_Store;
+                case Farmer -> ManaMetalAPI.Farm_Store;
+                case Fishing -> ManaMetalAPI.Fish_Store;
+                case Beekeeping -> ManaMetalAPI.Beekeeping_Store;
+                case Dragon -> ManaMetalAPI.Dragon_Store;
+                case GemCraft -> ManaMetalAPI.Gem_Store;
+                case Casting -> ManaMetalAPI.Forge_Store;
+                case Cooking -> ManaMetalAPI.Cooking_Store;
+                case Tailor -> ManaMetalAPI.Textile_Store;
+                case Brewing -> ManaMetalAPI.brewing_Store;
+            };
         }
 
         public static List<Icommodity> getStore(String name){

@@ -1,259 +1,319 @@
-import org.jetbrains.gradle.ext.Application
 import org.jetbrains.gradle.ext.Gradle
 import org.jetbrains.gradle.ext.RunConfigurationContainer
+import kotlin.apply
 
 plugins {
-  id("java-library")
-  id("maven-publish")
-  id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.8"
-  id("eclipse")
-  id("com.gtnewhorizons.retrofuturagradle") version "1.4.0"
+    `java-gradle-plugin`
+    id("com.palantir.git-version") version "3.0.0"
+    `maven-publish`
+    //id("com.diffplug.spotless") version "6.25.0"
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.10"
+    id("com.github.gmazzo.buildconfig") version "5.3.5"
+    id("com.gtnewhorizons.retrofuturagradle") version "1.4.5"
 }
 
-// Project properties
-group = "rfg.examplemod"
-version = "0.6.5"
+val gitVersion: groovy.lang.Closure<String> by extra
 
-// Set the toolchain version to decouple the Java we run Gradle with from the Java used to compile and run the mod
-java {
-  toolchain {
-    languageVersion.set(JavaLanguageVersion.of(8))
-    // Azul covers the most platforms for Java 8 toolchains, crucially including MacOS arm64
-    vendor.set(JvmVendorSpec.AZUL)
-  }
-  // Generate sources and javadocs jars when building and publishing
-  withSourcesJar()
-  //withJavadocJar()
-}
+group = "com.circulation.m3t"
+val detectedVersion: String = System.getenv("VERSION") ?: gitVersion()
+version = "0.7.0"
 
-// Most RFG configuration lives here, see the JavaDoc for com.gtnewhorizons.retrofuturagradle.MinecraftExtension
-minecraft {
-  mcVersion.set("1.7.10")
+// Add a source set for the functional test suite
+val functionalTestSourceSet = sourceSets.create("functionalTest") {}
 
-  // Username for client run configurations
-  username.set("Developer")
-
-  // Generate a field named VERSION with the mod version in the injected Tags class
-  injectedTags.put("VERSION", project.version)
-
-  // If you need the old replaceIn mechanism, prefer the injectTags task because it doesn't inject a javac plugin.
-  // tagReplacementFiles.add("RfgExampleMod.java")
-
-  // Enable assertions in the mod's package when running the client or server
-  val args = mutableListOf("-ea:${project.group}")
-  args.add("-Dmixin.hotSwap=true")
-  args.add("-Dmixin.checks.interfaces=true")
-  args.add("-Dmixin.debug.export=true")
-  extraRunJvmArguments.addAll(args)
-
-  // If needed, add extra tweaker classes like for mixins.
-  extraTweakClasses.add("org.spongepowered.asm.launch.MixinTweaker")
-
-  // Exclude some Maven dependency groups from being automatically included in the reobfuscated runs
-  groupsToExcludeFromAutoReobfMapping.addAll("com.diffplug", "com.diffplug.durian", "net.industrial-craft")
-}
-
-// Generates a class named rfg.examplemod.Tags with the mod version in it, you can find it at
-tasks.injectTags.configure {
-  outputClassName.set("${project.group}.Tags")
-}
-
-// Put the version from gradle into mcmod.info
-tasks.processResources.configure {
-  val projVersion = project.version.toString() // Needed for configuration cache to work
-  inputs.property("version", projVersion)
-
-  filesMatching("mcmod.info") {
-    expand(mapOf("modVersion" to projVersion))
-  }
-}
-
-tasks.jar.configure {
-  manifest {
-    val attributes = manifest.attributes
-    attributes["FMLCorePlugin"] = "com.circulation.m3t.mixins.M3TEarlyMixinLoader"
-    attributes["FMLCorePluginContainsFMLMod"] = true
-  }
-}
-
-// Create a new dependency type for runtime-only dependencies that don't get included in the maven publication
-val runtimeOnlyNonPublishable: Configuration by configurations.creating {
-  description = "Runtime only dependencies that are not published alongside the jar"
-  isCanBeConsumed = false
-  isCanBeResolved = false
-}
-listOf(configurations.runtimeClasspath, configurations.testRuntimeClasspath).forEach {
-  it.configure {
-    extendsFrom(
-      runtimeOnlyNonPublishable
-    )
-  }
-}
-
-// Add an access tranformer
-// tasks.deobfuscateMergedJarToSrg.configure {accessTransformerFiles.from("src/main/resources/META-INF/mymod_at.cfg")}
-
-// Dependencies
 repositories {
-  flatDir {
-    dirs("libs")
-  }
-  maven {
-    url = uri("https://maven.aliyun.com/nexus/content/groups/public/")
-  }
-  maven {
-    url = uri("https://maven.aliyun.com/nexus/content/repositories/jcenter")
-  }
-  maven {
-    url = uri("https://maven.cleanroommc.com")
-  }
-  maven {
-    url = uri("https://cfa2.cursemaven.com")
-  }
-  maven {
-    url = uri("https://cursemaven.com")
-  }
-  maven {
-    url = uri("https://maven.blamejared.com/")
-  }
-  maven {
-    url = uri("https://repo.spongepowered.org/maven")
-  }
-  maven {
-    name = "GeckoLib"
-    url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
-  }
-  maven {
-    name = "OvermindDL1 Maven"
-    url = uri("https://gregtech.overminddl1.com/")
-  }
-  maven {
-    name = "GTNH Maven"
-    url = uri("https://nexus.gtnewhorizons.com/repository/public/")
-  }
+    flatDir {
+        dirs("libs")
+    }
+    maven {
+        url = uri("https://maven.aliyun.com/nexus/content/groups/public/")
+    }
+    maven {
+        url = uri("https://maven.aliyun.com/nexus/content/repositories/jcenter")
+    }
+    maven {
+        url = uri("https://maven.cleanroommc.com")
+    }
+    maven {
+        url = uri("https://cfa2.cursemaven.com")
+    }
+    maven {
+        url = uri("https://cursemaven.com")
+    }
+    maven {
+        url = uri("https://maven.blamejared.com/")
+    }
+    maven {
+        url = uri("https://repo.spongepowered.org/maven")
+    }
+    maven {
+        name = "GeckoLib"
+        url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    }
+    maven {
+        name = "OvermindDL1 Maven"
+        url = uri("https://gregtech.overminddl1.com/")
+    }
+    maven {
+        name = "GTNH Maven"
+        url = uri("https://nexus.gtnewhorizons.com/repository/public/")
+    }
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+fun pluginDep(name: String, version: String): String {
+    return "${name}:${name}.gradle.plugin:${version}"
 }
 
 dependencies {
-  // Adds NotEnoughItems and its dependencies (CCL&CCC) to runClient/runServer
-  runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.3.39-GTNH:dev")
+    annotationProcessor("com.github.bsideup.jabel:jabel-javac-plugin:1.0.1")
+    testAnnotationProcessor("com.github.bsideup.jabel:jabel-javac-plugin:1.0.1")
+    compileOnly("com.github.bsideup.jabel:jabel-javac-plugin:1.0.1") { isTransitive = false }
+    // workaround for https://github.com/bsideup/jabel/issues/174
+    annotationProcessor("net.java.dev.jna:jna-platform:5.13.0")
 
-  annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
-  // Example: grab the ic2 jar from curse maven and deobfuscate
-  // api(rfg.deobf("curse.maven:ic2-242638:2353971"))
-  // Example: grab the ic2 jar from libs/ in the workspace and deobfuscate
-  // api(rfg.deobf(project.files("libs/ic2.jar")))
+    // All these plugins will be present in the classpath of the project using our plugin, but not activated until explicitly applied
 
-  val mixin : String = modUtils.enableMixins("curse.maven:!unimixins-826970:5858384", "mixins.m3t.refmap.json").toString()
-  api (mixin) {
-    isTransitive = false
-  }
+    // Settings plugins
+    api(pluginDep("com.diffplug.blowdryerSetup", "1.7.1"))
+    api(pluginDep("org.gradle.toolchains.foojay-resolver-convention", "0.9.0"))
 
-  implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
-  implementation(rfg.deobf("curse.maven:manametal-531708:6303745"))
-  implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
-  implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
-  implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))
-  implementation(rfg.deobf("curse.maven:codechickencore-unofficial-746279:6070102"))
-  implementation(rfg.deobf("curse.maven:smooth-285742:2614474"))
-  implementation(rfg.deobf("curse.maven:forge-nbtedit-for-1-7-10-381388:2949679"))
-  implementation(rfg.deobf("curse.maven:CraftTweaker-239197:2838720"))
+    // Project plugins
+    api(pluginDep("com.gradleup.shadow", "8.3.5"))
+    api(pluginDep("com.palantir.git-version", "3.1.0"))
+    api(pluginDep("org.jetbrains.kotlin.jvm", "2.1.0"))
+    api(pluginDep("org.jetbrains.kotlin.kapt", "2.1.0"))
+    api(pluginDep("com.google.devtools.ksp", "2.1.0-1.0.29"))
+    api(pluginDep("org.ajoberstar.grgit", "4.1.1")) // 4.1.1 is the last jvm8 supporting version, unused, available for addon.gradle
+    api(pluginDep("de.undercouch.download", "5.6.0"))
+    api(pluginDep("com.github.gmazzo.buildconfig", "3.1.0")) // Unused, available for addon.gradle
+    api(pluginDep("com.modrinth.minotaur", "2.8.7"))
+    api(pluginDep("net.darkhax.curseforgegradle", "1.1.26"))
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    val mixin : String = modUtils.enableMixins("curse.maven:!unimixins-826970:5858384", "mixins.m3e_core.refmap.json").toString()
+    api (mixin) {
+        isTransitive = false
+    }
+
+    implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
+    implementation(rfg.deobf("curse.maven:manametal-531708:6620488"))
+    implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
+    implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
+    implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))
+    implementation(rfg.deobf("curse.maven:codechickencore-unofficial-746279:6070102"))
+    implementation(rfg.deobf("curse.maven:smooth-285742:2614474"))
+    implementation(rfg.deobf("curse.maven:forge-nbtedit-for-1-7-10-381388:2949679"))
+    implementation(rfg.deobf("curse.maven:CraftTweaker-239197:2838720"))
 }
 
-// Publishing to a Maven repository
+gradlePlugin {
+    plugins {
+        website.set("https://github.com/GTNewHorizons/GTNHGradle")
+        vcsUrl.set("https://github.com/GTNewHorizons/GTNHGradle.git")
+        isAutomatedPublishing = false
+        create("gtnhGradle") {
+            id = "com.gtnewhorizons.gtnhgradle"
+            implementationClass = "com.gtnewhorizons.gtnhgradle.GTNHGradlePlugin"
+            displayName = "GTNHGradle"
+            description = "Shared buildscript logic for all GTNH mods and some other 1.7.10 mods"
+            tags.set(listOf("minecraft", "modding"))
+        }
+        create("gtnhConvention") {
+            id = "com.gtnewhorizons.gtnhconvention"
+            implementationClass = "com.gtnewhorizons.gtnhgradle.GTNHConventionPlugin"
+            displayName = "GTNHConvention"
+            description = "Shared buildscript logic for all GTNH mods and some other 1.7.10 mods - automatically applies all features"
+            tags.set(listOf("minecraft", "modding"))
+        }
+        create("gtnhSettingsConvention") {
+            id = "com.gtnewhorizons.gtnhsettingsconvention"
+            implementationClass = "com.gtnewhorizons.gtnhgradle.GTNHSettingsConventionPlugin"
+            displayName = "GTNHConvention"
+            description = "Shared Settings logic for all GTNH mods and some other 1.7.10 mods"
+            tags.set(listOf("minecraft", "modding"))
+        }
+    }
+}
+
+// Spotless autoformatter
+// See https://github.com/diffplug/spotless/tree/main/plugin-gradle
+// Can be locally toggled via spotless:off/spotless:on comments
+//spotless {
+//    encoding("UTF-8")
+//
+//    format ("misc") {
+//        target(".gitignore")
+//
+//        trimTrailingWhitespace()
+//        indentWithSpaces(4)
+//        endWithNewline()
+//    }
+//    java {
+//        target("src/*/java/**/*.java", "src/*/scala/**/*.java")
+//
+//        toggleOffOn()
+//        removeUnusedImports()
+//        trimTrailingWhitespace()
+//        eclipse("4.19").configFile("spotless.eclipseformat.xml")
+//    }
+//}
+
+buildConfig {
+    useJavaOutput()
+    this.packageName = "com.gtnewhorizons.gtnhgradle"
+    buildConfigField("VERSION", detectedVersion)
+}
+
+// Enable Jabel for java 8 bytecode from java 17 sources
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        vendor.set(JvmVendorSpec.AZUL)
+    }
+    withSourcesJar()
+    //withJavadocJar()
+}
+tasks.javadoc {
+    javadocTool.set(javaToolchains.javadocToolFor {
+        languageVersion.set(JavaLanguageVersion.of(21))
+        vendor.set(JvmVendorSpec.AZUL)
+    })
+    with(options as StandardJavadocDocletOptions) {
+        links(
+            "https://docs.gradle.org/${gradle.gradleVersion}/javadoc/",
+            "https://docs.oracle.com/en/java/javase/21/docs/api/"
+        )
+    }
+}
+tasks.withType<JavaCompile> {
+    sourceCompatibility = "21" // for the IDE support
+    options.release.set(8)
+    options.encoding = "UTF-8"
+
+    javaCompiler.set(javaToolchains.compilerFor {
+        languageVersion.set(JavaLanguageVersion.of(21))
+        vendor.set(JvmVendorSpec.AZUL)
+    })
+}
+
+tasks.wrapper.configure {
+    gradleVersion = "8.13"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+tasks.updateDaemonJvm.configure {
+    languageVersion = JavaLanguageVersion.of(21)
+}
+
+configurations["functionalTestRuntimeOnly"].extendsFrom(configurations["testRuntimeOnly"])
+configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
+configurations["functionalTestAnnotationProcessor"].extendsFrom(configurations["testAnnotationProcessor"])
+
+// Add a task to run the functional tests
+val functionalTest by tasks.registering(Test::class) {
+    testClassesDirs = functionalTestSourceSet.output.classesDirs
+    classpath = functionalTestSourceSet.runtimeClasspath
+    useJUnitPlatform()
+}
+
+gradlePlugin.testSourceSets.add(functionalTestSourceSet)
+
+tasks.check {
+    // Run the functional tests as part of `check`
+    dependsOn(functionalTest)
+}
+
+tasks.test {
+    // Use JUnit Jupiter for unit tests.
+    useJUnitPlatform()
+    // Skip git-based versioning inside the tests
+    environment("VERSION", "1.0.0")
+}
+
+
 publishing {
-  publications {
-    create<MavenPublication>("maven") {
-      from(components["java"])
+    publications {
+        create<MavenPublication>("gtnhGradle") {
+            artifactId = "gtnhgradle"
+            from(components["java"])
+        }
+        // From org.gradle.plugin.devel.plugins.MavenPluginPublishPlugin.createMavenMarkerPublication
+        for (declaration in gradlePlugin.plugins) {
+            create<MavenPublication>(declaration.name + "PluginMarkerMaven") {
+                artifactId = declaration.id + ".gradle.plugin"
+                groupId = declaration.id
+                pom {
+                    name.set(declaration.displayName)
+                    description.set(declaration.description)
+                    withXml {
+                        val root = asElement()
+                        val document = root.ownerDocument
+                        val dependencies = root.appendChild(document.createElement("dependencies"))
+                        val dependency = dependencies.appendChild(document.createElement("dependency"))
+                        val groupId = dependency.appendChild(document.createElement("groupId"))
+                        groupId.textContent = project.group.toString()
+                        val artifactId = dependency.appendChild(document.createElement("artifactId"))
+                        artifactId.textContent = "gtnhgradle"
+                        val version = dependency.appendChild(document.createElement("version"))
+                        version.textContent = project.version.toString()
+                    }
+                }
+            }
+        }
     }
-  }
-  repositories {
-    // Example: publishing to the GTNH Maven repository
-    maven {
-      url = uri("https://nexus.gtnewhorizons.com/repository/releases/")
-      credentials {
-        username = System.getenv("MAVEN_USER") ?: "NONE"
-        password = System.getenv("MAVEN_PASSWORD") ?: "NONE"
-      }
-    }
-  }
-}
 
-// IDE Settings
-eclipse {
-  classpath {
-    isDownloadSources = true
-    isDownloadJavadoc = false
-  }
+    repositories {
+        maven {
+            url = uri("https://nexus.gtnewhorizons.com/repository/releases/")
+            credentials {
+                username = System.getenv("MAVEN_USER") ?: "NONE"
+                password = System.getenv("MAVEN_PASSWORD") ?: "NONE"
+            }
+        }
+    }
 }
 
 idea {
-  module {
-    isDownloadJavadoc = false
-    isDownloadSources = true
-    inheritOutputDirs = true // Fix resources in IJ-Native runs
-  }
-  project {
-    this.withGroovyBuilder {
-      "settings" {
-        "runConfigurations" {
-          val self = this.delegate as RunConfigurationContainer
-          self.add(Gradle("1. Run Client").apply {
-            setProperty("taskNames", listOf("runClient"))
-          })
-          self.add(Gradle("2. Run Server").apply {
-            setProperty("taskNames", listOf("runServer"))
-          })
-          self.add(Gradle("3. Run Obfuscated Client").apply {
-            setProperty("taskNames", listOf("runObfClient"))
-          })
-          self.add(Gradle("4. Run Obfuscated Server").apply {
-            setProperty("taskNames", listOf("runObfServer"))
-          })
-          self.add(Gradle("5. Build Jars").apply {
-            setProperty("taskNames", listOf("build"))
-          })
-          /*
-          These require extra configuration in IntelliJ, so are not enabled by default
-          self.add(Application("Run Client (IJ Native, Deprecated)", project).apply {
-            mainClass = "GradleStart"
-            moduleName = project.name + ".ideVirtualMain"
-            afterEvaluate {
-              val runClient = tasks.runClient.get()
-              workingDirectory = runClient.workingDir.absolutePath
-              programParameters = runClient.calculateArgs(project).map { '"' + it + '"' }.joinToString(" ")
-              jvmArgs = runClient.calculateJvmArgs(project).map { '"' + it + '"' }.joinToString(" ") +
-                ' ' + runClient.systemProperties.map { "\"-D" + it.key + '=' + it.value.toString() + '"' }
-                .joinToString(" ")
-            }
-          })
-          self.add(Application("Run Server (IJ Native, Deprecated)", project).apply {
-            mainClass = "GradleStartServer"
-            moduleName = project.name + ".ideVirtualMain"
-            afterEvaluate {
-              val runServer = tasks.runServer.get()
-              workingDirectory = runServer.workingDir.absolutePath
-              programParameters = runServer.calculateArgs(project).map { '"' + it + '"' }.joinToString(" ")
-              jvmArgs = runServer.calculateJvmArgs(project).map { '"' + it + '"' }.joinToString(" ") +
-                ' ' + runServer.systemProperties.map { "\"-D" + it.key + '=' + it.value.toString() + '"' }
-                .joinToString(" ")
-            }
-          })
-          */
-        }
-        "compiler" {
-          val self = this.delegate as org.jetbrains.gradle.ext.IdeaCompilerConfiguration
-          afterEvaluate {
-            self.javac.moduleJavacAdditionalOptions = mapOf(
-              (project.name + ".main") to
-                tasks.compileJava.get().options.compilerArgs.joinToString(" ") { '"' + it + '"' }
-            )
-          }
-        }
-      }
+    module {
+        isDownloadJavadoc = false
+        isDownloadSources = true
+        inheritOutputDirs = true // Fix resources in IJ-Native runs
     }
-  }
-}
-
-tasks.processIdeaSettings.configure {
-  dependsOn(tasks.injectTags)
+    project {
+        this.withGroovyBuilder {
+            "settings" {
+                "runConfigurations" {
+                    val self = this.delegate as RunConfigurationContainer
+                    self.add(Gradle("1. Run Client").apply {
+                        setProperty("taskNames", listOf("runClient"))
+                    })
+                    self.add(Gradle("2. Run Server").apply {
+                        setProperty("taskNames", listOf("runServer"))
+                    })
+                    self.add(Gradle("3. Run Obfuscated Client").apply {
+                        setProperty("taskNames", listOf("runObfClient"))
+                    })
+                    self.add(Gradle("4. Run Obfuscated Server").apply {
+                        setProperty("taskNames", listOf("runObfServer"))
+                    })
+                    self.add(Gradle("5. Build Jars").apply {
+                        setProperty("taskNames", listOf("build"))
+                    })
+                }
+                "compiler" {
+                    val self = this.delegate as org.jetbrains.gradle.ext.IdeaCompilerConfiguration
+                    afterEvaluate {
+                        self.javac.moduleJavacAdditionalOptions = mapOf(
+                            (project.name + ".main") to
+                                tasks.compileJava.get().options.compilerArgs.joinToString(" ") { '"' + it + '"' }
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

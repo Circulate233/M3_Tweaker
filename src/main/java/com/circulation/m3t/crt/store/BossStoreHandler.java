@@ -17,11 +17,11 @@ import static com.circulation.m3t.Util.Function.noHasItem;
 @ZenClass(M3TCrtAPI.CrtClass + "BossStore")
 public class BossStoreHandler implements M3TCrtReload {
 
-    private static List<Icommodity> addBossStore = new ArrayList<>();
-    private static Set<ItemStack> removeBossStore = new HashSet<>();
+    private static final List<Icommodity> addBossStore = new ArrayList<>();
+    private static final Set<ItemStack> removeBossStore = new HashSet<>();
 
-    private static List<Icommodity> addBossStoreLV2 = new ArrayList<>();
-    private static Set<ItemStack> removeBossStoreLV2 = new HashSet<>();
+    private static final List<Icommodity> addBossStoreLV2 = new ArrayList<>();
+    private static final Set<ItemStack> removeBossStoreLV2 = new HashSet<>();
 
     protected static List<Icommodity> def = new ArrayList<>();
     protected static List<Icommodity> defLV2 = new ArrayList<>();

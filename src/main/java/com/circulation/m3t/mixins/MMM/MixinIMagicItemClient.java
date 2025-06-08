@@ -27,10 +27,10 @@ import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
 public abstract class MixinIMagicItemClient extends Item implements ISpecialItem, IQualityItem {
 
     @Inject(method = "addInformation",at = @At("TAIL"))
-    public void addInformation(ItemStack item, EntityPlayer player, List finallist, boolean booleans, CallbackInfo ci) {
+    public void addInformation(ItemStack item, EntityPlayer player, List<String> finallist, boolean booleans, CallbackInfo ci) {
         String registrySuitName = Item.itemRegistry.getNameForObject(this);
         boolean hasSuit = false;
-        List list = new ArrayList();
+        List<String> list = new ArrayList<>();
         if (M3TBaublesSuitHandler.hasSuit(registrySuitName)) {
             SuitTooltips.handleSuitInfo(item, player, list, registrySuitName);
             hasSuit = true;

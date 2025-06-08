@@ -15,10 +15,9 @@ import java.util.Random;
 @ZenClass(M3TCrtAPI.CrtClass + "TrophyItem")
 public class TrophyItemsHandler implements M3TCrtReload {
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
     public static final List<TrophyItem> addTrophyItems = new ArrayList<>();
     public static final List<TrophyItem> addTrophyItemsLv2 = new ArrayList<>();
-
 
     @Override
     public void postReload() {

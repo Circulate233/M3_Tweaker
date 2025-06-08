@@ -16,18 +16,18 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rfg.examplemod.Tags;
 
 import java.io.IOException;
 
 @Mod(
-        modid = "m3t", name = "M3 Tweaker", version = Tags.VERSION, acceptedMinecraftVersions = "[1.7.10]",
+        modid = "m3t", name = "M3 Tweaker", version = M3Tweaker.VERSION, acceptedMinecraftVersions = "[1.7.10]",
         dependencies = "required-after:manametalmod@[7.3.5,);" +
                        "required-after:MineTweaker3;"
 )
 public class M3Tweaker {
 
     public static final String MOD_ID = "m3t";
+    public static final String VERSION = "0.7.0";
 
     @Mod.Instance(MOD_ID)
     public static M3Tweaker instance = new M3Tweaker();

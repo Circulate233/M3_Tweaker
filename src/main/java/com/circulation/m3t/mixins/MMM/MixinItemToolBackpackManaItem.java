@@ -30,7 +30,7 @@ public abstract class MixinItemToolBackpackManaItem {
     @Unique
     public NBTTagList m3Tweaker$nbttaglist;
     @Unique
-    public byte m3Tweaker$slotindex;
+    public byte m3Tweaker$slotIndex;
 
     @Inject(method = "canWear",at = @At("RETURN"),cancellable = true)
     public void canWearMixin(ItemStack item, EntityPlayer player, World world, ManaMetalModRoot root, CallbackInfoReturnable<Boolean> cir) {
@@ -42,8 +42,8 @@ public abstract class MixinItemToolBackpackManaItem {
     }
 
     @Redirect(method = "wear",at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;getTagList(Ljava/lang/String;I)Lnet/minecraft/nbt/NBTTagList;",ordinal = 0,remap = true))
-    public NBTTagList wearMixin(NBTTagCompound instance, String classcastexception, int i) {
-        this.m3Tweaker$nbttaglist = instance.getTagList(classcastexception, i);
+    public NBTTagList wearMixin(NBTTagCompound instance, String exceptionalism, int i) {
+        this.m3Tweaker$nbttaglist = instance.getTagList(exceptionalism, i);
         return this.m3Tweaker$nbttaglist;
     }
 
@@ -80,7 +80,7 @@ public abstract class MixinItemToolBackpackManaItem {
 
     @Redirect(method = "wear",at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;loadItemStackFromNBT(Lnet/minecraft/nbt/NBTTagCompound;)Lnet/minecraft/item/ItemStack;",remap = true,ordinal = 3))
     public ItemStack wearMixin3(NBTTagCompound nbtTagCompound){
-        this.m3Tweaker$slotindex = nbtTagCompound.getByte("Slot");
+        this.m3Tweaker$slotIndex = nbtTagCompound.getByte("Slot");
         return ItemStack.loadItemStackFromNBT(nbtTagCompound);
     }
 
@@ -88,8 +88,8 @@ public abstract class MixinItemToolBackpackManaItem {
     public boolean wearMixin3(ItemToolBackpackManaItem instance, ItemStack item, EntityPlayer player, World world, ManaMetalModRoot root) {
         final boolean canWear = instance.canWear(item, player, world, root);
         if (canWear){
-            if (root.item.getStackInSlot(this.m3Tweaker$slotindex) != null){
-                BaubleEvent event = new BaubleEvent(player,root.item.getStackInSlot(this.m3Tweaker$slotindex));
+            if (root.item.getStackInSlot(this.m3Tweaker$slotIndex) != null){
+                BaubleEvent event = new BaubleEvent(player,root.item.getStackInSlot(this.m3Tweaker$slotIndex));
                 M3TEventAPI.publishAllDisrobe(event);
                 return !event.isCancel();
             }

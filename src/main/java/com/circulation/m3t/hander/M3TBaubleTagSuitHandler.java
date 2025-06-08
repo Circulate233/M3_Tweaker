@@ -40,7 +40,6 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
                     } else {
                         NBTTagCompound suits = playerNbt.getCompoundTag(nbtName);
                         if (suits.hasKey(suitName)) {
-                            effmap.get(suitName).get(getSuitQuantity(suitName, player)).effects.isEmpty();
                             NbtBaubles.setEffect(effmap.get(suitName).get(getSuitQuantity(suitName, player)).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), true, player);//删除旧套装属性
                             suits.setInteger(suitName, suits.getInteger(suitName) + 1);//更新套装状态
                             newE = suits.getInteger(suitName);
@@ -70,7 +69,6 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
                     } else {
                         NBTTagCompound suits = playerNbt.getCompoundTag(nbtName);
                         if (suits.hasKey(suitName)) {
-                            effmap.get(suitName).get(getSuitQuantity(suitName, player)).effects.isEmpty();
                             NbtBaubles.setEffect(effmap.get(suitName).get(getSuitQuantity(suitName, player)).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), true, player);
                             suits.setInteger(suitName, Math.max(0, suits.getInteger(suitName) - 1));
                             newE = suits.getInteger(suitName);
@@ -96,10 +94,10 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
     }
 
     public static class TagSuitHandler {
-        private String suitName;
+        private final String suitName;
         private String tagName;
-        private Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
-        private Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
+        private final Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
+        private final Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
 
         protected TagSuitHandler(String suitName) {
             this.suitName = suitName;

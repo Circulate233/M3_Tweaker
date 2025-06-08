@@ -92,7 +92,7 @@ public class SuitTooltips {
         return Keyboard.isKeyDown(Keyboard.KEY_LMENU) || Keyboard.isKeyDown(Keyboard.KEY_RMENU);
     }
 
-    public static void addInformation(ItemStack item, EntityPlayer player, List ListInfo, List<IMagicEffect> effects, boolean gray) {
+    public static void addInformation(ItemStack item, EntityPlayer player, List<String> ListInfo, List<IMagicEffect> effects, boolean gray) {
         if (effects != null && !effects.isEmpty()) {
             for (IMagicEffect ime : effects) {
                 EnumChatFormatting color = EnumChatFormatting.AQUA;

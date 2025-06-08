@@ -32,9 +32,6 @@ public class CommandM3T extends CommandBase {
                 case "help":
                     sendHelp(sender);
                     return;
-                case "dungeonBox":
-                    CommandDungeonBox.processCommand(sender,args);
-                    return;
                 case "Bauble":
                     CommandBauble.processCommand(sender,args);
                     return;
@@ -44,7 +41,7 @@ public class CommandM3T extends CommandBase {
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender sender, String[] args) {
+    public List<?> addTabCompletionOptions(ICommandSender sender, String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             return getListOfStringsMatchingLastWord(args,
@@ -56,8 +53,6 @@ public class CommandM3T extends CommandBase {
 
         if (args.length == 2) {
             switch (args[0]){
-                case "dungeonBox":
-                    return CommandDungeonBox.DungeonBoxTab(args);
                 case "Bauble":
                     return CommandBauble.BaubleTab(args);
             }

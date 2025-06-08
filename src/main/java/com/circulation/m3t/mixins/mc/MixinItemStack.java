@@ -27,6 +27,7 @@ public abstract class MixinItemStack {
 
     @Shadow
     public abstract NBTTagCompound getTagCompound();
+
     @Shadow
     public abstract boolean hasTagCompound();
 

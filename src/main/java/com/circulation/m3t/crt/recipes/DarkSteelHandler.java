@@ -12,7 +12,6 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.circulation.m3t.Util.Function.noHasItem;
 
@@ -31,14 +30,16 @@ public class DarkSteelHandler implements M3TCrtReload {
     public void postReload(){
         AccessorDarkSteelRecipes manaFurnace = ((AccessorDarkSteelRecipes)AccessorDarkSteelRecipes.getSmeltingBase());
         if (defDarkSteelRecipeList.isEmpty()){
-            manaFurnace.getSmeltingList().forEach((input,output) -> {
-                Float exp = manaFurnace.getExperienceList().getOrDefault(output, 0.0f);
-                defDarkSteelRecipeList.add(new DarkSteel(input,output,exp));
-            });
+            if (manaFurnace != null) {
+                manaFurnace.getSmeltingList().forEach((input,output) -> {
+                    Float exp = manaFurnace.getExperienceList().getOrDefault(output, 0.0f);
+                    defDarkSteelRecipeList.add(new DarkSteel(input,output,exp));
+                });
+            }
         }
 
-        Map SmeltingList = new HashMap<>();
-        Map ExperienceList = new HashMap();
+        var SmeltingList = new HashMap<>();
+        var ExperienceList = new HashMap<>();
 
         defDarkSteelRecipeList.forEach(recipe -> {
             if (noHasItem(removeDarkSteelRecipeList, recipe.output)){
@@ -52,8 +53,12 @@ public class DarkSteelHandler implements M3TCrtReload {
             ExperienceList.put(recipe.output,recipe.exp);
         });
 
-        manaFurnace.setExperienceList(ExperienceList);
-        manaFurnace.setSmeltingList(SmeltingList);
+        if (manaFurnace != null) {
+            manaFurnace.setExperienceList(ExperienceList);
+        }
+        if (manaFurnace != null) {
+            manaFurnace.setSmeltingList(SmeltingList);
+        }
     }
 
     @ZenMethod
@@ -76,9 +81,9 @@ public class DarkSteelHandler implements M3TCrtReload {
     }
 
     private static class DarkSteel{
-        private ItemStack input;
-        private ItemStack output;
-        private float exp;
+        private final ItemStack input;
+        private final ItemStack output;
+        private final float exp;
 
         private DarkSteel(ItemStack input,ItemStack output,Float exp){
             this.input = input;

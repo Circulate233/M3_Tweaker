@@ -24,7 +24,8 @@ public class CommandBauble {
                     for(int s = 0; s < ContainerManaItem.slots.length; ++s) {
                         if (s != 41 && ContainerManaItem.slots[s] != null) {
                             ItemStack item = new ItemStack(magicitemOP,1,s);
-                            NBTTagCompound nbt = new NBTTagCompound();
+                            new NBTTagCompound();
+                            NBTTagCompound nbt;
                             NBTTagCompound nbt1 = new NBTTagCompound();
                             nbt1.setString("Name","§6Number " + s + Function.getText("manaItemType." + ContainerManaItem.slots[s]));
                             nbt = new NBTTagCompound();
@@ -39,7 +40,7 @@ public class CommandBauble {
         sender.addChatMessage(new ChatComponentText(getText("info.m3t.command.false")));
     }
 
-    public static List BaubleTab(String[] args) {
+    public static List<?> BaubleTab(String[] args) {
         if (args.length == 2) {
             return CommandBase.getListOfStringsMatchingLastWord(args,
                 "debug"

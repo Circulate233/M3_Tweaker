@@ -10,14 +10,14 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenClass(M3TCrtAPI.CrtClass + "Events")
 public class M3TEventAPI implements M3TCrtReload {
 
-    private static final EventList<BaubleEvent> Wear = new EventList();
-    private static final EventList<BaubleEvent> Disrobe = new EventList();
-    public static final EventList<BaubleEvent> defWear = new EventList();
-    public static final EventList<BaubleEvent> defDisrobe = new EventList();
-    private static final EventList<BaublePostEvent> WearPost = new EventList();
-    private static final EventList<BaublePostEvent> DisrobePost = new EventList();
-    public static final EventList<BaublePostEvent> defWearPost = new EventList();
-    public static final EventList<BaublePostEvent> defDisrobePost = new EventList();
+    private static final EventList<BaubleEvent> Wear = new EventList<>();
+    private static final EventList<BaubleEvent> Disrobe = new EventList<>();
+    public static final EventList<BaubleEvent> defWear = new EventList<>();
+    public static final EventList<BaubleEvent> defDisrobe = new EventList<>();
+    private static final EventList<BaublePostEvent> WearPost = new EventList<>();
+    private static final EventList<BaublePostEvent> DisrobePost = new EventList<>();
+    public static final EventList<BaublePostEvent> defWearPost = new EventList<>();
+    public static final EventList<BaublePostEvent> defDisrobePost = new EventList<>();
 
     @ZenMethod
     public static void onBaubleWearEvent(IEventHandler<BaubleEvent> handler) {

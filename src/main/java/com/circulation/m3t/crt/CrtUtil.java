@@ -19,7 +19,9 @@ public class CrtUtil {
     public static Map<String,Item> itemMap = new HashMap<>();
 
     static {
-        GameData.getItemRegistry().forEach(item -> itemMap.put(Item.itemRegistry.getNameForObject(item),(Item) item));
+        for (Object item : GameData.getItemRegistry()) {
+            itemMap.put(Item.itemRegistry.getNameForObject(item),(Item) item);
+        }
     }
 
     @ZenMethod

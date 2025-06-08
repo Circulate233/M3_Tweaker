@@ -5,7 +5,6 @@ import com.circulation.m3t.Util.M3TCrtReload;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
-import project.studio.manametalmod.ManaMetalAPI;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -15,13 +14,14 @@ import static com.circulation.m3t.Util.Function.getItemStack;
 import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "DungeonBox")
+//TODO:需要完全重写...
 public class DungeonBoxHandler implements M3TCrtReload {
 
-    private static List<ItemStack> addDungeonBoxs = new ArrayList<>();
-    private static Set<ItemStack> removeDungeonBoxs = new HashSet<>();
+    private static final List<ItemStack> addDungeonBoxs = new ArrayList<>();
+    private static final Set<ItemStack> removeDungeonBoxs = new HashSet<>();
 
-    private static List<ItemStack> addDungeonBoxsLV2 = new ArrayList<>();
-    private static Set<ItemStack> removeDungeonBoxsLV2 = new HashSet<>();
+    private static final List<ItemStack> addDungeonBoxsLV2 = new ArrayList<>();
+    private static final Set<ItemStack> removeDungeonBoxsLV2 = new HashSet<>();
 
     protected static List<ItemStack> def;
     protected static List<ItemStack> defLV2;
@@ -32,45 +32,26 @@ public class DungeonBoxHandler implements M3TCrtReload {
     public static boolean clearYesLV2 = false;
 
     public static void addDungeonBox(ItemStack... item) {
-        if (false){
-            addDungeonBoxsLV2.addAll(Arrays.asList(item));
-        } else {
-            addDungeonBoxs.addAll(Arrays.asList(item));
-        }
+        addDungeonBoxs.addAll(Arrays.asList(item));
         if (!BoxYes) {BoxYes = true;}
     }
 
     public static void removeDungeonBox(ItemStack... item) {
-        if (false){
-            removeDungeonBoxsLV2.addAll(Arrays.asList(item));
-        } else {
-            removeDungeonBoxs.addAll(Arrays.asList(item));
-        }
+        removeDungeonBoxs.addAll(Arrays.asList(item));
         if (!BoxYes) {BoxYes = true;}
     }
 
     private static boolean isClearYes(){
-        if (false){
-            if (clearYesLV2){
-                clearYesLV2 = false;
-                return false;
-            }
-        } else {
-            if (clearYes){
-                clearYes = false;
-                return false;
-            }
+        if (clearYes) {
+            clearYes = false;
+            return false;
         }
         return true;
     }
 
     @ZenMethod
     public static void clear() {
-        if (false){
-            clearYesLV2 = true;
-        } else {
-            clearYes = true;
-        }
+        clearYes = true;
         if (!BoxYes) {BoxYes = true;}
     }
 
@@ -104,8 +85,8 @@ public class DungeonBoxHandler implements M3TCrtReload {
 
     public static void registerDungeonBox() {
         if (initialization) {
-            def = ManaMetalAPI.DungeonItems;
-            defLV2 = ManaMetalAPI.DungeonItemsLV2;
+            //def = ManaMetalAPI.DungeonItems;
+            //defLV2 = ManaMetalAPI.DungeonItemsLV2;
             initialization = false;
         }
 
@@ -118,8 +99,8 @@ public class DungeonBoxHandler implements M3TCrtReload {
             });
         }
         list.addAll(addDungeonBoxs);
-        ManaMetalAPI.DungeonItems.clear();
-        ManaMetalAPI.DungeonItems.addAll(list);
+        //ManaMetalAPI.DungeonItems.clear();
+        //ManaMetalAPI.DungeonItems.addAll(list);
 
 //        List<ItemStack> listLV2 = new ArrayList<>();
 //        if (isClearYes(true)) {

@@ -29,14 +29,16 @@ public class ManaFurnaceHandler implements M3TCrtReload {
     public void postReload(){
         AccessorManaFurnaceRecipes manaFurnace = ((AccessorManaFurnaceRecipes)AccessorManaFurnaceRecipes.getSmeltingBase());
         if (defManaFurnaceRecipeList.isEmpty()){
-            manaFurnace.getSmeltingList().forEach((input,output) -> {
-                Float exp = manaFurnace.getExperienceList().getOrDefault(output, 0.0f);
-                defManaFurnaceRecipeList.add(new ManaFurnace(input,output,exp));
-            });
+            if (manaFurnace != null) {
+                manaFurnace.getSmeltingList().forEach((input,output) -> {
+                    Float exp = manaFurnace.getExperienceList().getOrDefault(output, 0.0f);
+                    defManaFurnaceRecipeList.add(new ManaFurnace(input,output,exp));
+                });
+            }
         }
 
-        Map SmeltingList = new HashMap<>();
-        Map ExperienceList = new HashMap();
+        var SmeltingList = new HashMap<>();
+        var ExperienceList = new HashMap<>();
 
         defManaFurnaceRecipeList.forEach(recipe -> {
             if (noHasItem(removeManaFurnaceRecipeList, recipe.output)){
@@ -50,8 +52,12 @@ public class ManaFurnaceHandler implements M3TCrtReload {
             ExperienceList.put(output.output,output.exp);
         });
 
-        manaFurnace.setExperienceList(ExperienceList);
-        manaFurnace.setSmeltingList(SmeltingList);
+        if (manaFurnace != null) {
+            manaFurnace.setExperienceList(ExperienceList);
+        }
+        if (manaFurnace != null) {
+            manaFurnace.setSmeltingList(SmeltingList);
+        }
     }
 
     @ZenMethod
@@ -71,8 +77,8 @@ public class ManaFurnaceHandler implements M3TCrtReload {
 
     private static class ManaFurnace{
         private ItemStack input;
-        private ItemStack output;
-        private float exp;
+        private final ItemStack output;
+        private final float exp;
 
         private ManaFurnace(ItemStack input,ItemStack output,Float exp){
             this.input = input;
