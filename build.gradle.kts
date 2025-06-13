@@ -16,10 +16,18 @@ val gitVersion: groovy.lang.Closure<String> by extra
 
 group = "com.circulation.m3t"
 val detectedVersion: String = System.getenv("VERSION") ?: gitVersion()
-version = "0.7.0"
+version = "0.7.1"
 
 // Add a source set for the functional test suite
 val functionalTestSourceSet = sourceSets.create("functionalTest") {}
+
+tasks.jar.configure {
+    manifest {
+        val attributes = manifest.attributes
+        attributes["FMLCorePlugin"] = "com.circulation.m3t.mixins.M3TEarlyMixinLoader"
+        attributes["FMLCorePluginContainsFMLMod"] = true
+    }
+}
 
 repositories {
     flatDir {

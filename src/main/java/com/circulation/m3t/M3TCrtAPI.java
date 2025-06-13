@@ -47,8 +47,8 @@ public class M3TCrtAPI {
                             if (clazz.isAnnotationPresent(ZenClass.class) || clazz.isAnnotationPresent(ZenExpansion.class)) {
                                 MineTweakerAPI.registerClass(clazz);
                                 Object obj = clazz.getDeclaredConstructor().newInstance();
-                                if (obj instanceof M3TCrtReload){
-                                    ReloadHandler.reloads.add((M3TCrtReload) obj);
+                                if (obj instanceof M3TCrtReload crtReload){
+                                    ReloadHandler.reloads.add(crtReload);
                                 }
                                 M3Tweaker.logger.info("loading {}", clazz.getName());
                             }

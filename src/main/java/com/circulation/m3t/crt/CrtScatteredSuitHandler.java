@@ -26,7 +26,7 @@ public class CrtScatteredSuitHandler extends M3TBaubleScatteredSuitHandler.Scatt
     }
 
     @ZenMethod
-    public CrtScatteredSuitHandler addItems(IItemStack[] item){
+    public CrtScatteredSuitHandler addItems(IItemStack... item){
         super.addItems(MineTweakerMC.getItemStacks(item));
         return this;
     }

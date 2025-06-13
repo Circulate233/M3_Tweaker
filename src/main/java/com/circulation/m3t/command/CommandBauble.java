@@ -6,13 +6,12 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 
 import java.util.List;
 
-import static com.circulation.m3t.Util.Function.getText;
 import static project.studio.manametalmod.optool.OpToolCore.magicitemOP;
 
 public class CommandBauble {
@@ -37,7 +36,7 @@ public class CommandBauble {
                     return;
             }
         }
-        sender.addChatMessage(new ChatComponentText(getText("info.m3t.command.false")));
+        sender.addChatMessage(new ChatComponentTranslation("info.m3t.command.false"));
     }
 
     public static List<?> BaubleTab(String[] args) {

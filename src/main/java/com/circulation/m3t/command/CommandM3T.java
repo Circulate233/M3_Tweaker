@@ -4,7 +4,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.ChatComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class CommandM3T extends CommandBase {
                     return;
             }
         }
-        sender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("info.m3t.command.help")));
+        sender.addChatMessage(new ChatComponentTranslation("info.m3t.command.help"));
     }
 
     @Override

@@ -21,6 +21,11 @@ public class M3TRandom {
     public Random random = MMM.rand;
 
     @ZenMethod
+    public static M3TRandom getRandom(long seed){
+        return new M3TRandom(new Random(seed));
+    }
+
+    @ZenMethod
     public static M3TRandom getRandom(){
         return new M3TRandom();
     }

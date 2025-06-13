@@ -1,8 +1,6 @@
 #指令
 info.m3t.command.help=输入/m3t help查看可用指令
 info.m3t.command.false=参数错误
-info.m3t.command.dungeonBox1=地下城尚未初始化，请进入一次
-info.m3t.command.reload=重载完成！
 
 #创造栏
 itemGroup.m3t=自定义饰品

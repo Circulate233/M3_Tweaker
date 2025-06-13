@@ -23,7 +23,7 @@ public class ProduceStoreHandler implements M3TCrtReload {
 
     @ZenMethod
     public static void addStoreItem(String type,IItemStack items,int money) {
-        addStoreItem(ProduceStore.valueOf(type),new Icommodity(MineTweakerMC.getItemStack(items),money));
+        addStoreItem(ProduceStore.valueOf(type.toUpperCase()),new Icommodity(MineTweakerMC.getItemStack(items),money));
     }
 
     @ZenMethod
@@ -32,7 +32,7 @@ public class ProduceStoreHandler implements M3TCrtReload {
         for (int i = 0; i < items.length; i++) {
             list.add(new Icommodity(MineTweakerMC.getItemStack(items[i]),money[i]));
         }
-        addStoreItem(ProduceStore.valueOf(type),list.toArray(new Icommodity[0]));
+        addStoreItem(ProduceStore.valueOf(type.toUpperCase()),list.toArray(new Icommodity[0]));
     }
 
     public static void addStoreItem(ProduceStore type, Icommodity... items){
@@ -48,12 +48,12 @@ public class ProduceStoreHandler implements M3TCrtReload {
 
     @ZenMethod
     public static void removeStoreItem(String type,IItemStack items) {
-        removeStoreItem(ProduceStore.valueOf(type),MineTweakerMC.getItemStack(items));
+        removeStoreItem(ProduceStore.valueOf(type.toUpperCase()),MineTweakerMC.getItemStack(items));
     }
 
     @ZenMethod
     public static void removeStoreItems(String type,IItemStack[] items) {
-        removeStoreItem(ProduceStore.valueOf(type),MineTweakerMC.getItemStacks(items));
+        removeStoreItem(ProduceStore.valueOf(type.toUpperCase()),MineTweakerMC.getItemStacks(items));
     }
 
     public static void removeStoreItem(ProduceStore type, ItemStack... items){
@@ -81,7 +81,7 @@ public class ProduceStoreHandler implements M3TCrtReload {
             List<Icommodity> list = new ArrayList<>();
             if (removeMap.containsKey(value)) {
                 defMap.get(value).forEach(icommodity -> {
-                    if (noHasItem(Arrays.asList(removeMap.get(value).toArray(new ItemStack[0])),icommodity.getItem())){
+                    if (noHasItem(removeMap.get(value),icommodity.getItem())){
                         list.add(icommodity);
                     }
                 });
@@ -98,34 +98,34 @@ public class ProduceStoreHandler implements M3TCrtReload {
     }
 
     public enum ProduceStore {
-        Mining,
-        Farmer,
-        Fishing,
-        Beekeeping,
-        Dragon,
-        GemCraft,
-        Casting,
-        Cooking,
-        Tailor,
-        Brewing;
+        MINING,
+        FARMER,
+        FISHING,
+        BEEKEEPING,
+        DRAGON,
+        GEMCRAFT,
+        CASTING,
+        COOKING,
+        TAILOR,
+        BREWING;
 
         public List<Icommodity> getStore() {
             return switch (this) {
-                case Mining -> ManaMetalAPI.Mine_Store;
-                case Farmer -> ManaMetalAPI.Farm_Store;
-                case Fishing -> ManaMetalAPI.Fish_Store;
-                case Beekeeping -> ManaMetalAPI.Beekeeping_Store;
-                case Dragon -> ManaMetalAPI.Dragon_Store;
-                case GemCraft -> ManaMetalAPI.Gem_Store;
-                case Casting -> ManaMetalAPI.Forge_Store;
-                case Cooking -> ManaMetalAPI.Cooking_Store;
-                case Tailor -> ManaMetalAPI.Textile_Store;
-                case Brewing -> ManaMetalAPI.brewing_Store;
+                case MINING -> ManaMetalAPI.Mine_Store;
+                case FARMER -> ManaMetalAPI.Farm_Store;
+                case FISHING -> ManaMetalAPI.Fish_Store;
+                case BEEKEEPING -> ManaMetalAPI.Beekeeping_Store;
+                case DRAGON -> ManaMetalAPI.Dragon_Store;
+                case GEMCRAFT -> ManaMetalAPI.Gem_Store;
+                case CASTING -> ManaMetalAPI.Forge_Store;
+                case COOKING -> ManaMetalAPI.Cooking_Store;
+                case TAILOR -> ManaMetalAPI.Textile_Store;
+                case BREWING -> ManaMetalAPI.brewing_Store;
             };
         }
 
         public static List<Icommodity> getStore(String name){
-            return ProduceStore.valueOf(name).getStore();
+            return ProduceStore.valueOf(name.toUpperCase()).getStore();
         }
     }
 }

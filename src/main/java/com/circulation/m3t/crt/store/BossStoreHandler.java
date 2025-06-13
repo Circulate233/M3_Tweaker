@@ -77,7 +77,7 @@ public class BossStoreHandler implements M3TCrtReload {
 
         List<Icommodity> list = new ArrayList<>();
         def.forEach(item -> {
-            if (noHasItem(Arrays.asList(removeBossStore.toArray(new ItemStack[0])), item.getItem())) {
+            if (noHasItem(removeBossStore, item.getItem())) {
                 list.add(item);
             }
         });
@@ -87,7 +87,7 @@ public class BossStoreHandler implements M3TCrtReload {
 
         List<Icommodity> listLV2 = new ArrayList<>();
         defLV2.forEach(item -> {
-            if (noHasItem(Arrays.asList(removeBossStoreLV2.toArray(new ItemStack[0])), item.getItem())) {
+            if (noHasItem(removeBossStoreLV2, item.getItem())) {
                 listLV2.add(item);
             }
         });

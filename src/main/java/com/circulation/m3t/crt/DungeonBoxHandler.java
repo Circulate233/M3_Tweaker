@@ -88,7 +88,7 @@ public class DungeonBoxHandler implements M3TCrtReload {
     public static void removaItem(IItemStack iitem,String name){
         ItemStack item = MineTweakerMC.getItemStack(iitem);
         if (item == null)return;
-        var i = DungeonBox.getInstance(name);
+        var i = DungeonBox.getInstance(name.toUpperCase());
         if (i == null)return;
         i.removeItems.add(item);
     }
