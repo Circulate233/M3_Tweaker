@@ -29,6 +29,20 @@ tasks.jar.configure {
     }
 }
 
+minecraft {
+    val args = mutableListOf("-ea:${project.group}")
+    // Mixin args
+    args.add("-Dmixin.hotSwap=true")
+    args.add("-Dmixin.checks.interfaces=true")
+    args.add("-Dmixin.debug.export=true")
+    //args.add("-Dlegacy.debugClassLoading=true")
+    //args.add("-Dlegacy.debugClassLoadingSave=true")
+    extraRunJvmArguments.addAll(args)
+
+    // If needed, add extra tweaker classes like for mixins.
+    extraTweakClasses.add("org.spongepowered.asm.launch.MixinTweaker")
+}
+
 repositories {
     flatDir {
         dirs("libs")
@@ -102,7 +116,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    val mixin : String = modUtils.enableMixins("curse.maven:!unimixins-826970:5858384", "mixins.m3e_core.refmap.json").toString()
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+
+    val mixin : String = modUtils.enableMixins("curse.maven:!unimixins-826970:5858384", "mixins.m3t.refmap.json").toString()
     api (mixin) {
         isTransitive = false
     }
