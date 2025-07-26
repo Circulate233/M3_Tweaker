@@ -35,7 +35,7 @@ public class M3TBaublesSuitHandler {
             NBTTagCompound playerNbt = player.getEntityData();
             String suitName = Item.itemRegistry.getNameForObject(event.item.getItem());
             if (map.containsKey(suitName)) {
-                int newE = 0;
+                int newE = 1;
                 if (!player.getEntityData().hasKey(nbtName)) {
                     playerNbt.setTag(nbtName, new NBTTagCompound());
                     playerNbt.getCompoundTag(nbtName).setInteger(suitName, 1);

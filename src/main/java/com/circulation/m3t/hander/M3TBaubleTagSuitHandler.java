@@ -33,7 +33,7 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
                 String suitName = event.item.getTagCompound().getString(nbtName);
                 if (!Tags.containsKey(suitName))return;
                 if (map.containsKey(suitName)) {
-                    int newE = 0;
+                    int newE = 1;
                     if (!player.getEntityData().hasKey(nbtName)) {
                         playerNbt.setTag(nbtName, new NBTTagCompound());
                         playerNbt.getCompoundTag(nbtName).setInteger(suitName, 1);
@@ -44,7 +44,7 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
                             suits.setInteger(suitName, suits.getInteger(suitName) + 1);//更新套装状态
                             newE = suits.getInteger(suitName);
                         } else {
-                            suits.setInteger(suitName, 1);
+                            suits.setInteger(suitName,1);
                         }
                     }
                     network.sendTo(new UpdateBauble(playerNbt.getCompoundTag(nbtName)), (EntityPlayerMP) player);//同步客户端防止显示问题

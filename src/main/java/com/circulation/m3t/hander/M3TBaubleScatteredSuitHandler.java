@@ -33,7 +33,7 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
             NBTTagCompound playerNbt = player.getEntityData();
             if (Scattereds.containsKey(Scattered.getScattered(event.item))){
                 for (String suitName : Scattereds.get(Scattered.getScattered(event.item))) {
-                    int newE = 0;
+                    int newE = 1;
                     if (!player.getEntityData().hasKey(nbtName)) {
                         playerNbt.setTag(nbtName, new NBTTagCompound());
                         playerNbt.getCompoundTag(nbtName).setInteger(suitName, 1);

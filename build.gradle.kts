@@ -188,7 +188,7 @@ gradlePlugin {
 
 buildConfig {
     useJavaOutput()
-    this.packageName = "com.gtnewhorizons.gtnhgradle"
+    this.packageName = "com.circulation.m3t"
     buildConfigField("VERSION", detectedVersion)
 }
 
