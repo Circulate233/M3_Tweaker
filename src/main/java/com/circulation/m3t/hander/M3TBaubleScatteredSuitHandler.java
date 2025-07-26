@@ -20,7 +20,7 @@ import static com.circulation.m3t.M3Tweaker.network;
 
 public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
 
-    public static Map<Scattered,List<String>> Scattereds = new HashMap<>();
+    public static final Map<Scattered,List<String>> Scattereds = new HashMap<>();
 
     public static void reload() {
         Scattereds.clear();
@@ -36,7 +36,7 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
                     int newE = 0;
                     if (!player.getEntityData().hasKey(nbtName)) {
                         playerNbt.setTag(nbtName, new NBTTagCompound());
-                        playerNbt.getCompoundTag(nbtName).setInteger(suitName, 0);
+                        playerNbt.getCompoundTag(nbtName).setInteger(suitName, 1);
                     } else {
                         NBTTagCompound suits = playerNbt.getCompoundTag(nbtName);
                         if (suits.hasKey(suitName)) {
@@ -61,17 +61,17 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
             if (Scattereds.containsKey(Scattered.getScattered(event.item))){
                 for (String suitName : Scattereds.get(Scattered.getScattered(event.item))) {
                     int newE = 0;
-                    if (!player.getEntityData().hasKey(nbtName)) {
-                        playerNbt.setTag(nbtName, new NBTTagCompound());
-                        playerNbt.getCompoundTag(nbtName).setInteger(suitName, 0);
-                    } else {
+                    if (player.getEntityData().hasKey(nbtName)) {
                         NBTTagCompound suits = playerNbt.getCompoundTag(nbtName);
                         if (suits.hasKey(suitName)) {
                             NbtBaubles.setEffect(effmap.get(suitName).get(getSuitQuantity(suitName, player)).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), true, player);
-                            suits.setInteger(suitName, Math.max(0, suits.getInteger(suitName) - 1));
-                            newE = suits.getInteger(suitName);
-                        } else {
-                            suits.setInteger(suitName, 0);
+                            final var level = suits.getInteger(suitName) - 1;
+                            if (level > 0) {
+                                suits.setInteger(suitName, level);
+                                newE = suits.getInteger(suitName);
+                            } else {
+                                suits.removeTag(suitName);
+                            }
                         }
                     }
                     NbtBaubles.setEffect(effmap.get(suitName).get(newE).effects, MMM.getEntityNBT(player), new ItemStack(Items.apple), false, player);

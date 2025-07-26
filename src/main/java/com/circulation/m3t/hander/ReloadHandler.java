@@ -10,19 +10,19 @@ public class ReloadHandler {
 
     public static List<M3TCrtReload> reloads = new ArrayList<>();
 
-    public static void M3TRecipe(){
+    public static void M3TReload(){
         reloads.forEach(M3TCrtReload::reload);
         M3TBaubleTagSuitHandler.reload();
         M3TBaubleScatteredSuitHandler.reload();
         M3TBaublesSuitHandler.reload();
     }
 
-    public static void M3TPostRecipe(){
+    public static void M3TPostReload(){
         reloads.forEach(M3TCrtReload::postReload);
     }
 
     public static void register() {
-        MineTweakerImplementationAPI.onReloadEvent(event -> M3TRecipe());
-        MineTweakerImplementationAPI.onPostReload(event -> M3TPostRecipe());
+        MineTweakerImplementationAPI.onReloadEvent(event -> M3TReload());
+        MineTweakerImplementationAPI.onPostReload(event -> M3TPostReload());
     }
 }

@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "MMM.MixinIMagicItemClient",
+    "MMM.MixinMagicItemPearlClient",
     "MMM.MixinItemAntiquitiesBase"
   ],
   "mixins": [
@@ -13,6 +14,7 @@
     "MMM.AccessorDarkSteelRecipes",
     "MMM.AccessorIronWroughtFurnaceRecipes",
     "MMM.AccessorManaFurnaceRecipes",
+    "MMM.MixinEventFx",
     "MMM.MixinIMagicItem",
     "MMM.MixinItemToolBackpackManaItem",
     "MMM.MixinMagicItemOP",

@@ -16,7 +16,7 @@ val gitVersion: groovy.lang.Closure<String> by extra
 
 group = "com.circulation.m3t"
 val detectedVersion: String = System.getenv("VERSION") ?: gitVersion()
-version = "0.7.1"
+version = "0.7.3"
 
 // Add a source set for the functional test suite
 val functionalTestSourceSet = sourceSets.create("functionalTest") {}
@@ -124,7 +124,7 @@ dependencies {
     }
 
     implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
-    implementation(rfg.deobf("curse.maven:manametal-531708:6620488"))
+    implementation(rfg.deobf("curse.maven:manametal-531708:6752683"))
     implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
     implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
     implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))

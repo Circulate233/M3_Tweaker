@@ -51,7 +51,7 @@ public class M3Tweaker {
     public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) throws IOException {
+    public void preInit(FMLPreInitializationEvent event) {
         int start = 0;
 
         network.registerMessage(UpdateBauble.Handler.class, UpdateBauble.class, start++, Side.CLIENT);
@@ -60,9 +60,13 @@ public class M3Tweaker {
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) throws IOException {
+    public void init(FMLInitializationEvent event) {
         proxy.init(event);
-        M3TCrtAPI.register();
+        try {
+            M3TCrtAPI.register();
+        } catch (IOException ignored){
+
+        }
     }
 
     @Mod.EventHandler

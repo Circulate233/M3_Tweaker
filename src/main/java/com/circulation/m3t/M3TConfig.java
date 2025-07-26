@@ -34,18 +34,22 @@ public class M3TConfig {
         config = new Configuration(new File(configFile, "M3T.cfg"));
     }
 
-    public static void readConfig() throws IOException {
+    public static void readConfig() {
         readCfg();
         readBaubles();
     }
 
-    public static void readBaubles() throws IOException {
+    public static void readBaubles() {
         Path baubles = configFile.toPath().resolve("M3TBaubles.json");
 
         Gson baublesGson = (new GsonBuilder()).disableHtmlEscaping().setPrettyPrinting().create();
 
         if (Files.exists(baubles)) {
-            M3TConfig.baubles.addAll(baublesGson.fromJson(new String(Files.readAllBytes(baubles)), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
+            try {
+                M3TConfig.baubles.addAll(baublesGson.fromJson(new String(Files.readAllBytes(baubles)), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
+            } catch (IOException ignored){
+
+            }
         } else {
             Map<Integer,Float> map = new HashMap<>();
             map.put(10,50.0f);
@@ -53,7 +57,11 @@ public class M3TConfig {
             map.put(3,50.0f);
             M3TConfig.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond:0", (short) 10,14,10,999,map));
             M3TConfig.baubles.add(new CustomBaubles.Baubles("amuck","item.ddd","item.aaa", "def:m3t:amuck", (short) 27,7,10,784,map));
-            Files.write(baubles, baublesGson.toJson(M3TConfig.baubles).getBytes());
+            try {
+                Files.write(baubles, baublesGson.toJson(M3TConfig.baubles).getBytes());
+            } catch (IOException ignored){
+
+            }
         }
 
     }

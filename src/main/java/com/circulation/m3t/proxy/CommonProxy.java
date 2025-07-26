@@ -9,11 +9,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-import java.io.IOException;
-
 public class CommonProxy {
 
-    public void preInit(FMLPreInitializationEvent event) throws IOException {
+    public void preInit(FMLPreInitializationEvent event) {
         M3TConfig.readConfig();
         CustomBaubles.register(M3TConfig.baubles);
         FMLCommonHandler.instance().bus().register(BaublesRegisterHandler.INSTANCE);
@@ -29,6 +27,5 @@ public class CommonProxy {
 
     public void postInit(FMLPostInitializationEvent event) {
     }
-
 
 }
