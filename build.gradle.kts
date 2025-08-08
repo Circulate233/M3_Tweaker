@@ -80,6 +80,9 @@ repositories {
         name = "GTNH Maven"
         url = uri("https://nexus.gtnewhorizons.com/repository/public/")
     }
+    maven {
+        url = uri("https://jitpack.io")
+    }
     mavenCentral()
     gradlePluginPortal()
 }
@@ -118,20 +121,23 @@ dependencies {
 
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
-    val mixin : String = modUtils.enableMixins("curse.maven:!unimixins-826970:5858384", "mixins.m3t.refmap.json").toString()
+    val mixin : String = modUtils.enableMixins("curse.maven:!unimixins-826970:6761003", "mixins.m3t.refmap.json").toString()
     api (mixin) {
         isTransitive = false
     }
 
+    implementation("com.github.LegacyModdingMC.UniMixins:unimixins-mixinbooterlegacy-1.7.10:0.1.22:dev")
+    implementation("com.github.LegacyModdingMC.UniMixins:unimixins-mixinextras-1.7.10:0.1.22:dev")
+
+    implementation("com.github.GTNewHorizons:CraftTweaker:3.4.2:dev")
     implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
     implementation(rfg.deobf("curse.maven:manametal-531708:6752683"))
-    implementation(rfg.deobf("curse.maven:notenoughitems-gtnh-358228:6171985"))
+    implementation("com.github.GTNewHorizons:CodeChickenCore:1.4.3:dev")
+    implementation("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
     implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
     implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))
-    implementation(rfg.deobf("curse.maven:codechickencore-unofficial-746279:6070102"))
     implementation(rfg.deobf("curse.maven:smooth-285742:2614474"))
     implementation(rfg.deobf("curse.maven:forge-nbtedit-for-1-7-10-381388:2949679"))
-    implementation(rfg.deobf("curse.maven:CraftTweaker-239197:2838720"))
 }
 
 gradlePlugin {

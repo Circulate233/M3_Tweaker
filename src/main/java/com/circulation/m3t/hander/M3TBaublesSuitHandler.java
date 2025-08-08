@@ -54,7 +54,6 @@ public class M3TBaublesSuitHandler {
             }
         });
 
-        //几乎同上
         Function.onBaubleDisrobePostEvent(event -> {
             EntityPlayer player = event.player;
             if (player.worldObj.isRemote)return;

@@ -53,7 +53,6 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
             }
         });
 
-        //几乎同上
         Function.onBaubleDisrobePostEvent(event -> {
             EntityPlayer player = event.player;
             if (player.worldObj.isRemote)return;

@@ -42,7 +42,7 @@ public class M3TConfig {
     public static void readBaubles() {
         Path baubles = configFile.toPath().resolve("M3TBaubles.json");
 
-        Gson baublesGson = (new GsonBuilder()).disableHtmlEscaping().setPrettyPrinting().create();
+        Gson baublesGson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
         if (Files.exists(baubles)) {
             try {
