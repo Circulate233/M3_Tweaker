@@ -6,8 +6,8 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "MMM.MixinIMagicItemClient",
-    "MMM.MixinMagicItemPearlClient",
-    "MMM.MixinItemAntiquitiesBase"
+    "MMM.MixinItemAntiquitiesBase",
+    "MMM.MixinMagicItemPearlClient"
   ],
   "mixins": [
     "crt.AccessorMCDimension",

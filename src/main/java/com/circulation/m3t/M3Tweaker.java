@@ -27,14 +27,14 @@ import java.io.IOException;
 public class M3Tweaker {
 
     public static final String MOD_ID = "m3t";
-    public static final String VERSION = "0.7.0";
+    public static final String VERSION = BuildConfig.VERSION;
 
     @Mod.Instance(MOD_ID)
     public static M3Tweaker instance = new M3Tweaker();
 
     public static final String CLIENT_PROXY = "com.circulation.m3t.proxy.ClientProxy";
     public static final String COMMON_PROXY = "com.circulation.m3t.proxy.CommonProxy";
-    public static final CreativeTabs CreativeTab = new CreativeTabs(MOD_ID){
+    public static final CreativeTabs CreativeTab = new CreativeTabs(MOD_ID) {
 
         @Override
         public Item getTabIconItem() {
@@ -64,7 +64,7 @@ public class M3Tweaker {
         proxy.init(event);
         try {
             M3TCrtAPI.register();
-        } catch (IOException ignored){
+        } catch (IOException ignored) {
 
         }
     }
@@ -75,7 +75,7 @@ public class M3Tweaker {
     }
 
     @Mod.EventHandler
-    public void serverLoad(FMLServerStartingEvent event){
+    public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(CommandM3T.INSTANCE);
     }
 

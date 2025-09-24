@@ -2,7 +2,9 @@ package com.circulation.m3t.mixins.MMM;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 import project.studio.manametalmod.MMM;
 
 import java.util.Set;
@@ -17,8 +19,8 @@ public abstract class MixinMMM {
     @Overwrite
     public static final boolean isNBTTagCompoundEqual(NBTTagCompound nbt1, NBTTagCompound nbt2) {
         if (nbt2 == null) return true;
-        else if (nbt1 != null){
-            return m3Tweaker$containsAll(nbt1,nbt2);
+        else if (nbt1 != null) {
+            return m3Tweaker$containsAll(nbt1, nbt2);
         }
         return false;
     }
@@ -49,7 +51,7 @@ public abstract class MixinMMM {
         }
 
         if (need.getId() == 10) {
-            return m3Tweaker$containsAll((NBTTagCompound) other ,(NBTTagCompound) need);
+            return m3Tweaker$containsAll((NBTTagCompound) other, (NBTTagCompound) need);
         } else {
             return need.equals(other);
         }

@@ -2,7 +2,11 @@ package com.circulation.m3t.proxy;
 
 import com.circulation.m3t.M3TConfig;
 import com.circulation.m3t.Util.RegisterItem;
-import com.circulation.m3t.hander.*;
+import com.circulation.m3t.hander.BaublesRegisterHandler;
+import com.circulation.m3t.hander.M3TBaubleScatteredSuitHandler;
+import com.circulation.m3t.hander.M3TBaubleTagSuitHandler;
+import com.circulation.m3t.hander.M3TBaublesSuitHandler;
+import com.circulation.m3t.hander.ReloadHandler;
 import com.circulation.m3t.item.CustomBaubles;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;

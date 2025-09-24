@@ -2,6 +2,8 @@ package com.circulation.m3t.crt.store;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -10,24 +12,26 @@ import project.studio.manametalmod.rpg.BossStore;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 import static com.circulation.m3t.Util.Function.noHasItem;
 
 @ZenClass(M3TCrtAPI.CrtClass + "BossStore")
 public class BossStoreHandler implements M3TCrtReload {
 
-    private static final List<Icommodity> addBossStore = new ArrayList<>();
-    private static final Set<ItemStack> removeBossStore = new HashSet<>();
+    private static final List<Icommodity> addBossStore = new ObjectArrayList<>();
+    private static final Set<ItemStack> removeBossStore = new ReferenceOpenHashSet<>();
 
-    private static final List<Icommodity> addBossStoreLV2 = new ArrayList<>();
-    private static final Set<ItemStack> removeBossStoreLV2 = new HashSet<>();
+    private static final List<Icommodity> addBossStoreLV2 = new ObjectArrayList<>();
+    private static final Set<ItemStack> removeBossStoreLV2 = new ReferenceOpenHashSet<>();
 
-    protected static List<Icommodity> def = new ArrayList<>();
-    protected static List<Icommodity> defLV2 = new ArrayList<>();
+    protected static List<Icommodity> def = new ObjectArrayList<>();
+    protected static List<Icommodity> defLV2 = new ObjectArrayList<>();
 
     @ZenMethod
-    public static void addItem(IItemStack item, int Money, boolean isLv2){
+    public static void addItem(IItemStack item, int Money, boolean isLv2) {
         if (isLv2) {
             addBossStoreLV2.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
         } else {
@@ -37,10 +41,10 @@ public class BossStoreHandler implements M3TCrtReload {
     }
 
     @ZenMethod
-    public static void addItems(IItemStack[] items,int[] Money, boolean isLv2){
-        List<Icommodity> list = new ArrayList<>();
+    public static void addItems(IItemStack[] items, int[] Money, boolean isLv2) {
+        List<Icommodity> list = new ObjectArrayList<>();
         for (int i = 0; i < items.length; i++) {
-            list.add(new Icommodity(MineTweakerMC.getItemStack(items[i]),Money[i]));
+            list.add(new Icommodity(MineTweakerMC.getItemStack(items[i]), Money[i]));
         }
         if (isLv2) {
             addBossStoreLV2.addAll(list);
@@ -51,7 +55,7 @@ public class BossStoreHandler implements M3TCrtReload {
     }
 
     @ZenMethod
-    public static void removeItems(IItemStack[] items, boolean isLv2){
+    public static void removeItems(IItemStack[] items, boolean isLv2) {
         if (isLv2) {
             removeBossStoreLV2.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
         } else {
@@ -61,7 +65,7 @@ public class BossStoreHandler implements M3TCrtReload {
     }
 
     @ZenMethod
-    public static void removeItem(IItemStack item, boolean isLv2){
+    public static void removeItem(IItemStack item, boolean isLv2) {
         if (isLv2) {
             removeBossStoreLV2.add(MineTweakerMC.getItemStack(item));
         } else {
@@ -75,7 +79,7 @@ public class BossStoreHandler implements M3TCrtReload {
         if (def.isEmpty()) def.addAll(BossStore.Items1);
         if (defLV2.isEmpty()) defLV2.addAll(BossStore.Items2);
 
-        List<Icommodity> list = new ArrayList<>();
+        List<Icommodity> list = new ObjectArrayList<>();
         def.forEach(item -> {
             if (noHasItem(removeBossStore, item.getItem())) {
                 list.add(item);
@@ -85,7 +89,7 @@ public class BossStoreHandler implements M3TCrtReload {
         BossStore.Items1.clear();
         BossStore.Items1.addAll(list);
 
-        List<Icommodity> listLV2 = new ArrayList<>();
+        List<Icommodity> listLV2 = new ObjectArrayList<>();
         defLV2.forEach(item -> {
             if (noHasItem(removeBossStoreLV2, item.getItem())) {
                 listLV2.add(item);

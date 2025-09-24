@@ -2,6 +2,12 @@ package com.circulation.m3t.hander;
 
 import com.circulation.m3t.Util.Function;
 import com.circulation.m3t.network.UpdateBauble;
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ReferenceArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ReferenceMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -13,14 +19,16 @@ import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static com.circulation.m3t.M3Tweaker.network;
 
 public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
 
-    public static final Map<Scattered,List<String>> Scattereds = new HashMap<>();
+    public static final Map<Scattered, List<String>> Scattereds = new Reference2ObjectOpenHashMap<>();
 
     public static void reload() {
         Scattereds.clear();
@@ -29,9 +37,9 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
     public static void registerEvents() {
         Function.onBaubleWearPostEvent(event -> {
             EntityPlayer player = event.player;
-            if (player.worldObj.isRemote)return;
+            if (player.worldObj.isRemote) return;
             NBTTagCompound playerNbt = player.getEntityData();
-            if (Scattereds.containsKey(Scattered.getScattered(event.item))){
+            if (Scattereds.containsKey(Scattered.getScattered(event.item))) {
                 for (String suitName : Scattereds.get(Scattered.getScattered(event.item))) {
                     int newE = 1;
                     if (!player.getEntityData().hasKey(nbtName)) {
@@ -55,9 +63,9 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
 
         Function.onBaubleDisrobePostEvent(event -> {
             EntityPlayer player = event.player;
-            if (player.worldObj.isRemote)return;
+            if (player.worldObj.isRemote) return;
             NBTTagCompound playerNbt = player.getEntityData();
-            if (Scattereds.containsKey(Scattered.getScattered(event.item))){
+            if (Scattereds.containsKey(Scattered.getScattered(event.item))) {
                 for (String suitName : Scattereds.get(Scattered.getScattered(event.item))) {
                     int newE = 0;
                     if (player.getEntityData().hasKey(nbtName)) {
@@ -83,13 +91,13 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
     public static class ScatteredSuitHandler {
         private final String suitName;
         private final List<Scattered> items = new ArrayList<>();
-        private final Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
-        private final Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
+        private final Int2ObjectMap<BaublesSuit> map = new Int2ObjectLinkedOpenHashMap<>();
+        private final Int2ObjectMap<BaublesSuit> effmap = new Int2ObjectLinkedOpenHashMap<>();
 
         protected ScatteredSuitHandler(String suitName) {
             this.suitName = suitName;
             for (int i = 0; i < ContainerManaItem.slots.length + 1; i++) {
-                effmap.put(i,new BaublesSuit(suitName, Collections.emptyList()));
+                effmap.put(i, new BaublesSuit(suitName, Collections.emptyList()));
             }
         }
 
@@ -97,12 +105,12 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
             return new ScatteredSuitHandler(name);
         }
 
-        public ScatteredSuitHandler addItem(ItemStack item){
+        public ScatteredSuitHandler addItem(ItemStack item) {
             this.items.add(Scattered.getScattered(item));
             return this;
         }
 
-        public ScatteredSuitHandler addItems(ItemStack... item){
+        public ScatteredSuitHandler addItems(ItemStack... item) {
             for (ItemStack itemStack : item) {
                 this.items.add(Scattered.getScattered(itemStack));
             }
@@ -110,43 +118,42 @@ public class M3TBaubleScatteredSuitHandler extends M3TBaublesSuitHandler {
         }
 
         public ScatteredSuitHandler addSuit(int quantity, String tooltip, List<IMagicEffect> effects) {
-            Map<Integer, BaublesSuit> mapp = new HashMap<>();
-            BaublesSuit suit = new BaublesSuit(tooltip,effects);
-            this.map.put(quantity,suit);
+            BaublesSuit suit = new BaublesSuit(tooltip, effects);
+            this.map.put(quantity, suit);
             for (int i = quantity; i < ContainerManaItem.slots.length + 1; i++) {
-                this.effmap.put(i,suit);
+                this.effmap.put(i, suit);
             }
             return this;
         }
 
-        public void register(){
+        public void register() {
             items.forEach(item -> {
-                if (Scattereds.containsKey(item)){
+                if (Scattereds.containsKey(item)) {
                     List<String> list = Scattereds.get(item);
                     list.add(this.suitName);
-                    Scattereds.put(item,list);
+                    Scattereds.put(item, list);
                 } else {
-                    Scattereds.put(item,new ArrayList<>(Collections.singletonList(this.suitName)));
+                    Scattereds.put(item, new ObjectArrayList<>(Collections.singletonList(this.suitName)));
                 }
             });
-            M3TBaublesSuitHandler.map.put(this.suitName,map);
-            M3TBaublesSuitHandler.effmap.put(this.suitName,effmap);
+            M3TBaublesSuitHandler.map.put(this.suitName, map);
+            M3TBaublesSuitHandler.effmap.put(this.suitName, effmap);
         }
     }
 
-    public static class Scattered{
+    public static class Scattered {
         public Item item;
         public int meta;
 
-        private static final Map<Item, Map<Integer, Scattered>> keyPool = new HashMap<>();
+        private static final Map<Item, Int2ReferenceMap<Scattered>> keyPool = new Reference2ObjectOpenHashMap<>();
 
-        private Scattered(ItemStack itemStack){
+        private Scattered(ItemStack itemStack) {
             this.item = itemStack.getItem();
             this.meta = itemStack.getItemDamage();
         }
 
-        public static Scattered getScattered(ItemStack item){
-            return keyPool.computeIfAbsent(item.getItem(), k -> new ConcurrentHashMap<>())
+        public static Scattered getScattered(ItemStack item) {
+            return keyPool.computeIfAbsent(item.getItem(), k -> new Int2ReferenceArrayMap<>())
                 .computeIfAbsent(item.getItemDamage(), m -> new Scattered(item));
         }
     }

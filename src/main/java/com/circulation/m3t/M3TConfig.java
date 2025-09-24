@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.common.Loader;
+import it.unimi.dsi.fastutil.ints.Int2FloatMap;
+import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
@@ -12,9 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class M3TConfig {
 
@@ -51,7 +51,7 @@ public class M3TConfig {
 
             }
         } else {
-            Map<Integer,Float> map = new HashMap<>();
+            Int2FloatMap map = new Int2FloatOpenHashMap();
             map.put(10,50.0f);
             map.put(7,50.0f);
             map.put(3,50.0f);

@@ -1,39 +1,44 @@
 package com.circulation.m3t.hander;
 
 import com.circulation.m3t.M3Tweaker;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import project.studio.manametalmod.core.Icommodity;
 import project.studio.manametalmod.npc.NpcStoreType;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 import static com.circulation.m3t.Util.Function.getItemStack;
 
 public class NPCHandler {
 
-    public static Map<NpcStoreType, Set<ItemStack>> removeMap = new HashMap<>();
-    public static Map<NpcStoreType, Set<Icommodity>> addMap = new HashMap<>();
+    public static Map<NpcStoreType, Set<ItemStack>> removeMap = new Reference2ObjectOpenHashMap<>();
+    public static Map<NpcStoreType, Set<Icommodity>> addMap = new Reference2ObjectOpenHashMap<>();
 
-    public static void removeItem(NpcStoreType type, ItemStack... items){
-        final Set<ItemStack> items1 = new HashSet<>(Arrays.asList(items));
-        if (removeMap.containsKey(type)){
+    public static void removeItem(NpcStoreType type, ItemStack... items) {
+        final Set<ItemStack> items1 = new ReferenceOpenHashSet<>(items);
+        if (removeMap.containsKey(type)) {
             final Set<ItemStack> set = removeMap.get(type);
             set.addAll(items1);
-            removeMap.put(type,set);
+            removeMap.put(type, set);
         } else {
-            removeMap.put(type,items1);
+            removeMap.put(type, items1);
         }
     }
 
-    public static void removeItem(NpcStoreType type,Item... items){
-        final Set<ItemStack> items1 = new HashSet<>();
+    public static void removeItem(NpcStoreType type, Item... items) {
+        final Set<ItemStack> items1 = new ReferenceOpenHashSet<>();
         Arrays.asList(items).forEach(item -> items1.add(new ItemStack(item)));
-        removeItem(type,items1.toArray(new ItemStack[0]));
+        removeItem(type, items1.toArray(new ItemStack[0]));
     }
 
-    public static void removeItem(NpcStoreType type,String... items){
-        final Set<ItemStack> items1 = new HashSet<>();
+    public static void removeItem(NpcStoreType type, String... items) {
+        final Set<ItemStack> items1 = new ReferenceOpenHashSet<>();
         Arrays.asList(items).forEach(itemid -> {
             final ItemStack item = getItemStack(itemid);
             if (item == null) {
@@ -48,29 +53,28 @@ public class NPCHandler {
         }
     }
 
-    public static void removeItem(int typeID,Item... items){
+    public static void removeItem(int typeID, Item... items) {
         NpcStoreType type = NpcStoreType.getTypeFromID(typeID);
-        final Set<ItemStack> items1 = new HashSet<>();
+        final Set<ItemStack> items1 = new ReferenceOpenHashSet<>();
         Arrays.asList(items).forEach(item -> items1.add(new ItemStack(item)));
-        removeItem(type,items1.toArray(new ItemStack[0]));
+        removeItem(type, items1.toArray(new ItemStack[0]));
     }
 
-    public static void removeItem(int typeID,ItemStack... items){
+    public static void removeItem(int typeID, ItemStack... items) {
         NpcStoreType type = NpcStoreType.getTypeFromID(typeID);
-        final Set<ItemStack> items1 = new HashSet<>(Arrays.asList(items));
-        removeItem(type,items1.toArray(new ItemStack[0]));
+        final Set<ItemStack> items1 = new ReferenceOpenHashSet<>(items);
+        removeItem(type, items1.toArray(new ItemStack[0]));
     }
 
-    public static void removeItem(int typeID,String... items){
+    public static void removeItem(int typeID, String... items) {
         NpcStoreType type = NpcStoreType.getTypeFromID(typeID);
-        final Set<ItemStack> items1 = new HashSet<>();
+        final Set<ItemStack> items1 = new ReferenceOpenHashSet<>();
         Arrays.asList(items).forEach(itemid -> {
             final ItemStack item = getItemStack(itemid);
             if (item == null) {
                 com.circulation.m3t.M3Tweaker.logger.info("{} not a correct item ID", itemid);
                 return;
             }
-            final ItemStack item1 = item.splitStack(1);
             items1.add(item);
         });
         if (!items1.isEmpty()) {
@@ -78,19 +82,19 @@ public class NPCHandler {
         }
     }
 
-    public static void addItem(NpcStoreType type, Icommodity... items){
-        final Set<Icommodity> icommoditys = new HashSet<>(Arrays.asList(items));
-        if (addMap.containsKey(type)){
+    public static void addItem(NpcStoreType type, Icommodity... items) {
+        final Set<Icommodity> icommoditys = new ObjectOpenHashSet<>(items);
+        if (addMap.containsKey(type)) {
             final Set<Icommodity> list = addMap.get(type);
             list.addAll(icommoditys);
-            addMap.put(type,list);
+            addMap.put(type, list);
         } else {
-            addMap.put(type,icommoditys);
+            addMap.put(type, icommoditys);
         }
     }
 
     public static void addItem(NpcStoreType type, Object[][] icommodityss) {
-        final Set<Icommodity> icommoditys = new HashSet<>();
+        final Set<Icommodity> icommoditys = new ObjectOpenHashSet<>();
         Arrays.asList(icommodityss).forEach(icommodityO -> {
             Icommodity icommodity = new Icommodity();
             if (icommodityO[0] instanceof String) {
@@ -111,8 +115,8 @@ public class NPCHandler {
         addItem(type, icommoditys.toArray(new Icommodity[0]));
     }
 
-    public static void addItem(NpcStoreType type, String... icommodityss){
-        final Set<Icommodity> icommoditys = new HashSet<>();
+    public static void addItem(NpcStoreType type, String... icommodityss) {
+        final Set<Icommodity> icommoditys = new ObjectOpenHashSet<>();
         Arrays.asList(icommodityss).forEach(icommodityS -> {
             Icommodity icommodity = new Icommodity();
             String[] parts = icommodityS.split(";");
@@ -122,7 +126,7 @@ public class NPCHandler {
             }
             icommodity.setItem(getItemStack(parts[0]));
             icommodity.setPrice(Integer.parseInt(parts[1]));
-            if (parts.length > 3){
+            if (parts.length > 3) {
                 icommodity.setLimit(Integer.parseInt(parts[2]) != 1);
                 if (parts.length > 4) {
                     icommodity.setMaxCount(Integer.parseInt(parts[3]));
@@ -130,24 +134,24 @@ public class NPCHandler {
             }
             icommoditys.add(icommodity);
         });
-        addItem(type,icommoditys.toArray(new Icommodity[0]));
+        addItem(type, icommoditys.toArray(new Icommodity[0]));
     }
 
-    public static void addItem(int typeID, Icommodity... items){
+    public static void addItem(int typeID, Icommodity... items) {
         NpcStoreType type = NpcStoreType.getTypeFromID(typeID);
-        final Set<Icommodity> icommoditys = new HashSet<>(Arrays.asList(items));
-        if (addMap.containsKey(type)){
+        final Set<Icommodity> icommoditys = new ObjectOpenHashSet<>(items);
+        if (addMap.containsKey(type)) {
             final Set<Icommodity> list = addMap.get(type);
             list.addAll(icommoditys);
-            addMap.put(type,list);
+            addMap.put(type, list);
         } else {
-            addMap.put(type,icommoditys);
+            addMap.put(type, icommoditys);
         }
     }
 
     public static void addItem(int typeID, Object[][] icommodityss) {
         NpcStoreType type = NpcStoreType.getTypeFromID(typeID);
-        final Set<Icommodity> icommoditys = new HashSet<>();
+        final Set<Icommodity> icommoditys = new ObjectOpenHashSet<>();
         Arrays.asList(icommodityss).forEach(icommodityO -> {
             Icommodity icommodity = new Icommodity();
             if (icommodityO[0] instanceof String) {
@@ -168,9 +172,9 @@ public class NPCHandler {
         addItem(type, icommoditys.toArray(new Icommodity[0]));
     }
 
-    public static void addItem(int typeID, String... icommodityss){
+    public static void addItem(int typeID, String... icommodityss) {
         NpcStoreType type = NpcStoreType.getTypeFromID(typeID);
-        final Set<Icommodity> icommoditys = new HashSet<>();
+        final Set<Icommodity> icommoditys = new ObjectOpenHashSet<>();
         Arrays.asList(icommodityss).forEach(icommodityS -> {
             Icommodity icommodity = new Icommodity();
             String[] parts = icommodityS.split(";");
@@ -180,7 +184,7 @@ public class NPCHandler {
             }
             icommodity.setItem(getItemStack(parts[0]));
             icommodity.setPrice(Integer.parseInt(parts[1]));
-            if (parts.length > 3){
+            if (parts.length > 3) {
                 icommodity.setLimit(Integer.parseInt(parts[2]) != 1);
                 if (parts.length > 4) {
                     icommodity.setMaxCount(Integer.parseInt(parts[3]));
@@ -188,6 +192,6 @@ public class NPCHandler {
             }
             icommoditys.add(icommodity);
         });
-        addItem(type,icommoditys.toArray(new Icommodity[0]));
+        addItem(type, icommoditys.toArray(new Icommodity[0]));
     }
 }

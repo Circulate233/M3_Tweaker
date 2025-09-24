@@ -2,6 +2,7 @@ package com.circulation.m3t.crt.recipes;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -18,9 +19,9 @@ import static project.studio.manametalmod.ManaMetalAPI.AncientEmpireRecipeList;
 @ZenClass(M3TCrtAPI.CrtClass + "AncientEmpire")
 public class AncientEmpireHandler implements M3TCrtReload {
 
-    private static final List<DarkItemRecipe> addAncientEmpireRecipeList = new ArrayList<>();
-    private static final List<ItemStack> removeAncientEmpireRecipeList = new ArrayList<>();
-    private static final List<DarkItemRecipe> defAncientEmpireRecipeList = new ArrayList<>();
+    private static final List<DarkItemRecipe> addAncientEmpireRecipeList = new ReferenceArrayList<>();
+    private static final List<ItemStack> removeAncientEmpireRecipeList = new ReferenceArrayList<>();
+    private static final List<DarkItemRecipe> defAncientEmpireRecipeList = new ReferenceArrayList<>();
 
     public void reload(){
         addAncientEmpireRecipeList.clear();

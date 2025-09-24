@@ -2,6 +2,9 @@ package com.circulation.m3t.hander;
 
 import com.circulation.m3t.Util.Function;
 import com.circulation.m3t.network.UpdateBauble;
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -13,17 +16,19 @@ import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static com.circulation.m3t.M3Tweaker.network;
 
 public class M3TBaublesSuitHandler {
 
-    public static final Map<String,Map<Integer,BaublesSuit>> map = new HashMap<>();
-    public static final Map<String,Map<Integer,BaublesSuit>> effmap = new HashMap<>();
+    public static final Map<String, Int2ObjectMap<BaublesSuit>> map = new Object2ObjectOpenHashMap<>();
+    public static final Map<String, Int2ObjectMap<BaublesSuit>> effmap = new Object2ObjectOpenHashMap<>();
     public static final String nbtName = "Suit";
 
-    public static void reload(){
+    public static void reload() {
         map.clear();
         effmap.clear();
     }
@@ -31,7 +36,7 @@ public class M3TBaublesSuitHandler {
     public static void registerEvents() {
         Function.onBaubleWearPostEvent(event -> {
             EntityPlayer player = event.player;
-            if (player.worldObj.isRemote)return;
+            if (player.worldObj.isRemote) return;
             NBTTagCompound playerNbt = player.getEntityData();
             String suitName = Item.itemRegistry.getNameForObject(event.item.getItem());
             if (map.containsKey(suitName)) {
@@ -56,7 +61,7 @@ public class M3TBaublesSuitHandler {
 
         Function.onBaubleDisrobePostEvent(event -> {
             EntityPlayer player = event.player;
-            if (player.worldObj.isRemote)return;
+            if (player.worldObj.isRemote) return;
             NBTTagCompound playerNbt = player.getEntityData();
             String suitName = Item.itemRegistry.getNameForObject(event.item.getItem());
             if (map.containsKey(suitName)) {
@@ -80,15 +85,15 @@ public class M3TBaublesSuitHandler {
         });
     }
 
-    public static boolean hasSuit(String name){
+    public static boolean hasSuit(String name) {
         return map.containsKey(name);
     }
 
-    public static Map<Integer,BaublesSuit> getSuit(String name){
+    public static Map<Integer, BaublesSuit> getSuit(String name) {
         return map.get(name);
     }
 
-    public static int getSuitQuantity(String suitName,EntityPlayer player){
+    public static int getSuitQuantity(String suitName, EntityPlayer player) {
         NBTTagCompound playerNbt = player.getEntityData();
         if (player.getEntityData().hasKey(nbtName)) {
             return playerNbt.getCompoundTag(nbtName).getInteger(suitName);
@@ -97,7 +102,7 @@ public class M3TBaublesSuitHandler {
         }
     }
 
-    public static class BaublesSuit{
+    public static class BaublesSuit {
         public String tooltip;
         public List<IMagicEffect> effects;
 
@@ -109,13 +114,13 @@ public class M3TBaublesSuitHandler {
 
     public static class SuitHandler {
         private final String suitName;
-        private final Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
-        private final Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
+        private final Int2ObjectMap<BaublesSuit> map = new Int2ObjectLinkedOpenHashMap<>();
+        private final Int2ObjectMap<BaublesSuit> effmap = new Int2ObjectLinkedOpenHashMap<>();
 
         protected SuitHandler(String suitName) {
             this.suitName = suitName;
             for (int i = 0; i < ContainerManaItem.slots.length + 1; i++) {
-                effmap.put(i,new BaublesSuit(suitName, Collections.emptyList()));
+                effmap.put(i, new BaublesSuit(suitName, Collections.emptyList()));
             }
         }
 
@@ -128,18 +133,17 @@ public class M3TBaublesSuitHandler {
         }
 
         public SuitHandler addSuit(int quantity, String tooltip, List<IMagicEffect> effects) {
-            Map<Integer, BaublesSuit> mapp = new HashMap<>();
-            BaublesSuit suit = new BaublesSuit(tooltip,effects);
-            this.map.put(quantity,suit);
+            BaublesSuit suit = new BaublesSuit(tooltip, effects);
+            this.map.put(quantity, suit);
             for (int i = quantity; i < ContainerManaItem.slots.length + 1; i++) {
-                this.effmap.put(i,suit);
+                this.effmap.put(i, suit);
             }
             return this;
         }
 
-        public void register(){
-            M3TBaublesSuitHandler.map.put(this.suitName,map);
-            M3TBaublesSuitHandler.effmap.put(this.suitName,effmap);
+        public void register() {
+            M3TBaublesSuitHandler.map.put(this.suitName, map);
+            M3TBaublesSuitHandler.effmap.put(this.suitName, effmap);
         }
     }
 }

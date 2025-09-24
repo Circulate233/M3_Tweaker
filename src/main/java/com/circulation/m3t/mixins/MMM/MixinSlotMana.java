@@ -23,7 +23,7 @@ public abstract class MixinSlotMana extends Slot {
         super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_);
     }
 
-    @Inject(method = "isItemValid",at = @At("RETURN"), cancellable = true)
+    @Inject(method = "isItemValid", at = @At("RETURN"), cancellable = true)
     public void isItemValidMixin(ItemStack item, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) {
             BaubleEvent event = new BaubleEvent(player, this.getStack());
@@ -32,7 +32,7 @@ public abstract class MixinSlotMana extends Slot {
         }
     }
 
-    @Inject(method = "canTakeStack",at = @At("RETURN"), cancellable = true)
+    @Inject(method = "canTakeStack", at = @At("RETURN"), cancellable = true)
     public void canTakeStackMixin(EntityPlayer player, CallbackInfoReturnable<Boolean> cir) {
         BaubleEvent event = new BaubleEvent(player, this.getStack());
         M3TEventAPI.publishAllDisrobe(event);

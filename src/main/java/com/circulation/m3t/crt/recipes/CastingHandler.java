@@ -2,6 +2,9 @@ package com.circulation.m3t.crt.recipes;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
@@ -12,7 +15,6 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,10 +24,10 @@ import static com.circulation.m3t.Util.Function.noHasItem;
 @ZenClass(M3TCrtAPI.CrtClass + "Casting")
 public class CastingHandler implements M3TCrtReload {
 
-    public static final List<Object[]> M3TaddRecipes = new ArrayList<>();
-    private static final List<ItemStack> M3TremoveRecipes = new ArrayList<>();
-    private static final List<Object[]> CastingRecipes = new ArrayList<>();
-    public static final Map<ItemKey,Integer> mapCastingRecipes = new HashMap<>();
+    public static final List<Object[]> M3TaddRecipes = new ReferenceArrayList<>();
+    private static final List<ItemStack> M3TremoveRecipes = new ReferenceArrayList<>();
+    private static final List<Object[]> CastingRecipes = new ReferenceArrayList<>();
+    public static final Reference2IntMap<ItemKey> mapCastingRecipes = new Reference2IntOpenHashMap<>();
 
     @ZenMethod
     public static void addRecipe(IItemStack out, int money, IItemStack[] imp1) {

@@ -10,43 +10,43 @@ import java.util.Random;
 @ZenClass(M3TCrtAPI.CrtClass + "Random")
 public class M3TRandom {
 
-    public M3TRandom(){
+    public M3TRandom() {
 
     }
 
-    public M3TRandom(Random random){
+    public M3TRandom(Random random) {
         this.random = random;
     }
 
     public Random random = MMM.rand;
 
     @ZenMethod
-    public static M3TRandom getRandom(long seed){
+    public static M3TRandom getRandom(long seed) {
         return new M3TRandom(new Random(seed));
     }
 
     @ZenMethod
-    public static M3TRandom getRandom(){
+    public static M3TRandom getRandom() {
         return new M3TRandom();
     }
 
     @ZenMethod
-    public int nextInt(){
+    public int nextInt() {
         return random.nextInt();
     }
 
     @ZenMethod
-    public int nextInt(int bound){
+    public int nextInt(int bound) {
         return random.nextInt(bound);
     }
 
     @ZenMethod
-    public float nextFloat(){
+    public float nextFloat() {
         return random.nextFloat();
     }
 
     @ZenMethod
-    public float nextFloat(float max){
+    public float nextFloat(float max) {
         return random.nextFloat() * max;
     }
 

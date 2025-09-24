@@ -3,6 +3,7 @@ package com.circulation.m3t.crt;
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.Function;
 import cpw.mods.fml.common.registry.GameData;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
@@ -10,13 +11,12 @@ import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Util")
 public class CrtUtil {
 
-    public static Map<String,Item> itemMap = new HashMap<>();
+    public static Map<String,Item> itemMap = new Object2ReferenceOpenHashMap<>();
 
     static {
         for (Object item : GameData.getItemRegistry()) {

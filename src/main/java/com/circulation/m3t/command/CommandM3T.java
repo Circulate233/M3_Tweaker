@@ -1,12 +1,12 @@
 package com.circulation.m3t.command;
 
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommandM3T extends CommandBase {
@@ -42,7 +42,6 @@ public class CommandM3T extends CommandBase {
 
     @Override
     public List<?> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             return getListOfStringsMatchingLastWord(args,
                 "help",
@@ -58,7 +57,7 @@ public class CommandM3T extends CommandBase {
             }
         }
 
-        return completions;
+        return ObjectLists.emptyList();
     }
 
     public void sendHelp(ICommandSender sender){

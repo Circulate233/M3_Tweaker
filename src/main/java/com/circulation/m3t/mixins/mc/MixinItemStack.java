@@ -15,7 +15,7 @@ import static com.circulation.m3t.hander.M3TBaublesSuitHandler.nbtName;
 @Mixin(ItemStack.class)
 public abstract class MixinItemStack {
 
-    @Inject(method = "getDisplayName",at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     public void getDisplayName(CallbackInfoReturnable<String> cir) {
         if (this.hasTagCompound() && this.getTagCompound().hasKey(nbtName)) {
             String SuitName = this.getTagCompound().getString(nbtName);

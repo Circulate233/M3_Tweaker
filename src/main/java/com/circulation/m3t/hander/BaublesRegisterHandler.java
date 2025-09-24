@@ -16,7 +16,7 @@ public class BaublesRegisterHandler {
 
     public static BaublesRegisterHandler INSTANCE = new BaublesRegisterHandler();
 
-    private BaublesRegisterHandler(){
+    private BaublesRegisterHandler() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 

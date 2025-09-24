@@ -15,20 +15,20 @@ import project.studio.manametalmod.entity.nbt.NbtBaubles;
 @Mixin(value = NbtBaubles.class,remap = false)
 public abstract class MixinNbtBaubles extends EntityNBTBaseM3 implements IInventory {
 
-    @Inject(method = "wearItem",at = @At("HEAD"))
+    @Inject(method = "wearItem", at = @At("HEAD"))
     public void wearItemMixin(ItemStack item, boolean sound, CallbackInfo ci) {
-        if (this.entity instanceof EntityPlayer player){
-            if (player.worldObj.isRemote)return;
-            BaublePostEvent event = new BaublePostEvent(player,item);
+        if (this.entity instanceof EntityPlayer player) {
+            if (player.worldObj.isRemote) return;
+            BaublePostEvent event = new BaublePostEvent(player, item);
             M3TEventAPI.publishAllWearPost(event);
         }
     }
 
-    @Inject(method = "disrobeItem",at = @At("TAIL"))
+    @Inject(method = "disrobeItem", at = @At("TAIL"))
     public void disrobeItemMixin(ItemStack item, CallbackInfo ci) {
-        if (this.entity instanceof EntityPlayer player){
-            if (player.worldObj.isRemote)return;
-            BaublePostEvent event = new BaublePostEvent(player,item);
+        if (this.entity instanceof EntityPlayer player) {
+            if (player.worldObj.isRemote) return;
+            BaublePostEvent event = new BaublePostEvent(player, item);
             M3TEventAPI.publishAllDisrobePost(event);
         }
     }

@@ -15,9 +15,9 @@ public class MixinMagicItemOP {
      */
     @Overwrite
     public int getNeedLV(ItemStack item, EntityPlayer player) {
-        if (item.hasTagCompound()){
-            if (item.getTagCompound().hasKey("level")){
-                return Math.max(item.getTagCompound().getInteger("level"),1);
+        if (item.hasTagCompound()) {
+            if (item.getTagCompound().hasKey("level")) {
+                return Math.max(item.getTagCompound().getInteger("level"), 1);
             }
         }
         return 1;

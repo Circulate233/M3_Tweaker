@@ -16,14 +16,14 @@ public interface AccessorDarkSteelRecipes {
     }
 
     @Accessor("smeltingList")
-    Map<ItemStack,ItemStack> getSmeltingList();
+    Map<ItemStack, ItemStack> getSmeltingList();
 
     @Accessor("experienceList")
-    Map<ItemStack,Float> getExperienceList();
+    Map<ItemStack, Float> getExperienceList();
 
     @Accessor("smeltingList")
-    void setSmeltingList(Map<?,?> map);
+    void setSmeltingList(Map<?, ?> map);
 
     @Accessor("experienceList")
-    void setExperienceList(Map<?,?> map);
+    void setExperienceList(Map<?, ?> map);
 }

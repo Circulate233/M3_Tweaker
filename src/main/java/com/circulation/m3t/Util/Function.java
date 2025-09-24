@@ -16,7 +16,10 @@ import net.minecraft.util.StatCollector;
 
 import java.util.Collection;
 
-import static com.circulation.m3t.crt.events.M3TEventAPI.*;
+import static com.circulation.m3t.crt.events.M3TEventAPI.defDisrobe;
+import static com.circulation.m3t.crt.events.M3TEventAPI.defDisrobePost;
+import static com.circulation.m3t.crt.events.M3TEventAPI.defWear;
+import static com.circulation.m3t.crt.events.M3TEventAPI.defWearPost;
 
 public class Function {
 
@@ -53,16 +56,16 @@ public class Function {
                 if (item == null) return null;
                 int meta = (parts.length > 2) ? Integer.parseInt(parts[2]) : 0;
                 int count = (parts.length > 3) ? Integer.parseInt(parts[3]) : 1;
-                return new ItemStack(item,count,meta);
+                return new ItemStack(item, count, meta);
             }
         }
         return null;
     }
 
-    public static boolean noHasItem(Collection<ItemStack> list, ItemStack item){
+    public static boolean noHasItem(Collection<ItemStack> list, ItemStack item) {
         if (item == null) return false;
         for (ItemStack item1 : list) {
-            if (item1 != null && item1.isItemEqual(item)){
+            if (item1 != null && item1.isItemEqual(item)) {
                 return false;
             }
         }

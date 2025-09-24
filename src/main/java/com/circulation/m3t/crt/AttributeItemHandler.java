@@ -2,6 +2,8 @@ package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
@@ -12,8 +14,6 @@ import project.studio.manametalmod.magic.magicItem.MagicItemType;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +23,12 @@ import static project.studio.manametalmod.ManaMetalAPI.HotPotFoodList;
 @ZenClass(M3TCrtAPI.CrtClass + "AttributeItem")
 public class AttributeItemHandler implements M3TCrtReload {
 
-    private static final List<FoodCollectionItem> addFoodList = new ArrayList<>();
-    private static final List<FoodCollectionItem> defFoodList = new ArrayList<>();
+    private static final List<FoodCollectionItem> addFoodList = new ObjectArrayList<>();
+    private static final List<FoodCollectionItem> defFoodList = new ObjectArrayList<>();
 //    private static final List<AttributesItem> addAttributesItemList = new ArrayList<>();
 //    private static final List<AttributesItem> defAttributesItemList = new ArrayList<>();
-    private static final Map<Item, IMagicEffect> addHotPotFoodList = new HashMap<>();
-    private static final Map<Item, IMagicEffect> defHotPotFoodList = new HashMap<>();
+    private static final Map<Item, IMagicEffect> addHotPotFoodList = new Reference2ObjectOpenHashMap<>();
+    private static final Map<Item, IMagicEffect> defHotPotFoodList = new Reference2ObjectOpenHashMap<>();
 
     public void reload(){
         addFoodList.clear();

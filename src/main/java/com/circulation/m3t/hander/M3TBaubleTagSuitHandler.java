@@ -2,6 +2,10 @@ package com.circulation.m3t.hander;
 
 import com.circulation.m3t.Util.Function;
 import com.circulation.m3t.network.UpdateBauble;
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -12,13 +16,14 @@ import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import project.studio.manametalmod.inventory.ContainerManaItem;
 import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import static com.circulation.m3t.M3Tweaker.network;
 
 public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
 
-    public static final Map<String,String> Tags = new HashMap<>();
+    public static final Map<String,String> Tags = new Object2ObjectOpenHashMap<>();
 
     public static void reload() {
         Tags.clear();
@@ -95,13 +100,13 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
     public static class TagSuitHandler {
         private final String suitName;
         private String tagName;
-        private final Map<Integer, BaublesSuit> map = new LinkedHashMap<>();
-        private final Map<Integer, BaublesSuit> effmap = new LinkedHashMap<>();
+        private final Int2ObjectMap<BaublesSuit> map = new Int2ObjectLinkedOpenHashMap<>();
+        private final Int2ObjectMap<BaublesSuit> effmap = new Int2ObjectLinkedOpenHashMap<>();
 
         protected TagSuitHandler(String suitName) {
             this.suitName = suitName;
             for (int i = 0; i < ContainerManaItem.slots.length + 1; i++) {
-                effmap.put(i,new TagBaublesSuit(tagName,tagName, Collections.emptyList()));
+                effmap.put(i,new TagBaublesSuit(tagName,tagName, ObjectLists.emptyList()));
             }
             this.tagName = " ";
         }
@@ -116,7 +121,6 @@ public class M3TBaubleTagSuitHandler extends M3TBaublesSuitHandler {
         }
 
         public TagSuitHandler addSuit(int quantity, String tooltip, List<IMagicEffect> effects) {
-            Map<Integer, BaublesSuit> mapp = new HashMap<>();
             TagBaublesSuit suit = new TagBaublesSuit(tagName,tooltip,effects);
             this.map.put(quantity,suit);
             for (int i = quantity; i < ContainerManaItem.slots.length + 1; i++) {

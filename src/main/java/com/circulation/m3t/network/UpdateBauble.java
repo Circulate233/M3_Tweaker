@@ -14,9 +14,10 @@ public class UpdateBauble implements IMessage {
 
     private NBTTagCompound nbt;
 
-    public UpdateBauble(){}
+    public UpdateBauble() {
+    }
 
-    public UpdateBauble(NBTTagCompound nbt){
+    public UpdateBauble(NBTTagCompound nbt) {
         this.nbt = nbt;
     }
 
@@ -27,7 +28,7 @@ public class UpdateBauble implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        ByteBufUtils.writeTag(buf,this.nbt);
+        ByteBufUtils.writeTag(buf, this.nbt);
     }
 
     public static class Handler implements IMessageHandler<UpdateBauble, IMessage> {

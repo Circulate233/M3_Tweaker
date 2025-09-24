@@ -15,8 +15,8 @@ plugins {
 val gitVersion: groovy.lang.Closure<String> by extra
 
 group = "com.circulation.m3t"
-val detectedVersion: String = System.getenv("VERSION") ?: gitVersion()
-version = "0.7.3"
+val detectedVersion: String = "0.7.4"
+version = detectedVersion
 
 // Add a source set for the functional test suite
 val functionalTestSourceSet = sourceSets.create("functionalTest") {}
@@ -126,16 +126,12 @@ dependencies {
         isTransitive = false
     }
 
-    implementation("com.github.LegacyModdingMC.UniMixins:unimixins-mixinbooterlegacy-1.7.10:0.1.22:dev")
-    implementation("com.github.LegacyModdingMC.UniMixins:unimixins-mixinextras-1.7.10:0.1.22:dev")
-
-    implementation("com.github.GTNewHorizons:CraftTweaker:3.4.2:dev")
+    implementation("com.github.GTNewHorizons:GTNHLib:0.6.39:dev") { isTransitive = false }
+    implementation(rfg.deobf("curse.maven:CraftTweaker-239197:2838720"))
     implementation(rfg.deobf("curse.maven:muya1-7-10-530214:4364097"))
-    implementation(rfg.deobf("curse.maven:manametal-531708:6752683"))
-    implementation("com.github.GTNewHorizons:CodeChickenCore:1.4.3:dev")
-    implementation("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
-    implementation(rfg.deobf("curse.maven:cot-237065:2266759"))
-    implementation(rfg.deobf("curse.maven:cotlib-237039:2288074"))
+    implementation(rfg.deobf("curse.maven:manametal-531708:6943759"))
+    implementation("com.github.GTNewHorizons:CodeChickenCore:1.4.7:dev") { isTransitive = false }
+    implementation("com.github.GTNewHorizons:NotEnoughItems:2.7.89-GTNH:dev") { isTransitive = false }
     implementation(rfg.deobf("curse.maven:smooth-285742:2614474"))
     implementation(rfg.deobf("curse.maven:forge-nbtedit-for-1-7-10-381388:2949679"))
 }

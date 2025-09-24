@@ -24,16 +24,16 @@ public class MixinMessageCastingTable {
     @Unique
     private ItemStack m3Tweaker$output;
 
-    @Inject(method = "fromBytes",at = @At("TAIL"))
+    @Inject(method = "fromBytes", at = @At("TAIL"))
     public void fromBytes(ByteBuf buf, CallbackInfo ci) {
         if (this.ID == 0) {
             this.m3Tweaker$output = ByteBufUtils.readItemStack(buf);
             CastingHandler.ItemKey key = CastingHandler.ItemKey.getItemKey(this.m3Tweaker$output);
-            this.itemNum = CastingHandler.mapCastingRecipes.get(key);
+            this.itemNum = CastingHandler.mapCastingRecipes.getInt(key);
         }
     }
 
-    @Inject(method = "toBytes",at = @At("TAIL"))
+    @Inject(method = "toBytes", at = @At("TAIL"))
     public void toBytes(ByteBuf buf, CallbackInfo ci) {
         if (this.ID == 0) {
             this.m3Tweaker$output = (ItemStack) CastingData.getItems(this.itemNum)[1];

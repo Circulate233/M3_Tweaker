@@ -2,22 +2,21 @@ package com.circulation.m3t.crt;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static project.studio.manametalmod.ManaMetalAPI.ItemValue;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Money")
 public class MoneyHandler implements M3TCrtReload {
 
-    private static final Map<Item,Integer> map = new HashMap<>();
-    private static final Map<Item,Integer> defmap = new HashMap<>();
+    private static final Reference2IntMap<Item> map = new Reference2IntOpenHashMap<>();
+    private static final Reference2IntMap<Item> defmap = new Reference2IntOpenHashMap<>();
 
     @ZenMethod
     public static void setMoney(IItemStack item, int money) {

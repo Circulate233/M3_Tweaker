@@ -22,17 +22,17 @@ public abstract class MixinIMagicItem extends Item implements ISpecialItem, IQua
     @Unique
     private EntityPlayer m3Tweaker$player;
 
-    @Inject(method = "onItemRightClick",at = @At("HEAD"))
+    @Inject(method = "onItemRightClick", at = @At("HEAD"))
     public void onItemRightClick(ItemStack item, World world, EntityPlayer player, CallbackInfoReturnable<ItemStack> cir) {
         this.m3Tweaker$player = player;
     }
 
-    @Inject(method = "tryPushItem",at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/entity/nbt/NbtBaubles;setInventorySlotContents(ILnet/minecraft/item/ItemStack;)V",shift = At.Shift.BEFORE), cancellable = true)
+    @Inject(method = "tryPushItem", at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/entity/nbt/NbtBaubles;setInventorySlotContents(ILnet/minecraft/item/ItemStack;)V", shift = At.Shift.BEFORE), cancellable = true)
     public void tryPushItem(int slot, ManaMetalModRoot root, ItemStack item, World world, CallbackInfoReturnable<Boolean> cir) {
-        if (this.m3Tweaker$player == null)return;
+        if (this.m3Tweaker$player == null) return;
         BaubleEvent event = new BaubleEvent(this.m3Tweaker$player, item);
         M3TEventAPI.publishAllWear(event);
-        if (event.isCancel()){
+        if (event.isCancel()) {
             cir.setReturnValue(false);
             cir.cancel();
         }
