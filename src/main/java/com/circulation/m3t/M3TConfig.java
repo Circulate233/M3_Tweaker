@@ -11,6 +11,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class M3TConfig {
 
         if (Files.exists(baubles)) {
             try {
-                M3TConfig.baubles.addAll(baublesGson.fromJson(new String(Files.readAllBytes(baubles)), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
+                M3TConfig.baubles.addAll(baublesGson.fromJson(new String(Files.readAllBytes(baubles), StandardCharsets.UTF_8), (new TypeToken<List<CustomBaubles.Baubles>>() {}).getType()));
             } catch (IOException ignored){
 
             }
@@ -58,7 +59,7 @@ public class M3TConfig {
             M3TConfig.baubles.add(new CustomBaubles.Baubles("测试小道具！","W我是超级测试王","minecraft:diamond:0", (short) 10,14,10,999,map));
             M3TConfig.baubles.add(new CustomBaubles.Baubles("amuck","item.ddd","item.aaa", "def:m3t:amuck", (short) 27,7,10,784,map));
             try {
-                Files.write(baubles, baublesGson.toJson(M3TConfig.baubles).getBytes());
+                Files.write(baubles, baublesGson.toJson(M3TConfig.baubles).getBytes(StandardCharsets.UTF_8));
             } catch (IOException ignored){
 
             }
