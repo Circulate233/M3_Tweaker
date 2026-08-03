@@ -20,17 +20,16 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 @Mod(
-        modid = M3Tweaker.MOD_ID, name = "M3 Tweaker", version = M3Tweaker.VERSION, acceptedMinecraftVersions = "[1.7.10]",
-        dependencies = "required-after:manametalmod@[7.3.7,);" +
+        modid = M3Tweaker.MOD_ID, name = "M3 Tweaker", version = Tags.VERSION, acceptedMinecraftVersions = "[1.7.10]",
+        dependencies = "required-after:manametalmod@[8.0.2,);" +
                        "required-after:MineTweaker3;"
 )
 public class M3Tweaker {
 
     public static final String MOD_ID = "m3t";
-    public static final String VERSION = BuildConfig.VERSION;
 
     @Mod.Instance(MOD_ID)
-    public static M3Tweaker instance = new M3Tweaker();
+    public static M3Tweaker instance;
 
     public static final String CLIENT_PROXY = "com.circulation.m3t.proxy.ClientProxy";
     public static final String COMMON_PROXY = "com.circulation.m3t.proxy.CommonProxy";

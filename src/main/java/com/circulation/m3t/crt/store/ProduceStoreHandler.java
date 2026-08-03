@@ -2,6 +2,7 @@ package com.circulation.m3t.crt.store;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,6 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +23,9 @@ import static com.circulation.m3t.Util.Function.noHasItem;
 @ZenClass(M3TCrtAPI.CrtClass + "ProduceStore")
 public class ProduceStoreHandler implements M3TCrtReload {
 
-    private static final Map<ProduceStore, Set<ItemStack>> removeMap = new HashMap<>();
-    private static final Map<ProduceStore, List<Icommodity>> addMap = new HashMap<>();
-    private static final Map<ProduceStore, List<Icommodity>> defMap = new HashMap<>();
+    private static final Map<ProduceStore, Set<ItemStack>> removeMap = new Reference2ObjectOpenHashMap<>();
+    private static final Map<ProduceStore, List<Icommodity>> addMap = new Reference2ObjectOpenHashMap<>();
+    private static final Map<ProduceStore, List<Icommodity>> defMap = new Reference2ObjectOpenHashMap<>();
 
     @ZenMethod
     public static void addStoreItem(String type,IItemStack items,int money) {

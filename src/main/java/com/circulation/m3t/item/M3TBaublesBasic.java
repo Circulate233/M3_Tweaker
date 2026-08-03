@@ -2,6 +2,7 @@ package com.circulation.m3t.item;
 
 import com.circulation.m3t.M3Tweaker;
 import com.circulation.m3t.Util.Function;
+import com.github.bsideup.jabel.Desugar;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -219,6 +220,7 @@ public class M3TBaublesBasic extends IMagicItem implements IQualityItem {
         return 0;
     }
 
+    @Desugar
     private record M3EBaublesAttribute(String Name, String icon, String tooltip, ManaItemType type, Quality quality,
                                        int level, long money, List<IMagicEffect> effects) {
         private M3EBaublesAttribute(String Name, String icon, String tooltip, short type, Quality quality, int level, long money, List<IMagicEffect> effects) {

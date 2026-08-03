@@ -1,0 +1,46 @@
+// Add any additional repositories for your dependencies here.
+
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+    maven {
+        url = uri("https://maven.aliyun.com/nexus/content/groups/public/")
+    }
+    maven {
+        url = uri("https://maven.aliyun.com/nexus/content/repositories/jcenter")
+    }
+    maven {
+        url = uri("https://nexus.jsdu.cn")
+    }
+    maven {
+        url = uri("https://maven.cleanroommc.com")
+    }
+    maven {
+        url = uri("https://cfa2.cursemaven.com")
+    }
+    maven {
+        url = uri("https://cursemaven.com")
+    }
+    maven {
+        url = uri("https://maven.blamejared.com/")
+    }
+    maven {
+        url = uri("https://repo.spongepowered.org/maven")
+    }
+    maven {
+        name = "GeckoLib"
+        url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    }
+    maven {
+        name = "OvermindDL1 Maven"
+        url = uri("https://gregtech.overminddl1.com/")
+    }
+    maven {
+        name = "GTNH Maven"
+        url = uri("https://nexus.gtnewhorizons.com/repository/public/")
+    }
+    maven {
+        url = uri("https://jitpack.io")
+    }
+}

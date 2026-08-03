@@ -5,6 +5,7 @@ import com.circulation.m3t.Util.M3TCrtReload;
 import com.circulation.m3t.mixins.MMM.AccessorManaFurnaceRecipes;
 import com.github.bsideup.jabel.Desugar;
 import it.unimi.dsi.fastutil.objects.Reference2FloatOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import minetweaker.api.item.IIngredient;
@@ -23,7 +24,7 @@ import static com.circulation.m3t.Util.Function.noHasItem;
 @ZenClass(M3TCrtAPI.CrtClass + "ManaFurnace")
 public class ManaFurnaceHandler implements M3TCrtReload {
 
-    private static final Map<ManaFurnace, List<ItemStack>> addManaFurnaceRecipeList = new Reference2ObjectOpenHashMap<>();
+    private static final Map<ManaFurnace, List<ItemStack>> addManaFurnaceRecipeList = new Reference2ObjectLinkedOpenHashMap<>();
     private static final List<ItemStack> removeManaFurnaceRecipeList = new ReferenceArrayList<>();
     private static final List<ManaFurnace> defManaFurnaceRecipeList = new ReferenceArrayList<>();
 

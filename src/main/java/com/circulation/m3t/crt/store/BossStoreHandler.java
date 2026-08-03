@@ -3,7 +3,7 @@ package com.circulation.m3t.crt.store;
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.ItemStack;
@@ -22,10 +22,10 @@ import static com.circulation.m3t.Util.Function.noHasItem;
 public class BossStoreHandler implements M3TCrtReload {
 
     private static final List<Icommodity> addBossStore = new ObjectArrayList<>();
-    private static final Set<ItemStack> removeBossStore = new ReferenceOpenHashSet<>();
+    private static final Set<ItemStack> removeBossStore = new ReferenceLinkedOpenHashSet<>();
 
     private static final List<Icommodity> addBossStoreLV2 = new ObjectArrayList<>();
-    private static final Set<ItemStack> removeBossStoreLV2 = new ReferenceOpenHashSet<>();
+    private static final Set<ItemStack> removeBossStoreLV2 = new ReferenceLinkedOpenHashSet<>();
 
     protected static List<Icommodity> def = new ObjectArrayList<>();
     protected static List<Icommodity> defLV2 = new ObjectArrayList<>();

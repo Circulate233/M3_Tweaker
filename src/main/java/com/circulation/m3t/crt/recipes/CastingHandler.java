@@ -2,8 +2,8 @@ package com.circulation.m3t.crt.recipes;
 
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.M3TCrtReload;
+import it.unimi.dsi.fastutil.objects.Reference2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
-import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -27,7 +27,7 @@ public class CastingHandler implements M3TCrtReload {
     public static final List<Object[]> M3TaddRecipes = new ReferenceArrayList<>();
     private static final List<ItemStack> M3TremoveRecipes = new ReferenceArrayList<>();
     private static final List<Object[]> CastingRecipes = new ReferenceArrayList<>();
-    public static final Reference2IntMap<ItemKey> mapCastingRecipes = new Reference2IntOpenHashMap<>();
+    public static final Reference2IntMap<ItemKey> mapCastingRecipes = new Reference2IntLinkedOpenHashMap<>();
 
     @ZenMethod
     public static void addRecipe(IItemStack out, int money, IItemStack[] imp1) {

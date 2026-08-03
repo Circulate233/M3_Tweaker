@@ -7,6 +7,7 @@ import project.studio.manametalmod.magic.magicItem.IMagicEffect;
 import project.studio.manametalmod.magic.magicItem.MagicItemType;
 
 import java.util.List;
+import java.util.Map;
 
 public class CustomBaubles {
 
@@ -33,7 +34,7 @@ public class CustomBaubles {
         private final int level;
         private final int quality;
         private final long money;
-        private final Int2FloatMap effects;
+        private final Map<Integer,Float> effects;
 
         public Baubles(String id, String Name, String tooltip, String Icon, Short Type, int quality, int Level, long money, Int2FloatMap Effects) {
             this.id = id;
