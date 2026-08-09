@@ -21,6 +21,8 @@
     "MMM.MixinMessageCastingTable",
     "MMM.MixinMMM",
     "MMM.MixinNbtBaubles",
+    "MMM.MixinNbtCareer",
+    "MMM.MixinCareerCore",
     "MMM.MixinNpcStoreType",
     "MMM.MixinSlotMana"
   ]
