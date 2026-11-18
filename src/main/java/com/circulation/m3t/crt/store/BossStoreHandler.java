@@ -1,110 +1,72 @@
 package com.circulation.m3t.crt.store;
 
-import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.Util.M3TCrtReload;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+import static com.circulation.m3t.crt.CrtUtil.requireItemStacks;
+
 import net.minecraft.item.ItemStack;
+
+import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.reload.ItemListChanges;
+import com.circulation.m3t.reload.M3TCrtReload;
+
+import minetweaker.api.item.IItemStack;
 import project.studio.manametalmod.core.Icommodity;
 import project.studio.manametalmod.rpg.BossStore;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import static com.circulation.m3t.Util.Function.noHasItem;
-
 @ZenClass(M3TCrtAPI.CrtClass + "BossStore")
 public class BossStoreHandler implements M3TCrtReload {
 
-    private static final List<Icommodity> addBossStore = new ObjectArrayList<>();
-    private static final Set<ItemStack> removeBossStore = new ReferenceLinkedOpenHashSet<>();
-
-    private static final List<Icommodity> addBossStoreLV2 = new ObjectArrayList<>();
-    private static final Set<ItemStack> removeBossStoreLV2 = new ReferenceLinkedOpenHashSet<>();
-
-    protected static List<Icommodity> def = new ObjectArrayList<>();
-    protected static List<Icommodity> defLV2 = new ObjectArrayList<>();
+    private static final ItemListChanges<Icommodity> LEVEL_ONE = new ItemListChanges<>(Icommodity::getItem);
+    private static final ItemListChanges<Icommodity> LEVEL_TWO = new ItemListChanges<>(Icommodity::getItem);
 
     @ZenMethod
-    public static void addItem(IItemStack item, int Money, boolean isLv2) {
-        if (isLv2) {
-            addBossStoreLV2.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
-        } else {
-            addBossStore.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
-            addBossStoreLV2.add(new Icommodity(MineTweakerMC.getItemStack(item), Money));
+    public static void addItem(IItemStack item, int money, boolean isLv2) {
+        ItemStack stack = requireItemStack(item);
+        if (!isLv2) {
+            LEVEL_ONE.add(new Icommodity(stack, money));
         }
+        LEVEL_TWO.add(new Icommodity(stack, money));
     }
 
     @ZenMethod
-    public static void addItems(IItemStack[] items, int[] Money, boolean isLv2) {
-        List<Icommodity> list = new ObjectArrayList<>();
-        for (int i = 0; i < items.length; i++) {
-            list.add(new Icommodity(MineTweakerMC.getItemStack(items[i]), Money[i]));
+    public static void addItems(IItemStack[] items, int[] money, boolean isLv2) {
+        Icommodity[] additions = StoreItems.priced(items, money);
+        if (!isLv2) {
+            LEVEL_ONE.addAll(additions);
         }
-        if (isLv2) {
-            addBossStoreLV2.addAll(list);
-        } else {
-            addBossStore.addAll(list);
-            addBossStoreLV2.addAll(list);
-        }
+        LEVEL_TWO.addAll(additions);
     }
 
     @ZenMethod
     public static void removeItems(IItemStack[] items, boolean isLv2) {
-        if (isLv2) {
-            removeBossStoreLV2.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
-        } else {
-            removeBossStore.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
-            removeBossStoreLV2.addAll(Arrays.asList(MineTweakerMC.getItemStacks(items)));
+        for (ItemStack item : requireItemStacks(items)) {
+            remove(item, isLv2);
         }
     }
 
     @ZenMethod
     public static void removeItem(IItemStack item, boolean isLv2) {
-        if (isLv2) {
-            removeBossStoreLV2.add(MineTweakerMC.getItemStack(item));
-        } else {
-            removeBossStore.add(MineTweakerMC.getItemStack(item));
-            removeBossStoreLV2.add(MineTweakerMC.getItemStack(item));
+        remove(requireItemStack(item), isLv2);
+    }
+
+    private static void remove(ItemStack item, boolean isLv2) {
+        if (!isLv2) {
+            LEVEL_ONE.remove(item);
         }
+        LEVEL_TWO.remove(item);
     }
 
     @Override
     public void postReload() {
-        if (def.isEmpty()) def.addAll(BossStore.Items1);
-        if (defLV2.isEmpty()) defLV2.addAll(BossStore.Items2);
-
-        List<Icommodity> list = new ObjectArrayList<>();
-        def.forEach(item -> {
-            if (noHasItem(removeBossStore, item.getItem())) {
-                list.add(item);
-            }
-        });
-        list.addAll(addBossStore);
-        BossStore.Items1.clear();
-        BossStore.Items1.addAll(list);
-
-        List<Icommodity> listLV2 = new ObjectArrayList<>();
-        defLV2.forEach(item -> {
-            if (noHasItem(removeBossStoreLV2, item.getItem())) {
-                listLV2.add(item);
-            }
-        });
-        listLV2.addAll(addBossStoreLV2);
-        BossStore.Items2.clear();
-        BossStore.Items2.addAll(listLV2);
+        LEVEL_ONE.applyTo(BossStore.Items1);
+        LEVEL_TWO.applyTo(BossStore.Items2);
     }
 
     @Override
     public void reload() {
-        addBossStore.clear();
-        addBossStoreLV2.clear();
-        removeBossStore.clear();
-        removeBossStoreLV2.clear();
+        LEVEL_ONE.clearChanges();
+        LEVEL_TWO.clearChanges();
     }
 }

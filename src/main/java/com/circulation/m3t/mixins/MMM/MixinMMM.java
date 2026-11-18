@@ -1,20 +1,22 @@
 package com.circulation.m3t.mixins.MMM;
 
+import java.util.Set;
+
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
+
 import project.studio.manametalmod.MMM;
 
-import java.util.Set;
-
-@Mixin(value = MMM.class,remap = false)
+@Mixin(value = MMM.class, remap = false)
 public abstract class MixinMMM {
 
     /**
      * @author circulation
-     * @reason 测试性的更改...希望没事
+     * @reason Match the NBT keys required by the recipe, including nested compounds.
      */
     @Overwrite
     public static final boolean isNBTTagCompoundEqual(NBTTagCompound nbt1, NBTTagCompound nbt2) {

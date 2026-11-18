@@ -1,108 +1,97 @@
 package com.circulation.m3t.crt.recipes;
 
-import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.Util.M3TCrtReload;
-import it.unimi.dsi.fastutil.objects.Reference2IntLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Reference2IntMap;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+
+import java.util.List;
+import java.util.Objects;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.reload.ItemListChanges;
+import com.circulation.m3t.reload.M3TCrtReload;
+
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
 import project.studio.manametalmod.items.craftingRecipes.CastingData;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static com.circulation.m3t.Util.Function.noHasItem;
-
 @ZenClass(M3TCrtAPI.CrtClass + "Casting")
 public class CastingHandler implements M3TCrtReload {
 
-    public static final List<Object[]> M3TaddRecipes = new ReferenceArrayList<>();
-    private static final List<ItemStack> M3TremoveRecipes = new ReferenceArrayList<>();
-    private static final List<Object[]> CastingRecipes = new ReferenceArrayList<>();
-    public static final Reference2IntMap<ItemKey> mapCastingRecipes = new Reference2IntLinkedOpenHashMap<>();
+    private static final int COST_SLOT = 0;
+    private static final int OUTPUT_SLOT = 1;
+    private static final int INPUT_START = 2;
+    private static final ItemListChanges<Object[]> CHANGES = new ItemListChanges<>(
+        recipe -> (ItemStack) recipe[OUTPUT_SLOT]);
+    private static volatile Object2IntMap<ItemKey> recipeIndex = new Object2IntOpenHashMap<>(0);
 
     @ZenMethod
     public static void addRecipe(IItemStack out, int money, IItemStack[] imp1) {
-        Object[] obj = new Object[2 + imp1.length];
-        obj[0] = money;
-        obj[1] = MineTweakerMC.getItemStack(out);
-        int i = 2;
-        for (IItemStack item : imp1){
-            obj[i] = MineTweakerMC.getItemStack(item);
-            i++;
+        Object[] recipe = new Object[INPUT_START + imp1.length];
+        recipe[COST_SLOT] = money;
+        recipe[OUTPUT_SLOT] = requireItemStack(out);
+        for (int i = 0; i < imp1.length; i++) {
+            recipe[INPUT_START + i] = MineTweakerMC.getItemStack(imp1[i]);
         }
-        M3TaddRecipes.add(obj);
+        CHANGES.add(recipe);
     }
 
     @ZenMethod
     public static void removeRecipe(IItemStack out) {
-        M3TremoveRecipes.add(MineTweakerMC.getItemStack(out));
+        CHANGES.remove(requireItemStack(out));
     }
 
-    public void reload(){
-        M3TaddRecipes.clear();
-        M3TremoveRecipes.clear();
+    @Override
+    public void reload() {
+        CHANGES.clearChanges();
     }
 
-    public void postReload(){
-        if (CastingRecipes.isEmpty()){CastingRecipes.addAll(CastingData.getRecipes);}
+    @Override
+    public void postReload() {
+        List<Object[]> recipes = CastingData.getRecipes;
+        CHANGES.applyTo(recipes);
 
-        List<Object[]> list = new ArrayList<>();
-        CastingRecipes.forEach(recipe -> {
-            if (noHasItem(M3TremoveRecipes, (ItemStack) recipe[1])){
-                list.add(recipe);
-            }
-        });
-
-        list.addAll(M3TaddRecipes);
-        CastingData.getRecipes.clear();
-        CastingData.getRecipes.addAll(list);
-
-        mapCastingRecipes.clear();
-        for (int i = 0; i < CastingData.getRecipes.size(); i++) {
-            Object[] item = CastingData.getItems(i);
-            mapCastingRecipes.put(ItemKey.getItemKey((ItemStack)item[1]),i);
+        Object2IntMap<ItemKey> index = new Object2IntOpenHashMap<>(recipes.size());
+        for (int i = 0; i < recipes.size(); i++) {
+            ItemStack output = (ItemStack) recipes.get(i)[OUTPUT_SLOT];
+            index.put(new ItemKey(output, true), i);
         }
+        recipeIndex = index;
     }
 
-    private static void addCastingRecipes(ItemStack out, int money, ItemStack... imp1) {
-        Object[] obj = new Object[2 + imp1.length];
-        obj[0] = money;
-        obj[1] = out;
-        int i = 2;
-        for (ItemStack item :imp1){
-            obj[i] = item;
-            i++;
-        }
-        M3TaddRecipes.add(obj);
+    public static int findRecipe(ItemStack output) {
+        return output == null || output.getItem() == null ? -1
+            : recipeIndex.getOrDefault(new ItemKey(output, false), -1);
     }
 
-    public static class ItemKey{
-        public Item item;
-        public int meta;
-        public NBTTagCompound nbt;
-        public static final NBTTagCompound emNbt = new NBTTagCompound();
+    private static final class ItemKey {
 
-        private static final Map<Item, Map<Integer,Map<NBTTagCompound,ItemKey>>> keyPool = new ConcurrentHashMap<>();
+        private final Item item;
+        private final int meta;
+        private final NBTTagCompound nbt;
 
-        private ItemKey(ItemStack itemStack){
-            this.item = itemStack.getItem();
-            this.meta = itemStack.getItemDamage();
-            this.nbt = itemStack.getTagCompound();
+        private ItemKey(ItemStack stack, boolean copyTag) {
+            item = stack.getItem();
+            meta = stack.getItemDamage();
+            NBTTagCompound tag = stack.getTagCompound();
+            nbt = tag == null || tag.hasNoTags() ? null : copyTag ? (NBTTagCompound) tag.copy() : tag;
         }
 
-        public static ItemKey getItemKey(ItemStack item){
-            return keyPool.computeIfAbsent(item.getItem(), k -> new ConcurrentHashMap<>())
-                .computeIfAbsent(item.getItemDamage(), m -> new ConcurrentHashMap<>())
-                .computeIfAbsent(item.getTagCompound() == null ? emNbt:item.getTagCompound(), m -> new ItemKey(item));
+        @Override
+        public boolean equals(Object other) {
+            return this == other
+                || other instanceof ItemKey key && item == key.item && meta == key.meta && Objects.equals(nbt, key.nbt);
+        }
+
+        @Override
+        public int hashCode() {
+            return 31 * (31 * System.identityHashCode(item) + meta) + Objects.hashCode(nbt);
         }
     }
 

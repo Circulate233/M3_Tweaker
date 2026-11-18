@@ -1,12 +1,13 @@
 package com.circulation.m3t.mixins;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import io.github.tox1cozz.mixinbooterlegacy.IEarlyMixinLoader;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
 
 public class M3TEarlyMixinLoader implements IFMLLoadingPlugin, IEarlyMixinLoader {
 

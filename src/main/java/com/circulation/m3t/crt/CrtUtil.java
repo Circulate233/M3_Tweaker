@@ -1,44 +1,58 @@
 package com.circulation.m3t.crt;
 
-import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.Util.Function;
-import cpw.mods.fml.common.registry.GameData;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.Util.Function;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameData;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import java.util.Map;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Util")
 public class CrtUtil {
 
-    public static Map<String,Item> itemMap = new Object2ReferenceOpenHashMap<>();
-
-    static {
-        for (Object item : GameData.getItemRegistry()) {
-            itemMap.put(Item.itemRegistry.getNameForObject(item),(Item) item);
+    public static ItemStack requireItemStack(IItemStack item) {
+        ItemStack stack = MineTweakerMC.getItemStack(item);
+        if (stack == null || stack.getItem() == null) {
+            throw new IllegalArgumentException("Expected a valid item stack");
         }
+        return stack;
+    }
+
+    public static ItemStack[] requireItemStacks(IItemStack[] items) {
+        ItemStack[] stacks = new ItemStack[items.length];
+        for (int i = 0; i < items.length; i++) {
+            stacks[i] = requireItemStack(items[i]);
+        }
+        return stacks;
     }
 
     @ZenMethod
-    public static IItemStack[] getModItem(String modId){
-        return itemMap.keySet().parallelStream()
-            .filter(itemName -> itemName.startsWith(modId))
-            .map(name -> MineTweakerMC.getIItemStack(new ItemStack(itemMap.get(name))))
-            .toArray(IItemStack[]::new);
+    public static IItemStack[] getModItem(String modId) {
+        ObjectArrayList<IItemStack> result = new ObjectArrayList<>();
+        for (Object entry : GameData.getItemRegistry()) {
+            Item item = (Item) entry;
+            String name = Item.itemRegistry.getNameForObject(item);
+            if (name != null && name.startsWith(modId)) {
+                result.add(MineTweakerMC.getIItemStack(new ItemStack(item)));
+            }
+        }
+        return result.toArray(new IItemStack[result.size()]);
     }
 
     @ZenMethod
-    public static String I18n(String key){
+    public static String I18n(String key) {
         return Function.getText(key);
     }
 
     @ZenMethod
-    public static String createString(Object... objects){
+    public static String createString(Object... objects) {
         StringBuilder s = new StringBuilder();
         for (Object object : objects) {
             s.append(object);
@@ -47,8 +61,10 @@ public class CrtUtil {
     }
 
     @ZenMethod
-    public static Boolean isServer(){
-        return Function.isServer;
+    public static Boolean isServer() {
+        return FMLCommonHandler.instance()
+            .getEffectiveSide()
+            .isServer();
     }
 
 }

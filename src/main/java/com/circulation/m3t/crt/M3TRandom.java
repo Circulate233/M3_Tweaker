@@ -1,11 +1,12 @@
 package com.circulation.m3t.crt;
 
+import java.util.Random;
+
 import com.circulation.m3t.M3TCrtAPI;
+
 import project.studio.manametalmod.MMM;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import java.util.Random;
 
 @ZenClass(M3TCrtAPI.CrtClass + "Random")
 public class M3TRandom {

@@ -1,29 +1,30 @@
 package com.circulation.m3t;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.circulation.m3t.command.CommandM3T;
 import com.circulation.m3t.network.UpdateBauble;
 import com.circulation.m3t.proxy.CommonProxy;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
 
 @Mod(
-        modid = M3Tweaker.MOD_ID, name = "M3 Tweaker", version = Tags.VERSION, acceptedMinecraftVersions = "[1.7.10]",
-        dependencies = "required-after:manametalmod@[8.0.2,);" +
-                       "required-after:MineTweaker3;"
-)
+    modid = M3Tweaker.MOD_ID,
+    name = "M3 Tweaker",
+    version = Tags.VERSION,
+    acceptedMinecraftVersions = "[1.7.10]",
+    dependencies = "required-after:manametalmod@[8.0.2,);" + "required-after:MineTweaker3;required-after:gtnhlib;")
 public class M3Tweaker {
 
     public static final String MOD_ID = "m3t";
@@ -45,32 +46,20 @@ public class M3Tweaker {
     @SidedProxy(clientSide = CLIENT_PROXY, serverSide = COMMON_PROXY)
     public static CommonProxy proxy;
 
-    public static Logger logger = LogManager.getLogger(MOD_ID);
+    public static final Logger logger = LogManager.getLogger(MOD_ID);
 
-    public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
+    public static final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        int start = 0;
-
-        network.registerMessage(UpdateBauble.Handler.class, UpdateBauble.class, start++, Side.CLIENT);
-        network.registerMessage(UpdateBauble.Handler.class, UpdateBauble.class, start++, Side.SERVER);
+        network.registerMessage(UpdateBauble.Handler.class, UpdateBauble.class, 0, Side.CLIENT);
         proxy.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
-        try {
-            M3TCrtAPI.register();
-        } catch (IOException ignored) {
-
-        }
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
+        M3TCrtAPI.register();
     }
 
     @Mod.EventHandler

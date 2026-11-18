@@ -1,35 +1,38 @@
 package com.circulation.m3t.mixins.MMM;
 
-import com.circulation.m3t.crt.events.BaublePostEvent;
-import com.circulation.m3t.crt.events.M3TEventAPI;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.circulation.m3t.event.BaubleEvents;
+import com.circulation.m3t.event.BaubleInventoryOwner;
+
 import project.studio.manametalmod.core.EntityNBTBaseM3;
 import project.studio.manametalmod.entity.nbt.NbtBaubles;
 
-@Mixin(value = NbtBaubles.class,remap = false)
-public abstract class MixinNbtBaubles extends EntityNBTBaseM3 implements IInventory {
+@Mixin(value = NbtBaubles.class, remap = false)
+public abstract class MixinNbtBaubles extends EntityNBTBaseM3 implements BaubleInventoryOwner {
 
-    @Inject(method = "wearItem", at = @At("HEAD"))
-    public void wearItemMixin(ItemStack item, boolean sound, CallbackInfo ci) {
-        if (this.entity instanceof EntityPlayer player) {
-            if (player.worldObj.isRemote) return;
-            BaublePostEvent event = new BaublePostEvent(player, item);
-            M3TEventAPI.publishAllWearPost(event);
+    @Override
+    public EntityPlayer m3t$getOwner() {
+        return entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
+    }
+
+    @Inject(method = "wearItem", at = @At("RETURN"), require = 1)
+    private void m3t$afterEquip(ItemStack item, boolean sound, CallbackInfo ci) {
+        if (GetSide().isServer()) {
+            BaubleEvents.postWear(m3t$getOwner(), item);
         }
     }
 
-    @Inject(method = "disrobeItem", at = @At("TAIL"))
-    public void disrobeItemMixin(ItemStack item, CallbackInfo ci) {
-        if (this.entity instanceof EntityPlayer player) {
-            if (player.worldObj.isRemote) return;
-            BaublePostEvent event = new BaublePostEvent(player, item);
-            M3TEventAPI.publishAllDisrobePost(event);
+    @Inject(method = "disrobeItem", at = @At("RETURN"), require = 1)
+    private void m3t$afterUnequip(ItemStack item, CallbackInfo ci) {
+        if (GetSide().isServer()) {
+            BaubleEvents.postDisrobe(m3t$getOwner(), item);
         }
     }
 }

@@ -1,39 +1,19 @@
 # M3 Tweaker
 
-Welcome to the new world!
+M3 Tweaker 为 Minecraft 1.7.10 的魔法金属提供 CraftTweaker 扩展。脚本可以修改配方、生产商店、NPC 商店、Boss 商店和奖池，也可以定义饰品套装、属性食物及火锅材料。自定义饰品通过 `config/M3T/M3TBaubles.json` 配置，同一物品 ID 的变体通过元数据区分。
 
-# Craft Your Unique ManaMetalMod Experience with MineTweaker!
+## 饰品事件
 
-# 开发状态
-  - 允许通过编写config里的json文件来自定义饰品 ✅
-    - 支持自定义等级，属性，和贴图，允许使用材质包进行本地化 ✅
-    - 仍然可以像M3自带的自定义饰品那样，使用已有的物品的贴图（不支持方块的贴图，我是说，你为什么要使用方块的? ✅
-    - 套装式饰品注册（？）❌ 放弃，以自定义饰品ID取代，同名字默认为一套（自动使用meta区分）
+Java 模组可在 `MinecraftForge.EVENT_BUS` 上通过 `@SubscribeEvent` 监听 `BaubleEquipmentEvent.Wear`、`Disrobe`、`WearPost` 和 `DisrobePost`。事件由逻辑服务端发布。装备前和卸下前可调用 `setCanceled(true)` 取消操作。后置事件在魔法金属处理对应的饰品效果后发布；部分调用路径会在事件发布后写入槽位。
 
-  - 合成配方
-    - 魔法合成 ✅
-    - 魔法注入 ✅
-    - 金属融合 ✅
-    - 精铸 ✅
-    - (乱七八糟的小机器，想到啥写啥吧)
-    - 法力灌注 ✅
-    - 引力井 ✅
-    - 法杖融合（并不能想到为什么要改这个）✅
-    - 高炉 - 黑暗高炉 ✅
-    - 黑暗祭坛，蓝天石碑，暗黑律法 ✅
+Java 模组可在客户端订阅 `ItemTooltipEvent` 并向 `toolTip` 添加文字，为自定义饰品补充提示。
 
-  - 特别的
-    - 开放了部分魔金事件✅ (已完成饰品即将装备，饰品即将卸下，饰品装备，饰品卸下的监听)
-    - 所有的生产系统商店修改 ✅
-    - NPC售卖物品修改 ✅
-    - 地下城箱子修改（部分，可以配合修改原版地牢奖励的mod使用）✅
-    - 自定义属性食物 ✅  与属性道具 ❌(暂时做不到喵)
-    - 自定义火锅材料 ✅
-    - 圣器与奖励箱（可能）
-    - 地下城修复材料（也许？）
-    - 考古奖池（很坏了）
-    - 宾果物品黑名单，让不该出现的物品不出现在宾果
-    - 收藏箱（为了让矿物收藏更加沟槽吗）
-    - 烹饪配方 （以及高级烹饪）
-    - 饰品词条套装 ✅
-    - 饰品套装加成 ✅
+ZenScript 使用 `mods.m3t.Events.onBaubleWearEvent`、`onBaubleDisrobeEvent`、`onBaubleWearPostEvent` 和 `onBaubleDisrobePostEvent` 注册回调。`player`、`item`、`cancel()` 和 `isCancel()` 用法不变，脚本和 Forge 监听器读取同一取消状态。重新加载脚本会清除旧回调。
+
+背包完整换装时，只要有槽位拒绝卸下，背包和饰品栏的物品都不会被替换。部分换装只跳过拒绝操作的槽位，其余槽位正常处理。
+
+## 脚本重载
+
+配方、固定商店和奖池按物品及元数据移除默认条目，比较时忽略堆叠数量和 NBT。保留的默认条目顺序不变，脚本新增条目按注册顺序追加。NPC 商店每次仍按魔法金属的规则生成商品，然后应用脚本改动。DungeonBox 和 TrophyItem 的移除方法仍名为 `removaItem`。
+
+在 Windows 上运行 `gradlew.bat build` 可执行测试、格式检查并构建 JAR。

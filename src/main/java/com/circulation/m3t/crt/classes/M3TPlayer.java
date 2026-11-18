@@ -1,12 +1,13 @@
 package com.circulation.m3t.crt.classes;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.util.Position3f;
 import minetweaker.api.world.IDimension;
 import minetweaker.mc1710.world.MCDimension;
-import net.minecraft.entity.player.EntityPlayer;
 import project.studio.manametalmod.MMM;
 import project.studio.manametalmod.entity.nbt.NbtBaubles;
 import stanhebben.zenscript.annotations.ZenExpansion;
@@ -17,21 +18,21 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class M3TPlayer {
 
     @ZenMethod
-    public static IItemStack getBauble(IPlayer player, int slot){
+    public static IItemStack getBauble(IPlayer player, int slot) {
         NbtBaubles baubles = MMM.getEntityNBT(MineTweakerMC.getPlayer(player)).item;
         return MineTweakerMC.getIItemStack(baubles.getStackInSlot(slot));
     }
 
     @ZenGetter("world")
-    public static IDimension getWorld(IPlayer player){
-        if (player == null)return null;
+    public static IDimension getWorld(IPlayer player) {
+        if (player == null) return null;
         return new MCDimension(MineTweakerMC.getPlayer(player).worldObj);
     }
 
     @ZenGetter("pos")
-    public static Position3f getPos(IPlayer iplayer){
+    public static Position3f getPos(IPlayer iplayer) {
         EntityPlayer player = MineTweakerMC.getPlayer(iplayer);
-        if (player == null)return null;
+        if (player == null) return null;
         return new Position3f((float) player.posX, (float) player.posY, (float) player.posZ);
     }
 

@@ -4,11 +4,6 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
-  "client": [
-    "MMM.MixinIMagicItemClient",
-    "MMM.MixinItemAntiquitiesBase",
-    "MMM.MixinMagicItemPearlClient"
-  ],
   "mixins": [
     "crt.AccessorMCDimension",
     "MMM.AccessorDarkSteelRecipes",

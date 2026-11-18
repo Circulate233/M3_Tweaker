@@ -1,35 +1,34 @@
 package com.circulation.m3t.proxy;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.MinecraftForge;
+
 import com.circulation.m3t.M3TConfig;
-import com.circulation.m3t.Util.RegisterItem;
-import com.circulation.m3t.hander.BaublesRegisterHandler;
-import com.circulation.m3t.hander.M3TBaubleScatteredSuitHandler;
-import com.circulation.m3t.hander.M3TBaubleTagSuitHandler;
-import com.circulation.m3t.hander.M3TBaublesSuitHandler;
-import com.circulation.m3t.hander.ReloadHandler;
 import com.circulation.m3t.item.CustomBaubles;
+import com.circulation.m3t.item.M3TBaublesBasic;
+import com.circulation.m3t.suit.SuitEvents;
+import com.circulation.m3t.suit.SuitPlayerEvents;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
-        M3TConfig.readConfig();
-        CustomBaubles.register(M3TConfig.baubles);
-        FMLCommonHandler.instance().bus().register(BaublesRegisterHandler.INSTANCE);
+        CustomBaubles.register(M3TConfig.readConfig());
+        SuitPlayerEvents playerEvents = new SuitPlayerEvents();
+        MinecraftForge.EVENT_BUS.register(playerEvents);
+        FMLCommonHandler.instance()
+            .bus()
+            .register(playerEvents);
     }
 
     public void init(FMLInitializationEvent event) {
-        RegisterItem.register();
-        ReloadHandler.register();
-        M3TBaublesSuitHandler.registerEvents();
-        M3TBaubleTagSuitHandler.registerEvents();
-        M3TBaubleScatteredSuitHandler.registerEvents();
+        M3TBaublesBasic.registerAllBaubles();
+        MinecraftForge.EVENT_BUS.register(new SuitEvents());
     }
 
-    public void postInit(FMLPostInitializationEvent event) {
-    }
+    public void receiveSuitUpdate(NBTTagCompound suits) {}
 
 }

@@ -1,59 +1,44 @@
 package com.circulation.m3t.crt.recipes;
 
-import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.Util.M3TCrtReload;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+
 import net.minecraft.item.ItemStack;
+
+import com.circulation.m3t.M3TCrtAPI;
+import com.circulation.m3t.reload.ItemListChanges;
+import com.circulation.m3t.reload.M3TCrtReload;
+
+import minetweaker.api.item.IItemStack;
 import project.studio.manametalmod.items.craftingRecipes.ManaGravityWellData;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.List;
-
-import static com.circulation.m3t.Util.Function.noHasItem;
-
 @ZenClass(M3TCrtAPI.CrtClass + "ManaGravityWell")
 public class ManaGravityWellHandler implements M3TCrtReload {
 
-    private static final List<ItemStack[]> addManaGravityWellRecipeList = new ReferenceArrayList<>();
-    private static final List<ItemStack> removeManaGravityWellRecipeList = new ReferenceArrayList<>();
-    private static final List<ItemStack[]> defManaGravityWellRecipeList = new ReferenceArrayList<>();
-
-    public void reload(){
-        addManaGravityWellRecipeList.clear();
-        removeManaGravityWellRecipeList.clear();
-    }
-
-    public void postReload(){
-        if (defManaGravityWellRecipeList.isEmpty()){defManaGravityWellRecipeList.addAll(ManaGravityWellData.list);}
-
-        List<ItemStack[]> list = new ReferenceArrayList<>();
-        defManaGravityWellRecipeList.forEach(recipe -> {
-            if (noHasItem(removeManaGravityWellRecipeList, recipe[12])){
-                list.add(recipe);
-            }
-        });
-
-        ManaGravityWellData.list.clear();
-        ManaGravityWellData.list.addAll(list);
-        ManaGravityWellData.list.addAll(addManaGravityWellRecipeList);
-    }
+    private static final int INPUT_SLOTS = 12;
+    private static final int OUTPUT_SLOT = INPUT_SLOTS;
+    private static final ItemListChanges<ItemStack[]> CHANGES = new ItemListChanges<>(recipe -> recipe[OUTPUT_SLOT]);
 
     @ZenMethod
-    public static void addRecipe(IItemStack output,IItemStack[] input) {
-        ItemStack[] items = new ItemStack[13];
-        if (input.length < 12)return;
-        for (int i = 0; i < 12; i++) {
-            items[i] = MineTweakerMC.getItemStack(input[i]);
-        }
-        items[12] = MineTweakerMC.getItemStack(output);
-        addManaGravityWellRecipeList.add(items);
+    public static void addRecipe(IItemStack output, IItemStack[] input) {
+        ItemStack[] recipe = RecipeInputs.itemGrid(input, INPUT_SLOTS, OUTPUT_SLOT + 1);
+        recipe[OUTPUT_SLOT] = requireItemStack(output);
+        CHANGES.add(recipe);
     }
 
     @ZenMethod
     public static void removeRecipe(IItemStack out) {
-        removeManaGravityWellRecipeList.add(MineTweakerMC.getItemStack(out));
+        CHANGES.remove(requireItemStack(out));
+    }
+
+    @Override
+    public void reload() {
+        CHANGES.clearChanges();
+    }
+
+    @Override
+    public void postReload() {
+        CHANGES.applyTo(ManaGravityWellData.list);
     }
 }

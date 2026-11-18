@@ -1,11 +1,13 @@
 package com.circulation.m3t.crt;
 
+import net.minecraft.item.Item;
+
 import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.hander.M3TBaublesSuitHandler;
+import com.circulation.m3t.suit.M3TBaublesSuitHandler;
+
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
-import net.minecraft.item.Item;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -19,12 +21,15 @@ public class CrtBaublesSuitHandler extends M3TBaublesSuitHandler {
 
     @ZenMethod
     public static boolean hasSuit(String name) {
-        return map.containsKey(name);
+        return M3TBaublesSuitHandler.hasSuit(name);
     }
 
     @ZenMethod
     public static CrtSuitHandler createSuit(IItemStack item) {
-        return new CrtSuitHandler(Item.itemRegistry.getNameForObject(MineTweakerMC.getItemStack(item).getItem()));
+        return new CrtSuitHandler(
+            Item.itemRegistry.getNameForObject(
+                MineTweakerMC.getItemStack(item)
+                    .getItem()));
     }
 
     @ZenMethod

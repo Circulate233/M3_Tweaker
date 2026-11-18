@@ -1,101 +1,74 @@
 package com.circulation.m3t.mixins.MMM;
 
-import com.circulation.m3t.crt.events.BaubleEvent;
-import com.circulation.m3t.crt.events.M3TEventAPI;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.circulation.m3t.event.BaubleEvents;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+
+import project.studio.manametalmod.api.IFishIngRod;
 import project.studio.manametalmod.api.weapon.IMagicItem;
+import project.studio.manametalmod.archeology.IAntiquities;
 import project.studio.manametalmod.entity.nbt.ManaMetalModRoot;
 import project.studio.manametalmod.items.ItemToolBackpackManaItem;
 
-@Mixin(value = ItemToolBackpackManaItem.class,remap = false)
+@Mixin(value = ItemToolBackpackManaItem.class, remap = false)
 public abstract class MixinItemToolBackpackManaItem {
 
-    @Unique
-    public IntSet m3Tweaker$sss = new IntOpenHashSet();
-    @Unique
-    public NBTTagList m3Tweaker$nbttaglist;
-    @Unique
-    public byte m3Tweaker$slotIndex;
-
-    @Inject(method = "canWear", at = @At("RETURN"), cancellable = true)
-    public void canWearMixin(ItemStack item, EntityPlayer player, World world, ManaMetalModRoot root, CallbackInfoReturnable<Boolean> cir) {
-        if (item.getItem() instanceof IMagicItem && cir.getReturnValue()) {
-            BaubleEvent event = new BaubleEvent(player, item);
-            M3TEventAPI.publishAllWear(event);
-            cir.setReturnValue(!event.isCancel());
-        }
-    }
-
-    @Redirect(method = "wear", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;getTagList(Ljava/lang/String;I)Lnet/minecraft/nbt/NBTTagList;", ordinal = 0, remap = true))
-    public NBTTagList wearMixin(NBTTagCompound instance, String exceptionalism, int i) {
-        this.m3Tweaker$nbttaglist = instance.getTagList(exceptionalism, i);
-        return this.m3Tweaker$nbttaglist;
-    }
-
-    @Redirect(method = "wear", at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/items/ItemToolBackpackManaItem;disrobeItems(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/EntityPlayer;Lproject/studio/manametalmod/entity/nbt/ManaMetalModRoot;I)V", ordinal = 0))
-    public void wearMixin0(ItemToolBackpackManaItem instance, ItemStack item, World world, EntityPlayer player, ManaMetalModRoot root, int s) {
-        BaubleEvent event = new BaubleEvent(player, item);
-        M3TEventAPI.publishAllDisrobe(event);
-        if (event.isCancel()) {
-            m3Tweaker$sss.add(s);
-        } else {
-            instance.disrobeItems(root.item.items[s], world, player, root, s);
-        }
-    }
-
-    @Redirect(method = "wear", at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/items/ItemToolBackpackManaItem;wearitems(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/EntityPlayer;Lproject/studio/manametalmod/entity/nbt/ManaMetalModRoot;I)V", ordinal = 0))
-    public void wearMixin1(ItemToolBackpackManaItem instance, ItemStack item, World world, EntityPlayer player, ManaMetalModRoot root, int s) {
-        if (!m3Tweaker$sss.contains(s)) {
-            this.wearitems(item, world, player, root, s);
-        }
-    }
-
-    @Redirect(method = "wear", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagList;appendTag(Lnet/minecraft/nbt/NBTBase;)V", ordinal = 0, remap = true))
-    public void wearMixin2(NBTTagList instance, NBTBase nbt) {
-        NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbt;
-        if (!m3Tweaker$sss.contains(nbttagcompound1.getInteger("Slot"))) {
-            instance.appendTag(nbttagcompound1);
-        } else {
-            int s = nbttagcompound1.getInteger("Slot");
-            NBTTagCompound tagtemp = this.m3Tweaker$nbttaglist.getCompoundTagAt(s);
-            m3Tweaker$sss.remove(s);
-            instance.appendTag(tagtemp);
-        }
-    }
-
-    @Redirect(method = "wear", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;loadItemStackFromNBT(Lnet/minecraft/nbt/NBTTagCompound;)Lnet/minecraft/item/ItemStack;", remap = true, ordinal = 3))
-    public ItemStack wearMixin3(NBTTagCompound nbtTagCompound) {
-        this.m3Tweaker$slotIndex = nbtTagCompound.getByte("Slot");
-        return ItemStack.loadItemStackFromNBT(nbtTagCompound);
-    }
-
-    @Redirect(method = "wear", at = @At(value = "INVOKE", target = "Lproject/studio/manametalmod/items/ItemToolBackpackManaItem;canWear(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lproject/studio/manametalmod/entity/nbt/ManaMetalModRoot;)Z", ordinal = 1))
-    public boolean wearMixin3(ItemToolBackpackManaItem instance, ItemStack item, EntityPlayer player, World world, ManaMetalModRoot root) {
-        final boolean canWear = instance.canWear(item, player, world, root);
-        if (canWear) {
-            if (root.item.getStackInSlot(this.m3Tweaker$slotIndex) != null) {
-                BaubleEvent event = new BaubleEvent(player, root.item.getStackInSlot(this.m3Tweaker$slotIndex));
-                M3TEventAPI.publishAllDisrobe(event);
-                return !event.isCancel();
+    @Inject(method = "canWear", at = @At("RETURN"), cancellable = true, require = 1)
+    private void m3t$checkEquip(ItemStack stack, EntityPlayer player, World world, ManaMetalModRoot root,
+        CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValueZ() && stack != null) {
+            Item item = stack.getItem();
+            if ((item instanceof IMagicItem || item instanceof IFishIngRod || item instanceof IAntiquities)
+                && BaubleEvents.isWearCanceled(player, stack)) {
+                cir.setReturnValue(false);
             }
         }
-        return false;
     }
 
-    @Shadow
-    public abstract void wearitems(ItemStack item, World world, EntityPlayer player, ManaMetalModRoot root, int slotindex);
+    // Complete mode rewrites both inventories; if removal is vetoed, stop before either write.
+    @Inject(
+        method = "wear",
+        at = @At(
+            value = "INVOKE",
+            target = "Lproject/studio/manametalmod/MMM;cloneItemStack([Lnet/minecraft/item/ItemStack;)[Lnet/minecraft/item/ItemStack;",
+            ordinal = 0),
+        cancellable = true,
+        require = 1)
+    private void m3t$checkCompleteSwap(ItemStack backpack, World world, EntityPlayer player, CallbackInfo ci,
+        @Local ManaMetalModRoot root) {
+        ItemStack[] equipped = root.item.items;
+        for (int slot = 0; slot < equipped.length; slot++) {
+            // ManaMetal excludes slot 41 from backpack swaps.
+            if (slot != 41 && BaubleEvents.isDisrobeCanceled(player, equipped[slot])) {
+                ci.cancel();
+                return;
+            }
+        }
+    }
+
+    // The second canWear call is the per-slot check in partial mode, before rewriting the stored item.
+    @WrapOperation(
+        method = "wear",
+        at = @At(
+            value = "INVOKE",
+            target = "Lproject/studio/manametalmod/items/ItemToolBackpackManaItem;canWear(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lproject/studio/manametalmod/entity/nbt/ManaMetalModRoot;)Z",
+            ordinal = 1),
+        require = 1)
+    private boolean m3t$checkPartialSwap(ItemToolBackpackManaItem backpack, ItemStack stack, EntityPlayer player,
+        World world, ManaMetalModRoot root, Operation<Boolean> original, @Local(index = 11) byte slot) {
+        return original.call(backpack, stack, player, world, root)
+            && !BaubleEvents.isDisrobeCanceled(player, root.item.getStackInSlot(slot));
+    }
 }

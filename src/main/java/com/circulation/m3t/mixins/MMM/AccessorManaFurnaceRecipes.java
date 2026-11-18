@@ -1,29 +1,26 @@
 package com.circulation.m3t.mixins.MMM;
 
-import net.minecraft.item.ItemStack;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-import project.studio.manametalmod.items.crafting.ManaFurnaceRecipes;
-
 import java.util.Map;
 
-@Mixin(value = ManaFurnaceRecipes.class,remap = false)
+import net.minecraft.item.ItemStack;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+import project.studio.manametalmod.items.crafting.ManaFurnaceRecipes;
+
+@Mixin(value = ManaFurnaceRecipes.class, remap = false)
 public interface AccessorManaFurnaceRecipes {
 
-    @Accessor("smeltingBase")
-    static ManaFurnaceRecipes getSmeltingBase() {
-        return null;
-    }
-
     @Accessor("smeltingList")
-    Map<ItemStack, ItemStack> getSmeltingList();
+    Map<ItemStack, ItemStack> m3t$getRecipes();
 
     @Accessor("experienceList")
-    Map<ItemStack, Float> getExperienceList();
+    Map<ItemStack, Float> m3t$getExperience();
 
     @Accessor("smeltingList")
-    void setSmeltingList(Map<?, ?> map);
+    void m3t$setRecipes(Map<ItemStack, ItemStack> recipes);
 
     @Accessor("experienceList")
-    void setExperienceList(Map<?, ?> map);
+    void m3t$setExperience(Map<ItemStack, Float> experience);
 }

@@ -1,27 +1,27 @@
 package com.circulation.m3t.crt.events;
 
 import com.circulation.m3t.M3TCrtAPI;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import com.circulation.m3t.event.BaubleEquipmentEvent;
+
 import stanhebben.zenscript.annotations.ZenClass;
 
 @ZenClass(M3TCrtAPI.CrtClass + "event.BaubleEvent")
 public class BaubleEvent extends BaublePostEvent implements CancelEvent {
 
-    private boolean Cancel;
+    private final BaubleEquipmentEvent forgeEvent;
 
-    public BaubleEvent(EntityPlayer player, ItemStack item) {
-        super(player, item);
-        this.Cancel = false;
+    BaubleEvent(BaubleEquipmentEvent event) {
+        super(event.player, event.item);
+        this.forgeEvent = event;
     }
 
     @Override
     public void cancel() {
-        this.Cancel = true;
+        forgeEvent.setCanceled(true);
     }
 
     @Override
     public boolean isCancel() {
-        return this.Cancel;
+        return forgeEvent.isCanceled();
     }
 }

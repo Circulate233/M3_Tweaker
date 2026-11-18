@@ -1,49 +1,17 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.circulation.m3t.Util;
 
-import com.circulation.m3t.crt.events.BaubleEvent;
-import com.circulation.m3t.crt.events.BaublePostEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import minetweaker.util.IEventHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-import java.util.Collection;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-import static com.circulation.m3t.crt.events.M3TEventAPI.defDisrobe;
-import static com.circulation.m3t.crt.events.M3TEventAPI.defDisrobePost;
-import static com.circulation.m3t.crt.events.M3TEventAPI.defWear;
-import static com.circulation.m3t.crt.events.M3TEventAPI.defWearPost;
+public final class Function {
 
-public class Function {
-
-    public static boolean isClient = FMLCommonHandler.instance().getEffectiveSide().isClient();
-    public static boolean isServer = !isClient;
+    private Function() {}
 
     public static String getText(String str) {
         return StatCollector.translateToLocal(str);
-    }
-
-    public static void onBaubleWearEvent(IEventHandler<BaubleEvent> handler) {
-        defWear.add(handler);
-    }
-
-    public static void onBaubleDisrobeEvent(IEventHandler<BaubleEvent> handler) {
-        defDisrobe.add(handler);
-    }
-
-    public static void onBaubleWearPostEvent(IEventHandler<BaublePostEvent> handler) {
-        defWearPost.add(handler);
-    }
-
-    public static void onBaubleDisrobePostEvent(IEventHandler<BaublePostEvent> handler) {
-        defDisrobePost.add(handler);
     }
 
     public static ItemStack getItemStack(String itemID) {
@@ -60,16 +28,6 @@ public class Function {
             }
         }
         return null;
-    }
-
-    public static boolean noHasItem(Collection<ItemStack> list, ItemStack item) {
-        if (item == null) return false;
-        for (ItemStack item1 : list) {
-            if (item1 != null && item1.isItemEqual(item)) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }

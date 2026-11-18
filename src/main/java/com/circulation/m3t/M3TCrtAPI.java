@@ -1,65 +1,99 @@
 package com.circulation.m3t;
 
-import com.circulation.m3t.Util.M3TCrtReload;
-import com.circulation.m3t.hander.ReloadHandler;
+import net.minecraftforge.common.MinecraftForge;
+
+import com.circulation.m3t.crt.AttributeItemHandler;
+import com.circulation.m3t.crt.CrtBaublesSuitHandler;
+import com.circulation.m3t.crt.CrtScatteredSuitHandler;
+import com.circulation.m3t.crt.CrtSuitHandler;
+import com.circulation.m3t.crt.CrtTagSuitHandler;
+import com.circulation.m3t.crt.CrtUtil;
+import com.circulation.m3t.crt.DungeonBoxHandler;
+import com.circulation.m3t.crt.M3TRandom;
+import com.circulation.m3t.crt.MoneyHandler;
+import com.circulation.m3t.crt.TrophyItemsHandler;
+import com.circulation.m3t.crt.classes.M3TPlayer;
+import com.circulation.m3t.crt.classes.M3TWorld;
+import com.circulation.m3t.crt.events.BaubleEvent;
+import com.circulation.m3t.crt.events.BaublePostEvent;
+import com.circulation.m3t.crt.events.CancelEvent;
+import com.circulation.m3t.crt.events.M3TEventAPI;
+import com.circulation.m3t.crt.recipes.AncientEmpireHandler;
+import com.circulation.m3t.crt.recipes.BlueSkyHandler;
+import com.circulation.m3t.crt.recipes.CastingHandler;
+import com.circulation.m3t.crt.recipes.DarkItemHandler;
+import com.circulation.m3t.crt.recipes.DarkSteelHandler;
+import com.circulation.m3t.crt.recipes.IronWroughtFurnaceHandler;
+import com.circulation.m3t.crt.recipes.ManaCraftTableHandler;
+import com.circulation.m3t.crt.recipes.ManaFurnaceHandler;
+import com.circulation.m3t.crt.recipes.ManaGravityWellHandler;
+import com.circulation.m3t.crt.recipes.ManaMetalInjectionHandler;
+import com.circulation.m3t.crt.recipes.MetalCraftTableHandler;
+import com.circulation.m3t.crt.recipes.WandMakeHandler;
+import com.circulation.m3t.crt.store.BossStoreHandler;
+import com.circulation.m3t.crt.store.NPCStoreHandler;
+import com.circulation.m3t.crt.store.ProduceStoreHandler;
+import com.circulation.m3t.reload.M3TCrtReload;
+import com.circulation.m3t.reload.ReloadHandler;
+
 import minetweaker.MineTweakerAPI;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenExpansion;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
-import java.util.jar.JarFile;
-
-public class M3TCrtAPI {
+public final class M3TCrtAPI {
 
     public static final String CrtClass = "mods.m3t.";
 
-    static void register() throws IOException {
-        String packageName = "com.circulation.m3t.crt";
-        String packagePath = packageName.replace('.', '/');
-        String pathPrefix = packagePath + "/";
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Enumeration<URL> resources = classLoader.getResources(packagePath);
+    private M3TCrtAPI() {}
 
-        while (resources.hasMoreElements()) {
-            URL jarUrl = resources.nextElement();
-            if (!"jar".equals(jarUrl.getProtocol())) continue;
+    static void register() {
+        registerClasses(
+            M3TPlayer.class,
+            M3TWorld.class,
+            CrtUtil.class,
+            M3TRandom.class,
+            CancelEvent.class,
+            BaublePostEvent.class,
+            BaubleEvent.class,
+            CrtSuitHandler.class,
+            CrtTagSuitHandler.class,
+            CrtScatteredSuitHandler.class,
+            CrtBaublesSuitHandler.class);
 
-            String jarPath = jarUrl.getPath().split("!")[0];
-            jarPath = new File(URI.create(jarPath)).getAbsolutePath();
-            jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8.name());
+        M3TEventAPI events = new M3TEventAPI();
+        registerHandlers(
+            events,
+            new AttributeItemHandler(),
+            new DungeonBoxHandler(),
+            new MoneyHandler(),
+            new TrophyItemsHandler(),
+            new AncientEmpireHandler(),
+            new BlueSkyHandler(),
+            new CastingHandler(),
+            new DarkItemHandler(),
+            new DarkSteelHandler(),
+            new IronWroughtFurnaceHandler(),
+            new ManaCraftTableHandler(),
+            new ManaFurnaceHandler(),
+            new ManaGravityWellHandler(),
+            new ManaMetalInjectionHandler(),
+            new MetalCraftTableHandler(),
+            new WandMakeHandler(),
+            new BossStoreHandler(),
+            new NPCStoreHandler(),
+            new ProduceStoreHandler());
+        MinecraftForge.EVENT_BUS.register(events);
+        ReloadHandler.register();
+    }
 
-            try (JarFile jar = new JarFile(jarPath)) {
-                jar.stream()
-                    .filter(entry -> entry.getName().startsWith(pathPrefix) && entry.getName().endsWith(".class"))
-                    .forEach(entry -> {
-                        String className = entry.getName()
-                            .substring(0, entry.getName().length() - 6) // 移除 ".class"
-                            .replace('/', '.'); // 转换为类名格式
-                        try {
-                            Class<?> clazz = Class.forName(className, false, classLoader);
-                            if (clazz.isAnnotationPresent(ZenClass.class) || clazz.isAnnotationPresent(ZenExpansion.class)) {
-                                MineTweakerAPI.registerClass(clazz);
-                                Object obj = clazz.getDeclaredConstructor().newInstance();
-                                if (obj instanceof M3TCrtReload crtReload) {
-                                    ReloadHandler.reloads.add(crtReload);
-                                }
-                                M3Tweaker.logger.info("loading {}", clazz.getName());
-                            }
-                        } catch (ClassNotFoundException | NoClassDefFoundError | InvocationTargetException |
-                                 IllegalAccessException | NoSuchMethodException | InstantiationException ignored) {
-                        }
-                    });
-            } catch (IllegalArgumentException e) {
-                throw new IOException("Invalid JAR path: " + jarPath, e);
-            }
+    private static void registerClasses(Class<?>... classes) {
+        for (Class<?> type : classes) {
+            MineTweakerAPI.registerClass(type);
         }
     }
 
+    private static void registerHandlers(M3TCrtReload... handlers) {
+        for (M3TCrtReload handler : handlers) {
+            MineTweakerAPI.registerClass(handler.getClass());
+            ReloadHandler.add(handler);
+        }
+    }
 }
