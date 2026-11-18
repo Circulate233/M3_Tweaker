@@ -39,7 +39,7 @@ public class CommandBauble {
         sender.addChatMessage(new ChatComponentTranslation("info.m3t.command.false"));
     }
 
-    public static List<?> BaubleTab(String[] args) {
+    public static List<String> BaubleTab(String[] args) {
         if (args.length == 2) {
             return CommandBase.getListOfStringsMatchingLastWord(args,
                 "debug"
