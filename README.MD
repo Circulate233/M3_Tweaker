@@ -1,19 +1,42 @@
 # M3 Tweaker
 
-M3 Tweaker 为 Minecraft 1.7.10 的魔法金属提供 CraftTweaker 扩展。脚本可以修改配方、生产商店、NPC 商店、Boss 商店和奖池，也可以定义饰品套装、属性食物及火锅材料。自定义饰品通过 `config/M3T/M3TBaubles.json` 配置，同一物品 ID 的变体通过元数据区分。
+1. [简体中文](#简介)
+2. [English](#overview)
 
-## 饰品事件
+## 简介
 
-Java 模组可在 `MinecraftForge.EVENT_BUS` 上通过 `@SubscribeEvent` 监听 `BaubleEquipmentEvent.Wear`、`Disrobe`、`WearPost` 和 `DisrobePost`。事件由逻辑服务端发布。装备前和卸下前可调用 `setCanceled(true)` 取消操作。后置事件在魔法金属处理对应的饰品效果后发布；部分调用路径会在事件发布后写入槽位。
+M3 Tweaker 是 [魔法金属（ManaMetalMod）](https://www.curseforge.com/minecraft/mc-mods/manametal) 的 Minecraft 1.7.10 附属模组，为 CraftTweaker（MineTweaker3）添加 ZenScript 扩展。
 
-Java 模组可在客户端订阅 `ItemTooltipEvent` 并向 `toolTip` 添加文字，为自定义饰品补充提示。
+通过脚本可以调整魔法金属的多类内容：
+- 添加或移除多种机器与工作台的配方。
+- 修改生产商店、NPC 商店、Boss 商店和地牢/战利品奖池。
+- 为物品设置售价、食物与火锅属性效果。
+- 定义饰品套装效果，并通过 `config/M3T/M3TBaubles.json` 注册自定义饰品及其元数据变体。
+- 读取玩家饰品、注册饰品穿戴/卸下事件，并使用额外的随机数与物品工具方法。
 
-ZenScript 使用 `mods.m3t.Events.onBaubleWearEvent`、`onBaubleDisrobeEvent`、`onBaubleWearPostEvent` 和 `onBaubleDisrobePostEvent` 注册回调。`player`、`item`、`cancel()` 和 `isCancel()` 用法不变，脚本和 Forge 监听器读取同一取消状态。重新加载脚本会清除旧回调。
+运行需要 Minecraft Forge 1.7.10、ManaMetalMod 8.0.2 或更高版本、MineTweaker3 和 FastUtil 8.5.18。FastUtil 由 [GTNH External Lib](https://www.curseforge.com/minecraft/mc-mods/gtnh-external-lib) 提供。
 
-背包完整换装时，只要有槽位拒绝卸下，背包和饰品栏的物品都不会被替换。部分换装只跳过拒绝操作的槽位，其余槽位正常处理。
+### 文档
 
-## 脚本重载
+- [Java API（简体中文）](docs/api.zh-CN.md) | [English](docs/api.en-US.md)
+- [ZenScript API（简体中文）](docs/zenscript-api.zh-CN.md) | [English](docs/zenscript-api.en-US.md)
 
-配方、固定商店和奖池按物品及元数据移除默认条目，比较时忽略堆叠数量和 NBT。保留的默认条目顺序不变，脚本新增条目按注册顺序追加。NPC 商店每次仍按魔法金属的规则生成商品，然后应用脚本改动。DungeonBox 和 TrophyItem 的移除方法仍名为 `removaItem`。
+---
 
-在 Windows 上运行 `gradlew.bat build` 可执行测试、格式检查并构建 JAR。
+## Overview
+
+M3 Tweaker is a Minecraft 1.7.10 addon for [ManaMetalMod](https://www.curseforge.com/minecraft/mc-mods/manametal), adding ZenScript extensions for CraftTweaker (MineTweaker3).
+
+Scripts can customize several parts of ManaMetal:
+- Add or remove recipes for machines, crafting tables, and other workstations.
+- Modify production, NPC, and boss shops, as well as dungeon and trophy loot pools.
+- Set item prices and define attribute effects for foods and hot-pot ingredients.
+- Define bauble set bonuses and register custom baubles with metadata variants through `config/M3T/M3TBaubles.json`.
+- Read a player's baubles, subscribe to bauble wear/disrobe events, and use additional random and item utility methods.
+
+Requires Minecraft Forge 1.7.10, ManaMetalMod 8.0.2 or later, MineTweaker3, and FastUtil 8.5.18. FastUtil is provided by [GTNH External Lib](https://www.curseforge.com/minecraft/mc-mods/gtnh-external-lib).
+
+### Documentation
+
+- [Java API (简体中文)](docs/api.zh-CN.md) | [English](docs/api.en-US.md)
+- [ZenScript API (简体中文)](docs/zenscript-api.zh-CN.md) | [English](docs/zenscript-api.en-US.md)

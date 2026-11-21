@@ -1,16 +1,14 @@
 package com.circulation.m3t.crt;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.Util.Function;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameData;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -43,7 +41,7 @@ public class CrtUtil {
                 result.add(MineTweakerMC.getIItemStack(new ItemStack(item)));
             }
         }
-        return result.toArray(new IItemStack[result.size()]);
+        return result.toArray(new IItemStack[0]);
     }
 
     @ZenMethod

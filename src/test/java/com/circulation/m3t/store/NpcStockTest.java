@@ -1,23 +1,20 @@
 package com.circulation.m3t.store;
 
+import com.circulation.m3t.test.ForgeTestRuntime;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.init.Bootstrap;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import org.junit.Test;
+import project.studio.manametalmod.core.Icommodity;
+import project.studio.manametalmod.npc.NpcStoreType;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import net.minecraft.init.Bootstrap;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
-import org.junit.Test;
-
-import com.circulation.m3t.test.ForgeTestRuntime;
-
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import project.studio.manametalmod.core.Icommodity;
-import project.studio.manametalmod.npc.NpcStoreType;
 
 public class NpcStockTest {
 
@@ -41,7 +38,7 @@ public class NpcStockTest {
             int unlimitedPrice = 15;
             int maxCount = 6;
             NpcStock.addItem(
-                type.ordinal(),
+                0,
                 "minecraft:apple:0:2;" + limitedPrice + ";0;" + maxCount + ";extra",
                 "minecraft:missing_item;12",
                 "minecraft:apple:1;" + unlimitedPrice + ";1;" + maxCount + ";extra");

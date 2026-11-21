@@ -1,15 +1,8 @@
 package com.circulation.m3t;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.circulation.m3t.command.CommandM3T;
 import com.circulation.m3t.network.UpdateBauble;
 import com.circulation.m3t.proxy.CommonProxy;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -18,13 +11,17 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
     modid = M3Tweaker.MOD_ID,
     name = "M3 Tweaker",
     version = Tags.VERSION,
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:manametalmod@[8.0.2,);" + "required-after:MineTweaker3;required-after:gtnhlib;")
+    dependencies = "required-after:manametalmod@[8.0.2,);required-after:MineTweaker3;")
 public class M3Tweaker {
 
     public static final String MOD_ID = "m3t";

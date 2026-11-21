@@ -1,19 +1,43 @@
 package com.circulation.m3t.crt.recipes;
 
-import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
-
-import net.minecraft.item.ItemStack;
-
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
+import net.minecraft.item.ItemStack;
 import project.studio.manametalmod.core.RecipesOreTable;
+
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
 
 final class RecipeInputs {
 
     private static final int CRAFTING_SLOTS = 9;
 
     private RecipeInputs() {}
+
+    static ItemStack positiveStack(IItemStack ingredient) {
+        ItemStack stack = requireItemStack(ingredient);
+        if (stack.stackSize <= 0) {
+            throw new IllegalArgumentException("Recipe stack size must be positive");
+        }
+        return stack;
+    }
+
+    static ItemStack[] positiveStacks(IItemStack[] ingredients) {
+        if (ingredients == null) {
+            throw new IllegalArgumentException("Expected an array of recipe ingredients");
+        }
+        ItemStack[] result = new ItemStack[ingredients.length];
+        for (int i = 0; i < ingredients.length; i++) {
+            result[i] = positiveStack(ingredients[i]);
+        }
+        return result;
+    }
+
+    static void checkOutputSlot(ItemStack output) {
+        if (output.stackSize > Math.min(64, output.getMaxStackSize())) {
+            throw new IllegalArgumentException("Recipe output must fit in one output slot");
+        }
+    }
 
     static ItemStack[] itemGrid(IItemStack[] ingredients, int slots, int length) {
         checkLength(ingredients, slots);

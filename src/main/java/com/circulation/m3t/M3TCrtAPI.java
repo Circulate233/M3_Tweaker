@@ -1,7 +1,5 @@
 package com.circulation.m3t;
 
-import net.minecraftforge.common.MinecraftForge;
-
 import com.circulation.m3t.crt.AttributeItemHandler;
 import com.circulation.m3t.crt.CrtBaublesSuitHandler;
 import com.circulation.m3t.crt.CrtScatteredSuitHandler;
@@ -21,22 +19,28 @@ import com.circulation.m3t.crt.events.M3TEventAPI;
 import com.circulation.m3t.crt.recipes.AncientEmpireHandler;
 import com.circulation.m3t.crt.recipes.BlueSkyHandler;
 import com.circulation.m3t.crt.recipes.CastingHandler;
+import com.circulation.m3t.crt.recipes.DarkFissionHandler;
 import com.circulation.m3t.crt.recipes.DarkItemHandler;
 import com.circulation.m3t.crt.recipes.DarkSteelHandler;
+import com.circulation.m3t.crt.recipes.EternalAnvilHandler;
 import com.circulation.m3t.crt.recipes.IronWroughtFurnaceHandler;
 import com.circulation.m3t.crt.recipes.ManaCraftTableHandler;
 import com.circulation.m3t.crt.recipes.ManaFurnaceHandler;
 import com.circulation.m3t.crt.recipes.ManaGravityWellHandler;
 import com.circulation.m3t.crt.recipes.ManaMetalInjectionHandler;
 import com.circulation.m3t.crt.recipes.MetalCraftTableHandler;
+import com.circulation.m3t.crt.recipes.MirrorPoolHandler;
+import com.circulation.m3t.crt.recipes.MysteriousEnergyGeneratorHandler;
+import com.circulation.m3t.crt.recipes.OriginCrystalCoreHandler;
+import com.circulation.m3t.crt.recipes.PrimalForgeHandler;
 import com.circulation.m3t.crt.recipes.WandMakeHandler;
 import com.circulation.m3t.crt.store.BossStoreHandler;
 import com.circulation.m3t.crt.store.NPCStoreHandler;
 import com.circulation.m3t.crt.store.ProduceStoreHandler;
 import com.circulation.m3t.reload.M3TCrtReload;
 import com.circulation.m3t.reload.ReloadHandler;
-
 import minetweaker.MineTweakerAPI;
+import net.minecraftforge.common.MinecraftForge;
 
 public final class M3TCrtAPI {
 
@@ -68,14 +72,20 @@ public final class M3TCrtAPI {
             new AncientEmpireHandler(),
             new BlueSkyHandler(),
             new CastingHandler(),
+            new DarkFissionHandler(),
             new DarkItemHandler(),
             new DarkSteelHandler(),
+            new EternalAnvilHandler(),
             new IronWroughtFurnaceHandler(),
             new ManaCraftTableHandler(),
             new ManaFurnaceHandler(),
             new ManaGravityWellHandler(),
             new ManaMetalInjectionHandler(),
             new MetalCraftTableHandler(),
+            new MirrorPoolHandler(),
+            new MysteriousEnergyGeneratorHandler(),
+            new OriginCrystalCoreHandler(),
+            new PrimalForgeHandler(),
             new WandMakeHandler(),
             new BossStoreHandler(),
             new NPCStoreHandler(),

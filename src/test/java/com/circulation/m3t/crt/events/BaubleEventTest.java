@@ -1,23 +1,21 @@
 package com.circulation.m3t.crt.events;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.junit.Test;
-
 import com.circulation.m3t.event.BaubleEquipmentEvent;
 import com.circulation.m3t.test.ForgeTestRuntime;
-
 import cpw.mods.fml.common.eventhandler.EventBus;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import org.junit.Test;
 import stanhebben.zenscript.ZenModule;
 import stanhebben.zenscript.impl.GenericCompileEnvironment;
 import stanhebben.zenscript.impl.GenericErrorLogger;
 import stanhebben.zenscript.impl.GenericRegistry;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class BaubleEventTest {
 
@@ -46,14 +44,12 @@ public class BaubleEventTest {
                 "mods",
                 registry.getRoot()
                     .get("mods"));
-            ZenModule script = ZenModule.compileScriptString(
-                "import mods.m3t.event.BaubleEvent;\n"
-                    + "mods.m3t.Events.onBaubleWearEvent(function(event as BaubleEvent) {\n"
-                    + "    if (!event.isCancel()) { event.cancel(); }\n"
-                    + "});\n",
-                "baubleevents.zs",
-                environment,
-                Scenario.class.getClassLoader());
+            ZenModule script = ZenModule.compileScriptString("""
+                import mods.m3t.event.BaubleEvent;
+                mods.m3t.Events.onBaubleWearEvent(function(event as BaubleEvent) {
+                    if (!event.isCancel()) { event.cancel(); }
+                });
+                """, "baubleevents.zs", environment, Scenario.class.getClassLoader());
             script.getMain()
                 .run();
 
