@@ -10,6 +10,8 @@ import static project.studio.manametalmod.ManaMetalAPI.MirrorPoolCopyableItems;
 import static project.studio.manametalmod.ManaMetalAPI.MysteriousEnergyItemList;
 import static project.studio.manametalmod.ManaMetalAPI.PrimalForgeItemList;
 
+import java.util.Collections;
+
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -17,6 +19,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import org.junit.Test;
 
+import com.circulation.m3t.loading.M3TEarlyMixinLoader;
+import com.circulation.m3t.loading.M3TLateMixinLoader;
 import com.circulation.m3t.mixins.MMM.AccessorEternalAnvilRecipe;
 import com.circulation.m3t.reload.M3TCrtReload;
 import com.circulation.m3t.test.ForgeTestRuntime;
@@ -163,6 +167,11 @@ public class MachineRecipesTest {
         }
 
         public static void verifyAnvil() throws Exception {
+            // Mixin configs are already registered; ordinary loader classes must still be loadable.
+            assertEquals(Collections.singletonList("mixins.m3t.json"), new M3TLateMixinLoader().getMixinConfigs());
+            assertEquals(
+                Collections.singletonList("mixins.m3t.minecraft.json"),
+                new M3TEarlyMixinLoader().getMixinConfigs());
             Bootstrap.func_151354_b();
             Loader loader = Loader.instance();
             LoadController controller = new LoadController(loader);
