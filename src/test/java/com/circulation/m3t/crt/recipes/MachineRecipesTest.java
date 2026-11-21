@@ -1,19 +1,32 @@
 package com.circulation.m3t.crt.recipes;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static project.studio.manametalmod.ManaMetalAPI.DarkFissionList;
+import static project.studio.manametalmod.ManaMetalAPI.MirrorPoolCopyableItems;
+import static project.studio.manametalmod.ManaMetalAPI.MysteriousEnergyItemList;
+import static project.studio.manametalmod.ManaMetalAPI.PrimalForgeItemList;
+
+import net.minecraft.init.Bootstrap;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+import org.junit.Test;
+
 import com.circulation.m3t.mixins.MMM.AccessorEternalAnvilRecipe;
 import com.circulation.m3t.reload.M3TCrtReload;
 import com.circulation.m3t.test.ForgeTestRuntime;
+
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModMetadata;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
-import net.minecraft.init.Bootstrap;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import org.junit.Test;
 import project.studio.manametalmod.core.Ores;
 import project.studio.manametalmod.dark_magic.DarkFission;
 import project.studio.manametalmod.dark_magic.TileEntityDarkFission;
@@ -30,16 +43,6 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import stanhebben.zenscript.impl.GenericCompileEnvironment;
 import stanhebben.zenscript.impl.GenericErrorLogger;
 import stanhebben.zenscript.impl.GenericRegistry;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static project.studio.manametalmod.ManaMetalAPI.DarkFissionList;
-import static project.studio.manametalmod.ManaMetalAPI.MirrorPoolCopyableItems;
-import static project.studio.manametalmod.ManaMetalAPI.MysteriousEnergyItemList;
-import static project.studio.manametalmod.ManaMetalAPI.PrimalForgeItemList;
 
 public class MachineRecipesTest {
 
@@ -67,7 +70,7 @@ public class MachineRecipesTest {
             ItemStack mirrorTemplate = new ItemStack(Items.gold_ingot, 3);
             mirrorTemplate.setTagCompound(new NBTTagCompound());
             mirrorTemplate.getTagCompound()
-                          .setString("test", "mirror sample");
+                .setString("test", "mirror sample");
             ItemStack replacementTemplate = mirrorTemplate.copy();
             replacementTemplate.stackSize++;
             ItemStack energyInput = new ItemStack(Items.iron_ingot);
@@ -79,18 +82,18 @@ public class MachineRecipesTest {
 
             OriginCrystalRecipe defaultCrystal = new OriginCrystalRecipe(crystalResult, level - 1, new ItemStack[0]);
             OriginCrystalRecipe.recipes.add(defaultCrystal);
-            DarkFission defaultFission = new DarkFission(fissionInput, new ItemStack[]{crystalResult});
-            DarkFission charcoalFission = new DarkFission(otherMeta, new ItemStack[]{crystalResult});
+            DarkFission defaultFission = new DarkFission(fissionInput, new ItemStack[] { crystalResult });
+            DarkFission charcoalFission = new DarkFission(otherMeta, new ItemStack[] { crystalResult });
             DarkFissionList.add(defaultFission);
             DarkFissionList.add(charcoalFission);
             MirrorPoolCopyableItems.add(mirrorTemplate.copy());
             MysteriousEnergyItemList.put(energyInput.getItem(), oldValue);
             PrimalForgeItemList.put(forgeInput.getItem(), oldValue);
 
-            RecipeItems.stacks = new ItemStack[]{crystalResult, crystalMaterial, fissionInput, firstProduct,
-                secondProduct, mirrorTemplate, energyInput, forgeInput, replacementTemplate, extraFuel};
-            M3TCrtReload[] handlers = {new OriginCrystalCoreHandler(), new DarkFissionHandler(),
-                new MirrorPoolHandler(), new MysteriousEnergyGeneratorHandler(), new PrimalForgeHandler()};
+            RecipeItems.stacks = new ItemStack[] { crystalResult, crystalMaterial, fissionInput, firstProduct,
+                secondProduct, mirrorTemplate, energyInput, forgeInput, replacementTemplate, extraFuel };
+            M3TCrtReload[] handlers = { new OriginCrystalCoreHandler(), new DarkFissionHandler(),
+                new MirrorPoolHandler(), new MysteriousEnergyGeneratorHandler(), new PrimalForgeHandler() };
             runScript(
                 handlers,
                 "replace_recipes.zs",
@@ -174,14 +177,14 @@ public class MachineRecipesTest {
             ItemStack output = new ItemStack(Items.golden_apple);
             ItemStack apple = new ItemStack(Items.apple);
             ItemStack ingot = new ItemStack(Items.gold_ingot);
-            ItemStack[] ingredients = {apple, ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot};
+            ItemStack[] ingredients = { apple, ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot };
             EternalAnvilRecipe original = new EternalAnvilRecipe("test.original", ingredients, output);
             AccessorEternalAnvilRecipe.m3t$getRecipes()
-                                      .clear();
+                .clear();
             EternalAnvilRecipe.registerRecipe(original);
 
-            RecipeItems.stacks = new ItemStack[]{output, apple, ingot, new ItemStack(Items.diamond)};
-            M3TCrtReload[] handlers = {new EternalAnvilHandler()};
+            RecipeItems.stacks = new ItemStack[] { output, apple, ingot, new ItemStack(Items.diamond) };
+            M3TCrtReload[] handlers = { new EternalAnvilHandler() };
             String materials = "[RecipeItems.stack(1), RecipeItems.stack(2), RecipeItems.stack(2), RecipeItems.stack(2), "
                 + "RecipeItems.stack(2), RecipeItems.stack(2), RecipeItems.stack(2), RecipeItems.stack(2), RecipeItems.stack(2)]";
             runScript(
@@ -199,7 +202,7 @@ public class MachineRecipesTest {
             EternalAnvilRecipe custom = anvil.getSelectedRecipe();
             assertEquals("test.custom", custom.getNameKey());
             assertTrue(ItemStack.areItemStacksEqual(output, custom.getResult()));
-            ItemStack[] inventory = {new ItemStack(Items.gold_ingot, 8), apple.copy()};
+            ItemStack[] inventory = { new ItemStack(Items.gold_ingot, 8), apple.copy() };
             assertTrue(custom.consume(inventory, inventory.length));
             assertNull(inventory[0]);
             assertNull(inventory[1]);
@@ -208,7 +211,7 @@ public class MachineRecipesTest {
                 ItemStack.areItemStacksEqual(
                     RecipeItems.stacks[3],
                     anvil.getSelectedRecipe()
-                         .getResult()));
+                        .getResult()));
 
             reload(handlers);
             assertNull(anvil.getSelectedRecipe());
@@ -231,10 +234,10 @@ public class MachineRecipesTest {
             registry.registerGlobal(
                 "mods",
                 registry.getRoot()
-                        .get("mods"));
+                    .get("mods"));
             ZenModule.compileScriptString(script, fileName, environment, Scenario.class.getClassLoader())
-                     .getMain()
-                     .run();
+                .getMain()
+                .run();
             for (M3TCrtReload handler : handlers) {
                 handler.postReload();
             }

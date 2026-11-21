@@ -1,6 +1,23 @@
 package com.circulation.m3t.test;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.launchwrapper.Launch;
+import net.minecraft.launchwrapper.LaunchClassLoader;
+
+import org.spongepowered.asm.launch.MixinTweaker;
+import org.spongepowered.asm.mixin.EnvironmentStateTweaker;
+import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.Mixins;
+
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.FMLInjectionData;
@@ -9,20 +26,6 @@ import cpw.mods.fml.relauncher.FMLRelaunchLog;
 import cpw.mods.fml.relauncher.Side;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.launchwrapper.Launch;
-import net.minecraft.launchwrapper.LaunchClassLoader;
-import org.spongepowered.asm.launch.MixinTweaker;
-import org.spongepowered.asm.mixin.EnvironmentStateTweaker;
-import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
-
-import java.io.File;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public final class ForgeTestRuntime {
 
@@ -110,8 +113,8 @@ public final class ForgeTestRuntime {
 
     private static void invoke(LaunchClassLoader forge, Class<?> scenario, String method) throws Exception {
         forge.loadClass(scenario.getName())
-             .getMethod(method)
-             .invoke(null);
+            .getMethod(method)
+            .invoke(null);
     }
 
     public static void initialize() throws Exception {

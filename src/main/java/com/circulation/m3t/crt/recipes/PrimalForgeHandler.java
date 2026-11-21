@@ -1,14 +1,15 @@
 package com.circulation.m3t.crt.recipes;
 
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+import static project.studio.manametalmod.ManaMetalAPI.PrimalForgeItemList;
+
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.reload.ItemIntChanges;
 import com.circulation.m3t.reload.M3TCrtReload;
+
 import minetweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
-import static project.studio.manametalmod.ManaMetalAPI.PrimalForgeItemList;
 
 @ZenClass(M3TCrtAPI.CrtClass + "PrimalForge")
 public class PrimalForgeHandler implements M3TCrtReload {

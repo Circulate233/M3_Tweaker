@@ -1,10 +1,11 @@
 package com.circulation.m3t.mixins.MMM;
 
+import java.util.List;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
-import project.studio.manametalmod.originmagic.EternalAnvilRecipe;
 
-import java.util.List;
+import project.studio.manametalmod.originmagic.EternalAnvilRecipe;
 
 @Mixin(value = EternalAnvilRecipe.class, remap = false)
 public interface AccessorEternalAnvilRecipe {

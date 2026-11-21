@@ -1,17 +1,19 @@
 package com.circulation.m3t.crt.recipes;
 
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+import static project.studio.manametalmod.ManaMetalAPI.DarkFissionList;
+
+import net.minecraft.item.ItemStack;
+
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.reload.ItemListChanges;
 import com.circulation.m3t.reload.M3TCrtReload;
+
 import minetweaker.api.item.IItemStack;
-import net.minecraft.item.ItemStack;
 import project.studio.manametalmod.dark_magic.DarkFission;
 import project.studio.manametalmod.dark_magic.TileEntityDarkFission;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
-import static project.studio.manametalmod.ManaMetalAPI.DarkFissionList;
 
 @ZenClass(M3TCrtAPI.CrtClass + "DarkFission")
 public class DarkFissionHandler implements M3TCrtReload {

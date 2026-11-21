@@ -1,14 +1,15 @@
 package com.circulation.m3t.crt.recipes;
 
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+
 import com.circulation.m3t.M3TCrtAPI;
 import com.circulation.m3t.reload.ItemListChanges;
 import com.circulation.m3t.reload.M3TCrtReload;
+
 import minetweaker.api.item.IItemStack;
 import project.studio.manametalmod.originmagic.OriginCrystalRecipe;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
 
 @ZenClass(M3TCrtAPI.CrtClass + "OriginCrystalCore")
 public class OriginCrystalCoreHandler implements M3TCrtReload {

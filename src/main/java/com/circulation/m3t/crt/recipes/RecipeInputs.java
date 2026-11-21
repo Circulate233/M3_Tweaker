@@ -1,12 +1,13 @@
 package com.circulation.m3t.crt.recipes;
 
+import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
+
+import net.minecraft.item.ItemStack;
+
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
-import net.minecraft.item.ItemStack;
 import project.studio.manametalmod.core.RecipesOreTable;
-
-import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
 
 final class RecipeInputs {
 

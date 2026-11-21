@@ -1,13 +1,16 @@
 package com.circulation.m3t.mixins.MMM;
 
-import com.circulation.m3t.event.BaubleEvents;
-import com.circulation.m3t.event.BaubleInventoryOwner;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.circulation.m3t.event.BaubleEvents;
+import com.circulation.m3t.event.BaubleInventoryOwner;
+
 import project.studio.manametalmod.core.EntityNBTBaseM3;
 import project.studio.manametalmod.entity.nbt.NbtBaubles;
 

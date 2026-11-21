@@ -1,5 +1,7 @@
 package com.circulation.m3t;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import com.circulation.m3t.crt.AttributeItemHandler;
 import com.circulation.m3t.crt.CrtBaublesSuitHandler;
 import com.circulation.m3t.crt.CrtScatteredSuitHandler;
@@ -39,8 +41,8 @@ import com.circulation.m3t.crt.store.NPCStoreHandler;
 import com.circulation.m3t.crt.store.ProduceStoreHandler;
 import com.circulation.m3t.reload.M3TCrtReload;
 import com.circulation.m3t.reload.ReloadHandler;
+
 import minetweaker.MineTweakerAPI;
-import net.minecraftforge.common.MinecraftForge;
 
 public final class M3TCrtAPI {
 

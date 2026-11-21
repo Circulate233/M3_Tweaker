@@ -1,5 +1,9 @@
 package com.circulation.m3t.reload;
 
+import java.util.Map;
+
+import net.minecraft.item.Item;
+
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntMaps;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
@@ -7,9 +11,6 @@ import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import net.minecraft.item.Item;
-
-import java.util.Map;
 
 public final class ItemIntChanges {
 

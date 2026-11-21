@@ -1,18 +1,21 @@
 package com.circulation.m3t.mixins.MMM;
 
-import com.circulation.m3t.event.BaubleEvents;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.circulation.m3t.event.BaubleEvents;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+
 import project.studio.manametalmod.api.IFishIngRod;
 import project.studio.manametalmod.api.weapon.IMagicItem;
 import project.studio.manametalmod.archeology.IAntiquities;
@@ -44,7 +47,7 @@ public abstract class MixinItemToolBackpackManaItem {
         cancellable = true,
         require = 1)
     private void m3t$checkCompleteSwap(ItemStack backpack, World world, EntityPlayer player, CallbackInfo ci,
-                                       @Local(name = "root") ManaMetalModRoot root) {
+        @Local(name = "root") ManaMetalModRoot root) {
         ItemStack[] equipped = root.item.items;
         for (int slot = 0; slot < equipped.length; slot++) {
             // ManaMetal excludes slot 41 from backpack swaps.
@@ -64,7 +67,7 @@ public abstract class MixinItemToolBackpackManaItem {
             ordinal = 1),
         require = 1)
     private boolean m3t$checkPartialSwap(ItemToolBackpackManaItem backpack, ItemStack stack, EntityPlayer player,
-                                         World world, ManaMetalModRoot root, Operation<Boolean> original, @Local(name = "slotindex") byte slot) {
+        World world, ManaMetalModRoot root, Operation<Boolean> original, @Local(name = "slotindex") byte slot) {
         return original.call(backpack, stack, player, world, root)
             && !BaubleEvents.isDisrobeCanceled(player, root.item.getStackInSlot(slot));
     }
