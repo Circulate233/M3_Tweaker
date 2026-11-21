@@ -1,6 +1,27 @@
 // Add any additional repositories for your dependencies here.
 
+def legacyScalaModules = ['scala-parser-combinators_2.11', 'scala-swing_2.11', 'scala-xml_2.11']
+
+// RetroFuturaGradle uses the old Forge coordinates for these Scala modules.
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'org.scala-lang' && legacyScalaModules.contains(details.requested.name)) {
+            details.useTarget("org.scala-lang.modules:${details.requested.name}:${details.requested.version}")
+            details.because('Use the original Scala modules published on Maven Central')
+        }
+    }
+}
+
 repositories {
+    remove(findByName('OvermindDL1 Forge repo mirror'))
+    exclusiveContent {
+        forRepository {
+            mavenCentral { name = 'Maven Central Scala modules' }
+        }
+        filter {
+            legacyScalaModules.each { includeModule('org.scala-lang.modules', it) }
+        }
+    }
     flatDir {
         dirs("libs")
     }
@@ -31,10 +52,6 @@ repositories {
     maven {
         name = "GeckoLib"
         url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
-    }
-    maven {
-        name = "OvermindDL1 Maven"
-        url = uri("https://gregtech.overminddl1.com/")
     }
     maven {
         name = "GTNH Maven"
