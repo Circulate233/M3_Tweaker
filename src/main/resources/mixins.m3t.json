@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_8",
   "plugin": "com.circulation.m3t.mixins.M3TMixinConfigPlugin",
   "mixins": [
-    "crt.AccessorMCDimension",
     "mmm.AccessorDarkSteelRecipes",
     "mmm.AccessorEternalAnvilRecipe",
     "mmm.AccessorIronWroughtFurnaceRecipes",
