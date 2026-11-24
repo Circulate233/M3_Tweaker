@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import com.circulation.m3t.loading.M3TEarlyMixinLoader;
 import com.circulation.m3t.loading.M3TLateMixinLoader;
-import com.circulation.m3t.mixins.MMM.AccessorEternalAnvilRecipe;
+import com.circulation.m3t.mixins.mmm.AccessorEternalAnvilRecipe;
 import com.circulation.m3t.reload.M3TCrtReload;
 import com.circulation.m3t.test.ForgeTestRuntime;
 

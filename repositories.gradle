@@ -60,4 +60,8 @@ repositories {
     maven {
         url = uri("https://jitpack.io")
     }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+    }
 }

@@ -5,7 +5,7 @@ import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
 import net.minecraft.item.ItemStack;
 
 import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.mixins.MMM.AccessorEternalAnvilRecipe;
+import com.circulation.m3t.mixins.mmm.AccessorEternalAnvilRecipe;
 import com.circulation.m3t.reload.ItemListChanges;
 import com.circulation.m3t.reload.M3TCrtReload;
 

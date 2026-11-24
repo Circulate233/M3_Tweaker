@@ -1,4 +1,4 @@
-package com.circulation.m3t.mixins.MMM;
+package com.circulation.m3t.mixins.mmm;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

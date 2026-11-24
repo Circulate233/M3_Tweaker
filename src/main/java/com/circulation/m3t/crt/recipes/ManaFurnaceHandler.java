@@ -3,7 +3,7 @@ package com.circulation.m3t.crt.recipes;
 import static com.circulation.m3t.crt.CrtUtil.requireItemStack;
 
 import com.circulation.m3t.M3TCrtAPI;
-import com.circulation.m3t.mixins.MMM.AccessorManaFurnaceRecipes;
+import com.circulation.m3t.mixins.mmm.AccessorManaFurnaceRecipes;
 import com.circulation.m3t.reload.M3TCrtReload;
 
 import minetweaker.api.item.IIngredient;

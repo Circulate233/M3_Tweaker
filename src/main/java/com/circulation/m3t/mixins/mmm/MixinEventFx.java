@@ -1,4 +1,4 @@
-package com.circulation.m3t.mixins.MMM;
+package com.circulation.m3t.mixins.mmm;
 
 import static com.circulation.m3t.suit.M3TBaublesSuitHandler.nbtName;
 

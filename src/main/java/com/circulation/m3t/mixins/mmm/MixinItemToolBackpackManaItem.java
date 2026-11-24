@@ -1,4 +1,4 @@
-package com.circulation.m3t.mixins.MMM;
+package com.circulation.m3t.mixins.mmm;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -37,7 +37,6 @@ public abstract class MixinItemToolBackpackManaItem {
         }
     }
 
-    // Complete mode rewrites both inventories; if removal is vetoed, stop before either write.
     @Inject(
         method = "wear",
         at = @At(
